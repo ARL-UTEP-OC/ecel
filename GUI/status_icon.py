@@ -8,7 +8,7 @@ from _version import __version__
 
 class CustomSystemTrayIcon:
 
-    def __init__(self, core, gui):
+    def __init__(self, engine, gui):
         menu = gtk.Menu()
 
         # show main application
@@ -20,7 +20,7 @@ class CustomSystemTrayIcon:
         # add manual screenshot functionality
         # TODO: This should be loaded dynamically based on plugins labeled to be manual
         screen_shot = gtk.MenuItem("Take Manual ScreenShot")
-        ms = core.get_plugin("manualscreenshot")
+        ms = engine.get_plugin("manualscreenshot")
         if ms.is_enabled:
             screen_shot.show()
             menu.append(screen_shot)
@@ -37,7 +37,7 @@ class CustomSystemTrayIcon:
         quit = gtk.MenuItem("Quit")
         quit.show()
         menu.append(quit)
-        quit.connect('activate', self.kill_me, core)
+        quit.connect('activate', self.kill_me, engine)
 
         self.tray_ind = appindicator.Indicator("example-simple-client", "starred", appindicator.CATEGORY_APPLICATION_STATUS)
         self.tray_ind.set_status(appindicator.STATUS_ACTIVE)
@@ -58,8 +58,8 @@ class CustomSystemTrayIcon:
         takeshoot.CaptureScreen()
         #CustomSystemTrayIcon.core1.get_plugin("manualscreenshot").run()
 
-    def kill_me(self, event, core):
-        for plugin in core.plugins:
+    def kill_me(self, event, engine):
+        for plugin in engine.plugins:
             if plugin.is_enabled:
                plugin.terminate()
         os._exit(0)

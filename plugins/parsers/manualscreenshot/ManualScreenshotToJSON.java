@@ -56,7 +56,7 @@ public class ManualScreenshotToJSON {
 					answer += "\",\n";
 					for(int j=parsedFilename.length-2; j< parsedFilename.length; j++)
                         tmpDate = parsedFilename[parsedFilename.length-2] + "-" + parsedFilename[parsedFilename.length-1].replace(".png","");
-                    System.out.println("\tparsing: " + tmpDate);
+                    //System.out.println("\tparsing: " + tmpDate);
                     validDateFormat = toFormat.format(fromFormat.parse(tmpDate));
 					answer += "\t\"start\" : \"" + validDateFormat + "\"\n";
 					answer += "\t}"+ (i==directoryListing.length-1?"\n":",\n\n");

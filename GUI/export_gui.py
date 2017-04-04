@@ -3,8 +3,8 @@ import os
 import shutil
 import time
 from os.path import expanduser
-from core.archiver.zipFormat import zip
-from core.archiver.tarFormat import tar
+from engine.archiver.zipFormat import zip
+from engine.archiver.tarFormat import tar
 
 RAW="raw"
 COMPRESSED="compressed"
@@ -17,7 +17,7 @@ class Export_GUI(gtk.Window):
         super(Export_GUI, self).__init__()
 
         self.main_gui = parent
-        self.collectors_dir = self.main_gui.core.collectors_directory
+        self.collectors_dir = self.main_gui.engine.collectors_directory
 
         self.set_title("Export Plugin Data")
         self.set_modal(True)

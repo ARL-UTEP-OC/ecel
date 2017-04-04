@@ -12,7 +12,7 @@ from _version import __version__
 PYKEYLOGGER = "pykeylogger"
 
 class ECEL_GUI(gtk.Window):
-    def __init__(self, core):
+    def __init__(self, engine):
         self.devnull = open(os.devnull, 'w')
         super(ECEL_GUI, self).__init__()
 
@@ -20,13 +20,13 @@ class ECEL_GUI(gtk.Window):
         self.tooltips = gtk.Tooltips()
 
         # Call function to me System Tray Icon
-        self.test = status_icon.CustomSystemTrayIcon(core, self.show_gui)
+        self.test = status_icon.CustomSystemTrayIcon(engine, self.show_gui)
         #self.set_keep_above(False)
         # Set Title and Size of Main Window Frame
         self.set_title("Evaluator-Centric and Extensible Logger v%s" % (__version__))
         self.set_size_request(850, 500)
         self.set_position(gtk.WIN_POS_CENTER)
-        self.core = core
+        self.engine = engine
         self.connect("delete-event", self.hide_on_delete)
         Runner.scaffold_initial_files()
 
@@ -51,7 +51,7 @@ class ECEL_GUI(gtk.Window):
 
         self.json_button = gtk.ToolButton(gtk.image_new_from_file(os.path.join(os.path.join(os.getcwd(), "GUI"),"json.png")))
         self.tooltips.set_tip(self.json_button, "Parse All Captured to JSON")
-        self.json_button.connect("clicked", self.parse_all, core)
+        self.json_button.connect("clicked", self.parse_all, engine)
 
         self.export_button = gtk.ToolButton(gtk.image_new_from_file(os.path.join(os.path.join(os.getcwd(), "GUI"),"export.png")))
         self.tooltips.set_tip(self.export_button, "Export Plugin Data")
@@ -85,9 +85,9 @@ class ECEL_GUI(gtk.Window):
         file_menu.set_submenu(filemenu)
         top_menu_bar.append(file_menu)
 
-        coreConfiguration = gtk.MenuItem("Core Configuration")
-        coreConfiguration.connect("activate", Runner.call_core_config)
-        filemenu.append(coreConfiguration)
+        engineConfiguration = gtk.MenuItem("Engine Configuration")
+        engineConfiguration.connect("activate", Runner.call_engine_config)
+        filemenu.append(engineConfiguration)
 
         pluginConfiguration = gtk.MenuItem("Plugin Configuration")
         pluginConfiguration.connect("activate", Runner.call_plugins_config)
@@ -104,7 +104,7 @@ class ECEL_GUI(gtk.Window):
 
         # Load Plugins On To Screen
         i=1
-        for plugin in core.plugins:
+        for plugin in engine.plugins:
             print "%d) %s" % (i, plugin.name)
             i = i+1
             vbox.pack_start(self.create_bbox(plugin),True, True, 5)
@@ -118,9 +118,9 @@ class ECEL_GUI(gtk.Window):
     def hide_gui(self, event):
         self.hide()
 
-    def parse_all(self, event, core):
-        for plugin in core.plugins:
-            core.parsers[plugin.name].parse()
+    def parse_all(self, event, engine):
+        for plugin in engine.plugins:
+            engine.parsers[plugin.name].parse()
 
     def export(self, event):
         Export_GUI(self)
@@ -184,33 +184,33 @@ class ECEL_GUI(gtk.Window):
     def start_plugin(self, button):
         button.set_sensitive(False)
         self.stop_button.set_sensitive(True)
-        for plugin in self.core.plugins:
+        for plugin in self.engine.plugins:
             if plugin.is_enabled:
                 plugin.run()
 
     def stop_plugin(self, button):
         self.start_button.set_sensitive(True)
         button.set_sensitive(False)
-        for plugin in self.core.plugins:
+        for plugin in self.engine.plugins:
             if plugin.is_enabled:
                plugin.terminate()
 
     def pause_plugin(self, button):
-        for plugin in self.core.plugins:
+        for plugin in self.engine.plugins:
             if plugin.suspend():
                 plugin.resume()
             else:
                 plugin.suspend()
 
     def close_all(self, event):
-        for plugin in self.core.plugins:
+        for plugin in self.engine.plugins:
             if plugin.is_enabled:
                plugin.terminate()
         os._exit(0)
 
 
     def parser(self, event, *args):
-        self.core.parsers[args[0]].parse()
+        self.engine.parsers[args[0]].parse()
 
     def open_control_panel(self, event, plugin):
         subprocess.Popen(shlex.split("python controlpanel.py"),

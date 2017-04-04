@@ -10,7 +10,7 @@ class RemoveConfigurationView:
         self.root = root
         self.base_dir = base_dir
         self.config_file_name = config_file_name
-        self.file_path = os.path.join(self.base_dir, 'core', self.config_file_name)
+        self.file_path = os.path.join(self.base_dir, 'engine', self.config_file_name)
 
         self.top = Toplevel()
         self.top.title("Remove Field")

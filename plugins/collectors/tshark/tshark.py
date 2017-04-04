@@ -1,7 +1,7 @@
 import os
 import time
 
-from core.plugin import Plugin
+from engine.plugin import Plugin
 
 
 class tshark(Plugin):

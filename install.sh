@@ -50,13 +50,13 @@ echo "$OUTPUT_PREFIX Installing python dependencies"
 python -m pip install pip --upgrade
 python -m pip install $REQUIRED_PYTHON_PACKAGES
 
-if prompt_accepted_Yn "install snoopy plugin? ECEL will still run without it, but snoopy won't run."; then
+if prompt_accepted_Yn "Would you like to install snoopy? ECEL will still run without it, but the snoopy plugin will not work."; then
     bash "$ECEL_DIR"/scripts/install-snoopy.sh
 fi
 
 ### Compile parsers
 #
-echo "$OUTPUT_PREFIX Compiling parsers" TODO: Compile new plugins
+echo "$OUTPUT_PREFIX Compiling parsers" #TODO: Compile new plugins
 for plugin in "$ECEL_DIR"/plugins/parsers/*; do
     if [ -d "$plugin" ] && ls "$plugin"/*.java > /dev/null 2>&1; then
         javac "$plugin"/*.java

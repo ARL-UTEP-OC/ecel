@@ -2,7 +2,7 @@ import os
 import time
 import netifaces
 
-from core.plugin import Plugin
+from engine.plugin import Plugin
 
 
 class multi_exc_tshark(Plugin):

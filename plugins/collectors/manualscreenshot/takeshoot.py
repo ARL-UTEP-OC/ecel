@@ -85,8 +85,8 @@ class CaptureScreen():
         initialLabel.show()
         initialEntry.show()
 
+        #create the comment entry field
         maxChar = 64
-        # print str(maxChar) + " is the max length"
         commentEntry = gtk.Entry()
         commentEntry.set_max_length(maxChar)
         commentEntry.insert_text("Enter Comment")

@@ -1,5 +1,5 @@
 #core configure . py
-#This class is designed to update the core configurations
+#This class is designed to update the engine configurations
 #that are set ffrom the user.
 #
 #
@@ -9,10 +9,10 @@
 import os
 import json
 
-class configure_core(object):
+class configure_engine(object):
 
     def __init__(self):
-        self.core_name = ""
+        self.engine_name = ""
         self.plugin_folder = ""
         self.json_data = []
         self.load()
@@ -37,8 +37,8 @@ class configure_core(object):
     # edits specific functions if user wants to
     def get_command(self, command):
         if command == "edit.folder":
-            newcore_pluginsfolder = raw_input("enter a new plugins folder: ")
-            self.set_pluginsfolder(newcore_pluginsfolder)
+            newengine_pluginsfolder = raw_input("enter a new plugins folder: ")
+            self.set_pluginsfolder(newengine_pluginsfolder )
             self.update_configuration()
         else:
             print "that is not a valid command, please try again"
@@ -68,4 +68,4 @@ class configure_core(object):
         except OSError:
             pass
 
-test = configure_core()
+test = configure_engine()

@@ -1,7 +1,7 @@
 import os
 import subprocess
 
-from core.parser import Parser
+from engine.parser import Parser
 
 
 class TSharkParser(Parser):

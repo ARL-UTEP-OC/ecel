@@ -19,7 +19,7 @@ PARSERS = "parsers"
 # provide result objects if required back to the client
 # TODO: Handle sigterm correctly, background running thread
 # gets stuck.  Need to use terminate() before quit() or CRTL-C
-class Core(object):
+class Engine(object):
     def __init__(self):
         self.dir_path = os.path.dirname(os.path.realpath(__file__))
         self.config_file_path = os.path.join(self.dir_path, "config.json")
@@ -29,7 +29,7 @@ class Core(object):
 
         Runner.scaffold_initial_files()
 
-        # get core configurations
+        # get engine configurations
         with open(self.config_file_path) as config_file:
             self.config = json.load(config_file)
 
@@ -38,7 +38,7 @@ class Core(object):
         self.collectors_directory = os.path.join(self.plugins_directory, COLLECTORS)
         self.parser_directory = os.path.join(self.plugins_directory, PARSERS)
 
-        # Grab the core's archiver default settings
+        # Grab the engine's archiver default settings
         self.archiverDefaults = self.config.get("Archiving")
 
         # Build plugin objects found in plugin directory
@@ -65,7 +65,7 @@ class Core(object):
                 if plugin.config_file.get("Archiving"):
                     plugin_arch_configs = plugin.config_file["Archiving"]
                     archiver = Archive(plugin, plugin_arch_configs)
-                else:  # Plugin will use default core values
+                else:  # Plugin will use default engine values
                     archiver = Archive(plugin, self.archiverDefaults)
 
                 self.archivers.append(archiver)
@@ -77,7 +77,7 @@ class Core(object):
         self.thread.start()
 
     # TODO: update needs to be moved into the SchedulablePlugin class
-    # there is no way to execute a SchedulablePlugin by itself if this is inside the core
+    # there is no way to execute a SchedulablePlugin by itself if this is inside the engine
     def __update(self, wait_event, stop_event):
         while not stop_event.is_set():
             wait_event.wait()
@@ -178,12 +178,3 @@ class Core(object):
                 print "%d) %s" % (i, plugin.name)
         if i == 0:
             print ("  No plugins are running\n")
-
-def main(args):
-    c = Core()
-    c.run()
-    time.sleep(10)
-    c.terminate()
-
-if __name__ == '__main__':
-    main(sys.argv)

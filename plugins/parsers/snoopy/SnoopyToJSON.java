@@ -46,7 +46,7 @@ public class SnoopyToJSON{
      sc.next(); sc.next();
      command = sc.nextLine();
      
-     System.out.println("timestamp " + timestamp + " sid " + sid + " tty " + tty + " command " + command);
+     //System.out.println("timestamp " + timestamp + " sid " + sid + " tty " + tty + " command " + command);
      
       answer += "\t{\"snoopy_id\" : "+(numItems++)+", ";
       answer += "\"content\" : \"";

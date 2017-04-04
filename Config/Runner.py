@@ -1,6 +1,6 @@
-from Config.Controller.CoreController import *
+from Config.Controller.EngineController import *
 from Config.Controller.PluginController import *
-from Config.View.Core.MasterView import MakeCoreView
+from Config.View.Engine.MasterView import MakeMasterView
 from Config.View.Plugin.MasterView import MakePluginsView
 import gtk
 
@@ -9,22 +9,30 @@ CONFIG_FILE_NAME = 'config.json'
 
 
 def scaffold_initial_files():
-    CoreController(BASE_DIR, CONFIG_FILE_NAME)
+    EngineController(BASE_DIR, CONFIG_FILE_NAME)
     PluginsController(BASE_DIR, CONFIG_FILE_NAME)
 
 
 def call_plugins_config(event):
     MakePluginsView(BASE_DIR, CONFIG_FILE_NAME)
-    message = gtk.MessageDialog()
-    message.set_markup("Restart GUI for changes to take effect")
-    message.show()
+    show_notice()
 
-def call_core_config(event):
-    MakeCoreView(BASE_DIR, CONFIG_FILE_NAME)
-    message = gtk.MessageDialog()
-    message.set_markup("Restart GUI for changes to take effect")
-    message.show()
+def call_engine_config(event):
+    MakeMasterView(BASE_DIR, CONFIG_FILE_NAME)
+    show_notice()
+
+def show_notice():
+    dialog = gtk.Dialog("Notice",
+                        None,
+                        gtk.DIALOG_MODAL | gtk.DIALOG_DESTROY_WITH_PARENT,
+                        (gtk.STOCK_CLOSE, gtk.RESPONSE_ACCEPT))
+    noticeLabel = gtk.Label("Restart ECEL for changes to take effect.")
+    noticeLabel.show()
+    dialog.vbox.pack_start(noticeLabel)
+    dialog.run()
+    dialog.hide_all()
+    dialog.destroy()
 
 if __name__ == "__main__":
-    print "entered"
+    print "Configuration"
 

@@ -237,7 +237,7 @@ class Plugin(object):
 
 
 ###############################################################
-#  plugin will not start on core.run()
+#  plugin will not start on engine.run()
 class ManualPlugin(Plugin):
     type = "manual"
 

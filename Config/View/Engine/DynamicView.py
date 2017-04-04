@@ -2,9 +2,9 @@ import json
 import os.path
 from Tkinter import *
 
-from Config.View.Core.AddEntryView import AddEntryView
-from Config.View.Core.AddOptionsView import AddOptionsView
-from Config.View.Core.RemoveConfigurationView import RemoveConfigurationView
+from Config.View.Engine.AddEntryView import AddEntryView
+from Config.View.Engine.AddOptionsView import AddOptionsView
+from Config.View.Engine.RemoveConfigurationView import RemoveConfigurationView
 
 
 class MakeView:
@@ -12,7 +12,7 @@ class MakeView:
         self.root = root
         self.base_dir = base_dir
         self.config_file_name = config_file_name
-        self.file_path = os.path.join(self.base_dir, 'core', config_file_name)
+        self.file_path = os.path.join(self.base_dir, 'engine', config_file_name)
 
         self.general_entry_counter = 0
         self.general_option_counter = 0

@@ -1,10 +1,10 @@
 import json
 import os.path
 
-from Config.Model.Core.Default import Default
+from Config.Model.Engine.Default import Default
 
 
-class CoreController:
+class EngineController:
     def __init__(self, base_dir, config_file_name):
         self.base_dir = base_dir
         self.config_file_name = config_file_name
@@ -22,4 +22,4 @@ class CoreController:
             new_file.close()
 
     def plugins_config_file(self):
-        return os.path.join(self.base_dir, 'core', self.config_file_name)
+        return os.path.join(self.base_dir, 'engine', self.config_file_name)
