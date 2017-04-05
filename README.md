@@ -10,6 +10,14 @@ Installation
 Execute the following to install:
  install.sh
 
+----------------
+Execution
+----------------
+Run the following command to exeute ECEL.
+ ./ecel_gui
+
+This will invoke the main GUI and a clickable status icon in the task bar.
+
 -----------
 Plugins
 -----------
@@ -19,7 +27,6 @@ logging tools. Parser plugins read log data (that produced by the collectors) an
 
 The following are the plugins that come packaged with ECEL.
 ###PyKeylogger
-PyKeylogger
 -https://github.com/nanotube/pykeylogger
 
 The collector plugin will execute pykeylogger to gather screenshots (on mouse clicks on based on a timer) and keystrokes.
@@ -34,10 +41,12 @@ The parser plugin will extract various protocol fields from network packtes incl
 
 ###Snoopy
 - https://github.com/a2o/snoopy
+
 The collector plugin will gather all system calls on the system by leveraging the snoopy tool. The plugin reads the auth.log file produced by snoopy and will periodically copy it into the ECEL raw data folder.
 The parser plugin will read the snoopy log and generate a set of timestamp/system call pairs formatted in a JSON file.
 
 ###Manual Screenshot
 - http://www.autopy.org/documentation/api-reference/bitmap.html
+
 The collector is a manual plugin that is executed by clickin on the context menu of the ECEL status icon. A dialog window will collect metadata and then take a screenshot using the autopy module.
 With the parser plugin, all of the stored metadata is then formatted and stored in a JSON file.
