@@ -21,7 +21,7 @@ class TShark:
                 },
                 'Is Enabled': {
                     'Values': [True, False],
-                    'Selected': True,
+                    'Selected': False,
                     'Field Type': 'Option'
                 },
                 'Parser': {

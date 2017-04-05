@@ -1,7 +1,7 @@
 # Evaluator-Centric and Extensible Logger (ECEL)
 
 ECEL has been tested on:
-Kali Linux 2016.1 and 2016.2, both 32 and 64-bit
+Kali Linux 2016.2, both 32 and 64-bit
 
 ----------------
 Installation
