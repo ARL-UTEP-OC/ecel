@@ -1,112 +1,43 @@
 # Evaluator-Centric and Extensible Logger
 
-###UI
-- python ecel.py start
-- python ecel.py parse
-
-###GUI
-- python ecel_gui.py
 
 ###At this point of the project, the program has been tested in:
-- (32-bit and 64-bit) Windows 7 and Windows 10
-- (32-bit) Kali Linux 
-
+-(32-bit and 64-bit ) Kali Linux 2016.1 and 2016.2, both 32 and 64-bit
 
 ----------------
-Linux Environment
+Installation
 ----------------
-You will need to install autopy. The easiest method thus far has been to run the following commands. 
+Execute the following to install:
+ install.sh
 
-```Shell
-- $ sudo apt-get install libxtst-dev
-- $ sudo pip install autopy
-```
-For 64 Bit Versions Only
-If you do not plan on using the recommended installer, you may run into issues with pykeylogger. You will need to
-ensure that you are running python 2.7 and have the latest libraries for the following modules
-
--dpkt
-
--Image
-
--Pil
-
-It is also recommended to use the pykeylogger source code that is provided. 
-Downloading and using an different pykeylogger source could result in pykeylogger
-not working correctly. 
-
-----------------
-Windows Environment
-----------------
-The following installations are needed to run the system on a Windows machine.
-
-###PYGTK 
-System uses version: 2.24
-- http://ftp.gnome.org/pub/GNOME/binaries/win32/pygtk/2.24/
-
-The specific link for this version is provided below:
-pygtk-all-in-one-2.24.2.win32-py2.7.msi     2012-02-09 21:48   32M 
-Direct Link 
-- http://ftp.gnome.org/pub/GNOME/binaries/win32/pygtk/2.24/pygtk-all-in-one-2.24.2.win32-py2.7.msi 
-
-###AutoPy
-System uses version: 0.51
-- https://pypi.python.org/pypi/autopy/
-
+-----------
 Plugins
 -----------
-The following installations are needed to run the plugins on a Windows machichine. 
 
-###Keylogger 
-- PIL http://www.pythonware.com/products/pil/
-- ConfigObj http://www.voidspace.org.uk/python/configobj.html
-- pyHook https://sourceforge.net/projects/pyhook/
-- PyWin32 https://sourceforge.net/projects/pywin32/files/pywin32/Build%20220/
+The ECEL is written using a plugin architecture. There are two types of plugins, collectors and parsers. Collector plugins will collect timestamps and event data. These collector plugins use custom or existing external
+logging tools. Parser plugins read log data (that produced by the collectors) and then format the data into an alternate form. All plugins are managed (started, terminated, etc.) from the ECEL graphical interface.
 
-###Tshark
+The following are the plugins that come packaged with ECEL.
+###PyKeylogger
+PyKeylogger
+-https://github.com/nanotube/pykeylogger
+
+The collector plugin will execute pykeylogger to gather screenshots (on mouse clicks on based on a timer) and keystrokes.
+The parser plugin executes three tasks. The first will read keystroke data and then, based on a time threshold/delimiter, weave the data into keystroke units and produce a labeled JSON file.
+The second extracts mouse click screenshot paths and timestamps and stores them in a JSON file. Simiarly, the last task extracts timed screenshot paths and timestamps and stores them in a JSON file.
+
+###tshark, multi_inc_tshark, and multi_exc_tshark
 - https://www.wireshark.org/download.html
 
-###Nmap
-- https://nmap.org/download.html#windows
+There are three collector plugins that leverage tshark. The first executes a single instance of tshark on a specified interface. The multi_inc_tshark will collect network data on all specified interfaces. Multi_exc_tshark will collect network data on all interfaces, except any specified.
+The parser plugin will extract various protocol fields from network packtes including source and destination MAC, IP, and port information as well as flags (TCP) and routes (RIP).
 
+###Snoopy
+- https://github.com/a2o/snoopy
+The collector plugin will gather all system calls on the system by leveraging the snoopy tool. The plugin reads the auth.log file produced by snoopy and will periodically copy it into the ECEL raw data folder.
+The parser plugin will read the snoopy log and generate a set of timestamp/system call pairs formatted in a JSON file.
 
-After installing tShark and nmap from the links below follow the remaining steps:
-
-1. In the Windows command prompt type: `tshark -D`
-2. Copy the long string between brackets {} for "Wi-Fi" or "Ethernet"
-3. In tShark's run.bat file, place between the brackets for \Device\NPF_{<enter here>}
-4. In netscanner's config.json file enter all of the data listed into the file. 
-
-(Step 1 & 2) (Example, all machines will differ in output)
-```Shell
-C:\Users\johnDoe>tshark -D
-1. \Device\NPF_{12345...} (VMware Network Adapter VMnet1)
-2. \Device\NPF_{0123456789-E123-A12 (Wi-Fi)
-3. \\.\USBPcap1 (USBPcap1)
-```
-
-(Step 3) tshark - run.bat
-```Batch
-echo off
-set output=%1
-for /f "tokens=2 delims==" %%a in ('wmic OS Get localdatetime /value') do set "dt=%%a"
-set "YY=%dt:~2,2%" & set "YYYY=%dt:~0,4%" & set "MM=%dt:~4,2%" & set "DD=%dt:~6,2%"
-set "HH=%dt:~8,2%" & set "Min=%dt:~10,2%" & set "Sec=%dt:~12,2%"
-set "datestamp=%YYYY%%MM%%DD%" & set "timestamp=%HH%%Min%%Sec%"
-"C:\Program Files (x86)\Wireshark\tshark.exe" -i \Device\NPF_{123456789-1234-1234-1234-123456789} -w %output%\%datestamp%%timestamp%.pcap > NUL
-echo on
-```
-
-(Step 4) netscanner - config.json 
-```JSON
-{ 
-  "name": "netscanner",
-  "type": "multi",
-  "enabled": false,
-  "parser": "plugins.netscanner.parser",
-  "output": "raw",
-  "arguments": [
-    ["\\Device\\NPF_{123456789-1234-1234-1234-12345}", "VMware Network Adapter VMnet1"],
-    ["\\Device\\NPF_{123456789-1234-1234-1234-12345}", "Wi-Fi"]
-  ]
-}
+###Manual Screenshot
+- http://www.autopy.org/documentation/api-reference/bitmap.html
+The collector is a manual plugin that is executed by clickin on the context menu of the ECEL status icon. A dialog window will collect metadata and then take a screenshot using the autopy module.
+With the parser plugin, all of the stored metadata is then formatted and stored in a JSON file.
