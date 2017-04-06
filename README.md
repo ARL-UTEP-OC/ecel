@@ -8,12 +8,10 @@ ECEL has been tested on:
 ECEL must be run as root. In order for the task bar status icon to function properly, you must also be logged in as root.
 
 ## Installation
-To install ECEL, run `./install.sh`
+To install ECEL, run `./install.sh`. A internet connection is required for installation.
 
 ## Execution
-Run `./ecel_gui` to execute ECEL
-
-This will invoke the main GUI and a clickable status icon will appear in the task bar.
+Run `./ecel_gui` to execute ECEL. This will invoke the main GUI and a clickable status icon will appear in the task bar.
 
 ## Plugins
 
