@@ -3,9 +3,9 @@
 ## System Requirements
 ECEL has been tested on:
 * Kali Linux 2016.2, both 32 and 64-bit
-* Ubuntu 16.04 LTS 64-bit, but see caveat below
+* Ubuntu 16.04 LTS 64-bit*, but see caveat below
 
-ECEL must be run as root. In order for the task bar status icon to function properly, you must also be logged in as root.
+*ECEL must be run as root. In order for the task bar status icon to function properly, you must also be logged in as root.
 
 ## Installation
 To install ECEL, run `./install.sh`. A internet connection is required for installation.

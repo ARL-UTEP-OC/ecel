@@ -5,7 +5,7 @@ import java.text.*;
 public class SnoopyToJSON{
     static long numItems = 0;
  public static void main(String args[]) {
-  try {
+  
    if (args.length != 2)
    {
     System.out.println("Usage: java KeysToJSON <filename> <output-directory>");
@@ -17,69 +17,84 @@ public class SnoopyToJSON{
    String outputPath = args[1];
 
    //sample: {\"content\" :\"<2 p/s\", \"className\" :\"traffic\", \"title\" : \"eth:ipv6:udp:dhcpv6\" \n', \"start\" : \"Wed Oct 08 10:56:33 EDT 2014\"},
-
-   FileReader fr = new FileReader(filename);
-   BufferedReader br = new BufferedReader(fr);
-   String line;
-   String parsedLine[];
-
-
-   Scanner sc = new Scanner(new File(filename));
-   
-   String timestamp;   
-   String sid;
-   String tty;
-   String command;
-   String loggerType;
-
+   FileReader fr = null;
+   BufferedReader br = null;
+   String line = "";
+   String parsedLine[] = null;
+   Scanner sc = null;
+   String timestamp = "";
+   String sid = "";
+   String tty = "";
+   String command = "";
+   String loggerType = "";
+   try { 
+      fr = new FileReader(filename);
+      br = new BufferedReader(fr);
+      sc = new Scanner(new File(filename));
+     }
+   catch (FileNotFoundException e) {
+    System.out.println("\tNo snoopy file exists.");
+    e.printStackTrace();
+    System.exit(-1);
+   }
+   catch (Exception e) {
+    e.printStackTrace();
+    System.exit(-1);
+   }
 //check if we have another line to read
    while (sc.hasNextLine()) {
+	 try
+	 {
      //parse out the data
      sc.next(); sc.next(); sc.next(); sc.next();
      loggerType = sc.next();
      if (loggerType.contains("snoopy"))
      {
-     timestamp = sc.next().split("datetime:")[1];
-     sc.next();
-     sid = sc.next();
-     tty = sc.next();
-     sc.next(); sc.next();
-     command = sc.nextLine();
-     
-     //System.out.println("timestamp " + timestamp + " sid " + sid + " tty " + tty + " command " + command);
-     
-      answer += "\t{\"snoopy_id\" : "+(numItems++)+", ";
-      answer += "\"content\" : \"";
-      answer += quote(command);
-      answer += "\", ";
+		 timestamp = sc.next().split("datetime:")[1];
+		 sc.next();
+		 sid = sc.next();
+		 tty = sc.next();
+		 sc.next(); sc.next();
+		 command = sc.nextLine();
 
-      answer += "\"className\" : \"snoopy";
-      answer += "\", ";
+		 //System.out.println("timestamp " + timestamp + " sid " + sid + " tty " + tty + " command " + command);
+		 
+		  answer += "\t{\"snoopy_id\" : "+(numItems++)+", ";
+		  answer += "\"content\" : \"";
+		  answer += quote(command);
+		  answer += "\", ";
 
-      answer += "\"start\" : \"";
-      //answer += new Date(((long)(currWindowStartTime*1000))).toString() + "\",";
-      answer += timestamp;
-      answer += "\"";
-      answer += "}";
+		  answer += "\"className\" : \"snoopy";
+		  answer += "\", ";
 
-      if(sc.hasNextLine())
-       answer += ",";
-      answer += "\n";
+		  answer += "\"start\" : \"";
+		  //answer += new Date(((long)(currWindowStartTime*1000))).toString() + "\",";
+		  answer += timestamp;
+		  answer += "\"";
+		  answer += "}";
+
+		  if(sc.hasNextLine())
+		   answer += ",";
+		  answer += "\n";
      }
+	}catch(Exception e)
+	{
+		System.out.println("Malformatted line in input file.");
+	}
   }
   //System.out.println(answer + "\n]");
   System.out.println("\tFinished processing snoopy data");
+  try
+  {
   br.close();
   answer += "]\n";
         FileOutput.WriteToFile(outputPath + "/snoopyData.JSON", answer);
         //System.out.println(answer);
   }
-  catch (FileNotFoundException e) {
-   System.out.println("\tNo snoopy file exists.");
-  }
   catch (Exception e) {
-   e.printStackTrace();
-  }
+    e.printStackTrace();
+    System.exit(-1);
+   }
  }
  /**
  * Code adapted from Jettison JSONObject open source software:
