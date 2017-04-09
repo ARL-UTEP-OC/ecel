@@ -51,7 +51,10 @@ public class SnoopyToJSON{
      timestamp = parsedLine[6].split("datetime:")[1];
      sid = parsedLine[8];
      tty = parsedLine[9];
-     command = parsedLine[12];
+     //read the rest of the line as the command
+     command = "";
+     for(int i=12;i<parsedLine.length;i++)
+		command += parsedLine[i] + " ";
 
      //System.out.println("timestamp " + timestamp + " sid " + sid + " tty " + tty + " command " + command);
      
