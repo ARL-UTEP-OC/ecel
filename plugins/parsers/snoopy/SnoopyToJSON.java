@@ -39,13 +39,9 @@ public class SnoopyToJSON{
 		line = br.readLine();
 		continue;
 	 }
-	 //System.out.println("parsed Line:");
-	 //for (int i=0;i<parsedLine.length;i++)
-	 //	System.out.print(parsedLine[i] + "!!");
-     //parse out the data
-     //sc.next(); sc.next(); sc.next(); sc.next();
+
      loggerType = parsedLine[5];
-     System.out.println("LOGGER "+loggerType);
+     //System.out.println("LOGGER "+loggerType);
      if (!loggerType.contains("snoopy"))
      {
 		 line = br.readLine();
@@ -53,10 +49,8 @@ public class SnoopyToJSON{
      }
      
      timestamp = parsedLine[6].split("datetime:")[1];
-     //sc.next();
      sid = parsedLine[8];
      tty = parsedLine[9];
-     //sc.next(); sc.next();
      command = parsedLine[12];
 
      //System.out.println("timestamp " + timestamp + " sid " + sid + " tty " + tty + " command " + command);
