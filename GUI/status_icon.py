@@ -12,51 +12,78 @@ class CustomSystemTrayIcon:
         menu = gtk.Menu()
 
         # show main application
-        main_application = gtk.MenuItem("Main Application")
-        main_application.show()
-        menu.append(main_application)
-        main_application.connect('activate', self.show_my_gui, gui)
+        main_application_menu_item = gtk.MenuItem("Main Application")
+        main_application_menu_item.show()
+        menu.append(main_application_menu_item)
+        main_application_menu_item.connect('activate', self.show_my_gui, gui)
+
+        #separator
+        sep0 = gtk.SeparatorMenuItem()
+        sep0.show()
+        menu.append(sep0)
 
         # add manual screenshot functionality
         # TODO: This should be loaded dynamically based on plugins labeled to be manual
-        screen_shot = gtk.MenuItem("Take Manual ScreenShot")
+        screen_shot_menu_item = gtk.MenuItem("Take Manual ScreenShot")
         ms = engine.get_plugin("manualscreenshot")
         if ms.is_enabled:
-            screen_shot.show()
-            menu.append(screen_shot)
-            screen_shot.connect('activate', self.take_screen)
-        #screen_shot.connect("activate", t)
+            screen_shot_menu_item.show()
+            menu.append(screen_shot_menu_item)
+            screen_shot_menu_item.connect('activate', self.take_screen)
 
-        # show about dialog
-        about = gtk.MenuItem("About")
-        about.show()
-        menu.append(about)
-        about.connect('activate', self.show_about_dialog)
+        #separator
+        sep1 = gtk.SeparatorMenuItem()
+        sep1.show()
+        menu.append(sep1)
 
-        # add quit item
-        quit = gtk.MenuItem("Quit")
-        quit.show()
-        menu.append(quit)
-        quit.connect('activate', self.kill_me, engine)
+        # show about_menu_item dialog
+        self.startall_menu_item = gtk.MenuItem("Start All Collectors")
+        self.startall_menu_item.show()
+        menu.append(self.startall_menu_item)
+        self.startall_menu_item.connect('activate', gui.startall_collectors)
+
+        # show about_menu_item dialog
+        self.stopall_menu_item = gtk.MenuItem("Stop All Collectors")
+        self.stopall_menu_item.show()
+        menu.append(self.stopall_menu_item)
+        self.stopall_menu_item.connect('activate', gui.stopall_collectors)
+        self.stopall_menu_item.set_sensitive(False)
+
+        #separator
+        sep2 = gtk.SeparatorMenuItem()
+        sep2.show()
+        menu.append(sep2)
+
+        # show about_menu_item dialog
+        about_menu_item = gtk.MenuItem("About")
+        about_menu_item.show()
+        menu.append(about_menu_item)
+        about_menu_item.connect('activate', self.show_about_dialog)
+
+        # add quit_menu_item item
+        quit_menu_item = gtk.MenuItem("Quit")
+        quit_menu_item.show()
+        menu.append(quit_menu_item)
+        quit_menu_item.connect('activate', self.kill_me, engine)
 
         self.tray_ind = appindicator.Indicator("example-simple-client", "starred", appindicator.CATEGORY_APPLICATION_STATUS)
         self.tray_ind.set_status(appindicator.STATUS_ACTIVE)
         self.tray_ind.set_menu(menu)
 
+
     # Simple pop up widget that shows some information about the program
-    def show_about_dialog(self, widget): #TODO: Change info?
+    def show_about_dialog(self, widget):
         about_dialog = gtk.AboutDialog()
         about_dialog.set_destroy_with_parent(True)
         about_dialog.set_icon_name("Evaluator-Centric and Extensible Logger v%s" % (__version__))
         about_dialog.set_name('ECEL')
         about_dialog.set_version(__version__)
-        about_dialog.set_comments(("This software is a result of the ARL/UTEP Open Campus Initiative."))
+        about_dialog.set_comments(("ECEL was developed as the result of a collaborative research project between the US Army Research Laboratory and the University of Texas at El Paso."))
         about_dialog.run()
         about_dialog.destroy()
 
     def take_screen(event_button, event):
         takeshoot.CaptureScreen()
-        #CustomSystemTrayIcon.core1.get_plugin("manualscreenshot").run()
 
     def kill_me(self, event, engine):
         for plugin in engine.plugins:
@@ -65,4 +92,4 @@ class CustomSystemTrayIcon:
         os._exit(0)
 
     def show_my_gui(self, event, gui):
-        gui()
+        gui.show_gui()

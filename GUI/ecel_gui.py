@@ -19,8 +19,6 @@ class ECEL_GUI(gtk.Window):
         #create tooltips
         self.tooltips = gtk.Tooltips()
 
-        # Call function to me System Tray Icon
-        self.test = status_icon.CustomSystemTrayIcon(engine, self.show_gui)
         #self.set_keep_above(False)
         # Set Title and Size of Main Window Frame
         self.set_title("Evaluator-Centric and Extensible Logger v%s" % (__version__))
@@ -37,21 +35,21 @@ class ECEL_GUI(gtk.Window):
         #open_button = gtk.ToolButton(gtk.image_new_from_file(os.path.join(os.path.join(os.getcwd(), "GUI"), "open.png")))
         #open_button.connect("clicked", self.callback)
         #pause_button = gtk.ToolButton(gtk.image_new_from_file(os.path.join(os.path.join(os.getcwd(), "GUI"),"pause.png")))
-        #pause_button.connect("clicked", self.pause_plugin)
-        self.start_button = gtk.ToolButton(gtk.image_new_from_file(os.path.join(os.path.join(os.getcwd(), "GUI"),"start.png")))
-        self.tooltips.set_tip(self.start_button, "Start All Plugins")
-        self.start_button.connect("clicked", self.start_plugin)
+        #pause_button.connect("clicked", self.pause_plugins)
+        self.startall_button = gtk.ToolButton(gtk.image_new_from_file(os.path.join(os.path.join(os.getcwd(), "GUI"),"start.png")))
+        self.tooltips.set_tip(self.startall_button, "Start All Collectors")
+        self.startall_button.connect("clicked", self.startall_collectors)
 
-        self.stop_button = gtk.ToolButton(gtk.image_new_from_file(os.path.join(os.path.join(os.getcwd(), "GUI"),"stop.png")))
-        self.tooltips.set_tip(self.stop_button, "Stop All Plugins")
-        self.stop_button.connect("clicked", self.stop_plugin)
-        self.stop_button.set_sensitive(False)
+        self.stopall_button = gtk.ToolButton(gtk.image_new_from_file(os.path.join(os.path.join(os.getcwd(), "GUI"),"stop.png")))
+        self.tooltips.set_tip(self.stopall_button, "Stop All Collectors")
+        self.stopall_button.connect("clicked", self.stopall_collectors)
+        self.stopall_button.set_sensitive(False)
 
         separator = gtk.SeparatorToolItem()
 
-        self.json_button = gtk.ToolButton(gtk.image_new_from_file(os.path.join(os.path.join(os.getcwd(), "GUI"),"json.png")))
-        self.tooltips.set_tip(self.json_button, "Parse All Captured to JSON")
-        self.json_button.connect("clicked", self.parse_all, engine)
+        self.parseall_button = gtk.ToolButton(gtk.image_new_from_file(os.path.join(os.path.join(os.getcwd(), "GUI"), "json.png")))
+        self.tooltips.set_tip(self.parseall_button, "Execute All Parsers")
+        self.parseall_button.connect("clicked", self.parse_all, engine)
 
         self.export_button = gtk.ToolButton(gtk.image_new_from_file(os.path.join(os.path.join(os.getcwd(), "GUI"),"export.png")))
         self.tooltips.set_tip(self.export_button, "Export Plugin Data")
@@ -60,11 +58,11 @@ class ECEL_GUI(gtk.Window):
         #hide_button = gtk.ToolButton(gtk.image_new_from_file(os.path.join(os.path.join(os.getcwd(), "GUI"),"hide.png")))
         #hide_button.connect("clicked", self.hide_gui)
         #toolbar.insert(open_button, 0)
-        toolbar.insert(self.start_button, 0)
+        toolbar.insert(self.startall_button, 0)
         #toolbar.insert(pause_button, 2)
-        toolbar.insert(self.stop_button, 1)
+        toolbar.insert(self.stopall_button, 1)
         toolbar.insert(separator, 2)
-        toolbar.insert(self.json_button, 3)
+        toolbar.insert(self.parseall_button, 3)
         toolbar.insert(self.export_button, 4)
         #toolbar.insert(hide_button, 4)
 
@@ -109,6 +107,10 @@ class ECEL_GUI(gtk.Window):
             i = i+1
             vbox.pack_start(self.create_bbox(plugin),True, True, 5)
         self.show_all()
+
+        # Call function to me System Tray Icon
+        self.status_context_menu = status_icon.CustomSystemTrayIcon(engine, self)
+
     # To be used by the status icon Main Application, it will bring the GUI back to the foreground
     def show_gui(self):
         self.present()
@@ -181,21 +183,25 @@ class ECEL_GUI(gtk.Window):
             button.set_label("Disabled")
 
 
-    def start_plugin(self, button):
-        button.set_sensitive(False)
-        self.stop_button.set_sensitive(True)
+    def startall_collectors(self, button):
+        self.status_context_menu.startall_menu_item.set_sensitive(False)
+        self.status_context_menu.stopall_menu_item.set_sensitive(True)
+        self.startall_button.set_sensitive(False)
+        self.stopall_button.set_sensitive(True)
         for plugin in self.engine.plugins:
             if plugin.is_enabled:
                 plugin.run()
 
-    def stop_plugin(self, button):
-        self.start_button.set_sensitive(True)
-        button.set_sensitive(False)
+    def stopall_collectors(self, button):
+        self.status_context_menu.stopall_menu_item.set_sensitive(False)
+        self.status_context_menu.startall_menu_item.set_sensitive(True)
+        self.stopall_button.set_sensitive(False)
+        self.startall_button.set_sensitive(True)
         for plugin in self.engine.plugins:
             if plugin.is_enabled:
                plugin.terminate()
 
-    def pause_plugin(self, button):
+    def pause_plugins(self, button):
         for plugin in self.engine.plugins:
             if plugin.suspend():
                 plugin.resume()
