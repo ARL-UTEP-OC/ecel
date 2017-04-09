@@ -184,6 +184,7 @@ class ECEL_GUI(gtk.Window):
 
 
     def startall_collectors(self, button):
+        self.status_context_menu.tray_ind.set_icon(gtk.STOCK_MEDIA_RECORD)
         self.status_context_menu.startall_menu_item.set_sensitive(False)
         self.status_context_menu.stopall_menu_item.set_sensitive(True)
         self.startall_button.set_sensitive(False)
@@ -193,6 +194,7 @@ class ECEL_GUI(gtk.Window):
                 plugin.run()
 
     def stopall_collectors(self, button):
+        self.status_context_menu.tray_ind.set_icon(gtk.STOCK_NO)
         self.status_context_menu.stopall_menu_item.set_sensitive(False)
         self.status_context_menu.startall_menu_item.set_sensitive(True)
         self.stopall_button.set_sensitive(False)

@@ -66,10 +66,9 @@ class CustomSystemTrayIcon:
         menu.append(quit_menu_item)
         quit_menu_item.connect('activate', self.kill_me, engine)
 
-        self.tray_ind = appindicator.Indicator("example-simple-client", "starred", appindicator.CATEGORY_APPLICATION_STATUS)
+        self.tray_ind = appindicator.Indicator("ECEL", gtk.STOCK_NO, appindicator.CATEGORY_SYSTEM_SERVICES)
         self.tray_ind.set_status(appindicator.STATUS_ACTIVE)
         self.tray_ind.set_menu(menu)
-
 
     # Simple pop up widget that shows some information about the program
     def show_about_dialog(self, widget):
