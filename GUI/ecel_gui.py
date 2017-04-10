@@ -7,6 +7,7 @@ import shlex
 import status_icon
 from Config import Runner
 from GUI.export_gui import Export_GUI
+from GUI.progress_bar import ProgressBar
 from _version import __version__
 
 PYKEYLOGGER = "pykeylogger"
@@ -49,7 +50,7 @@ class ECEL_GUI(gtk.Window):
 
         self.parseall_button = gtk.ToolButton(gtk.image_new_from_file(os.path.join(os.path.join(os.getcwd(), "GUI"), "json.png")))
         self.tooltips.set_tip(self.parseall_button, "Execute All Parsers")
-        self.parseall_button.connect("clicked", self.parse_all, engine)
+        self.parseall_button.connect("clicked", self.parse_all)
 
         self.export_button = gtk.ToolButton(gtk.image_new_from_file(os.path.join(os.path.join(os.getcwd(), "GUI"),"export.png")))
         self.tooltips.set_tip(self.export_button, "Export Plugin Data")
@@ -120,10 +121,6 @@ class ECEL_GUI(gtk.Window):
     def hide_gui(self, event):
         self.hide()
 
-    def parse_all(self, event, engine):
-        for plugin in engine.plugins:
-            engine.parsers[plugin.name].parse()
-
     def export(self, event):
         Export_GUI(self)
 
@@ -189,9 +186,21 @@ class ECEL_GUI(gtk.Window):
         self.status_context_menu.stopall_menu_item.set_sensitive(True)
         self.startall_button.set_sensitive(False)
         self.stopall_button.set_sensitive(True)
+        i = 0.0
+        pb = ProgressBar()
+        while gtk.events_pending():
+            gtk.main_iteration()
+
         for plugin in self.engine.plugins:
             if plugin.is_enabled:
                 plugin.run()
+            pb.setValue(i / len(self.engine.plugins))
+            pb.pbar.set_text("Starting " + plugin.name)
+            while gtk.events_pending():
+                gtk.main_iteration()
+            i += 1
+        if not pb.emit("delete-event", gtk.gdk.Event(gtk.gdk.DELETE)):
+            pb.destroy()
 
     def stopall_collectors(self, button):
         self.status_context_menu.tray_ind.set_icon(gtk.STOCK_NO)
@@ -199,9 +208,37 @@ class ECEL_GUI(gtk.Window):
         self.status_context_menu.startall_menu_item.set_sensitive(True)
         self.stopall_button.set_sensitive(False)
         self.startall_button.set_sensitive(True)
+        i = 0.0
+        pb = ProgressBar()
+        while gtk.events_pending():
+            gtk.main_iteration()
+
         for plugin in self.engine.plugins:
             if plugin.is_enabled:
                plugin.terminate()
+            pb.setValue(i/len(self.engine.plugins))
+            pb.pbar.set_text("Stopping " + plugin.name)
+            while gtk.events_pending():
+                gtk.main_iteration()
+            i += 1
+        if not pb.emit("delete-event", gtk.gdk.Event(gtk.gdk.DELETE)):
+            pb.destroy()
+
+    def parse_all(self, event):
+        i = 0.0
+        pb = ProgressBar()
+        while gtk.events_pending():
+            gtk.main_iteration()
+
+        for plugin in self.engine.plugins:
+            self.engine.parsers[plugin.name].parse()
+            pb.setValue(i/len(self.engine.plugins))
+            pb.pbar.set_text("Parsing " + plugin.name)
+            while gtk.events_pending():
+                gtk.main_iteration()
+            i += 1
+        if not pb.emit("delete-event", gtk.gdk.Event(gtk.gdk.DELETE)):
+            pb.destroy()
 
     def pause_plugins(self, button):
         for plugin in self.engine.plugins:

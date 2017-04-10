@@ -43,14 +43,14 @@ class CaptureScreen():
                      "}]\n"
             f.write(string)
             f.close()
-            print "write metadata to:",os.path.join(savepath,"."+savefilename)
-            print "Screen shot taken:", savefull
-        else:
-            print "cancelled"
+            #print "write metadata to:",os.path.join(savepath,"."+savefilename)
+            #print "Screen shot taken:", savefull
+        #else:
+            #print "cancelled"
 
     def save_shot(self):
         # create a new window
-        dialog = gtk.Dialog("My dialog",
+        dialog = gtk.Dialog("Manual ScreenShot",
                             None,
                             gtk.DIALOG_MODAL | gtk.DIALOG_DESTROY_WITH_PARENT,
                             (gtk.STOCK_CANCEL, gtk.RESPONSE_REJECT,

@@ -5,6 +5,7 @@ import time
 from os.path import expanduser
 from engine.archiver.zipFormat import zip
 from engine.archiver.tarFormat import tar
+from GUI.progress_bar import ProgressBar
 
 RAW="raw"
 COMPRESSED="compressed"
@@ -42,11 +43,13 @@ class Export_GUI(gtk.Window):
 
         self.entry_selected_folder = gtk.Entry()
         self.entry_selected_folder.set_text(expanduser("~"))
+        self.entry_selected_folder.connect("key-release-event", self.on_key_release)
         button_select_folder = gtk.ToolButton(gtk.image_new_from_file(os.path.join(os.path.join(os.getcwd(), "GUI"),"open_small.png")))
         button_select_folder.connect("clicked", self.select_folder)
 
         button_export = gtk.Button("Export")
         button_export.connect("clicked", self.export)
+
         button_cancel = gtk.Button("Cancel")
         button_cancel.connect("clicked", self.close_export_dialog)
 
@@ -81,6 +84,11 @@ class Export_GUI(gtk.Window):
         self.add(vbox)
 
         self.show_all()
+
+    def on_key_release(self, widget, event):
+        keyname = gtk.gdk.keyval_name(event.keyval)
+        if keyname == "KP_Enter" or keyname == "Return":
+            self.export(event)
 
     def checkbutton_compress_export_toggled(self, event):
         if self.checkbutton_compress_export.get_active():
@@ -131,7 +139,13 @@ class Export_GUI(gtk.Window):
         os.makedirs(export_compressed_dir)
         os.makedirs(export_parsed_dir)
 
+        progress = 0
+        pb = ProgressBar()
+        while gtk.events_pending():
+            gtk.main_iteration()
+
         for plugin in next(os.walk(self.collectors_dir))[1]:
+
             plugin_export_raw_dir = os.path.join(export_raw_dir, plugin)
             plugin_export_compressed_dir = os.path.join(export_compressed_dir, plugin)
             plugin_export_parsed_dir = os.path.join(export_parsed_dir, plugin)
@@ -146,14 +160,30 @@ class Export_GUI(gtk.Window):
                 shutil.copytree(plugin_collector_compressed_dir, plugin_export_compressed_dir)
             if export_parsed and os.path.exists(plugin_collector_parsed_dir) and os.listdir(plugin_collector_parsed_dir):
                 shutil.copytree(plugin_collector_parsed_dir, plugin_export_parsed_dir)
+            pb.setValue((progress / len(next(os.walk(self.collectors_dir))[1]))*.8)
+            pb.pbar.set_text("Copying files " + plugin)
+            while gtk.events_pending():
+                gtk.main_iteration()
+            progress += 1
 
         if self.checkbutton_compress_export.get_active():
             export_dir_notime = os.path.join(export_base_dir, EXPORT_DIRNAME.replace("%TIME%", ""))
+            pb.pbar.set_text("Compressing data to " + export_dir)
+            pb.setValue(.85)
+            while gtk.events_pending():
+                gtk.main_iteration()
             if self.radiobutton_compress_export_format_zip.get_active():
                 zip(export_dir, export_dir_notime)
             elif self.radiobutton_compress_export_format_tar.get_active():
                 tar(export_dir, export_dir_notime)
+            export_dir_notime = os.path.join(export_base_dir, EXPORT_DIRNAME.replace("%TIME%", ""))
+            pb.pbar.set_text("Cleaning up " + export_dir)
+            pb.setValue(.9)
+            while gtk.events_pending():
+                gtk.main_iteration()
             shutil.rmtree(export_dir)
+        if not pb.emit("delete-event", gtk.gdk.Event(gtk.gdk.DELETE)):
+            pb.destroy()
 
         self.hide_all()
 
