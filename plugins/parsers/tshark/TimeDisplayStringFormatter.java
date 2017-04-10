@@ -84,6 +84,7 @@ public class TimeDisplayStringFormatter {
 		String tempString;
 		String[] parsedPacket;
 		String timestamp;
+		long packetsInWindow = 1;
 		SimpleDateFormat toFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
 		toFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
 		try {						
@@ -97,9 +98,11 @@ public class TimeDisplayStringFormatter {
 				//System.out.println("line: " + lines[i]);
 				parsedPacket = lines[i].split(" ",-1);
 				currPacketTime = Double.parseDouble(parsedPacket[PacketData.Fields.FRAME_TIMEEPOCH.ordinal()]);;
-				//System.out.println(lines[i]);
+				
+				//This is the case when the data is still within the window size threshold, and there are still data left
 				if((currPacketTime - currWindowStartTime) < windowSize && i != lines.length-1)
 				{
+					packetsInWindow++;
 					//remove any unwanted elements from the array before storing in the map
 					//System.out.println(parsedPacket[PacketData.Fields.FRAME_TIMEEPOCH.ordinal()] );
 					lines[i] = lines[i].replace(parsedPacket[PacketData.Fields.FRAME_TIMEEPOCH.ordinal()], "");
@@ -108,14 +111,14 @@ public class TimeDisplayStringFormatter {
 					//System.out.println(lines[i] + "\nremoved: " + parsedPacket[PacketData.Fields.FRAME_TIMEEPOCH.ordinal()] + "\n");
 					uniqueElementsPerWindow.add(lines[i]+"\n");
 				}
+				//The data is part of a new window because the log time is larger than the window size
 				else
 				{
 				    timestamp = toFormat.format(new Date((long)(currWindowStartTime*1000)));
 					//System.out.println("Starting new window");
-					packetsPerSecond = (int)(uniqueElementsPerWindow.size()/windowSize);
 					answer += "{ \"traffic_all_id\" : "+(numProtoItems++)+", ";
 					answer += "\"content\" :\"";
-					packetsPerSecond = (int)(uniqueElementsPerWindow.size()/windowSize);
+					packetsPerSecond = (int)(packetsInWindow/windowSize);
 					if(packetsPerSecond<1)
 						answer+=quote("<1 p/s");
 					else answer+=quote(packetsPerSecond+" p/s");
@@ -143,6 +146,7 @@ public class TimeDisplayStringFormatter {
 
 					currWindowStartTime = currPacketTime;
 					uniqueElementsPerWindow.clear();
+					packetsInWindow = 1;
 					//remove any unwanted elements from the array before storing in the map
 					
 					lines[i] = lines[i].replace(parsedPacket[PacketData.Fields.FRAME_TIMEEPOCH.ordinal()], "");
@@ -169,6 +173,7 @@ public class TimeDisplayStringFormatter {
 		String tempString;
 		String[] parsedPacket;
 		String timestamp;
+		long packetsInWindow = 1;
 		SimpleDateFormat toFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
 		toFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
 		try {
@@ -185,6 +190,7 @@ public class TimeDisplayStringFormatter {
 				//System.out.println(lines[i]);
 				if((currPacketTime - currWindowStartTime) < windowSize && i != lines.length-1)
 				{
+					packetsInWindow++;
 					//remove any unwanted elements from the array before storing in the map
 					//System.out.println(parsedPacket[PacketData.Fields.FRAME_TIMEEPOCH.ordinal()] );
 					lines[i] = lines[i].replace(parsedPacket[PacketData.Fields.FRAME_TIMEEPOCH.ordinal()], "");
@@ -197,7 +203,7 @@ public class TimeDisplayStringFormatter {
 				{
 					//System.out.println("Starting new window");
 					timestamp = toFormat.format(new Date((long)(currWindowStartTime*1000)));
-					packetsPerSecond = (int)(uniqueElementsPerWindow.size()/windowSize);
+					
 					answer += "{ \"traffic_xy_id\" : "+(numXYItems++)+", ";
 					answer += "\"className\" : \"trafficThroughput";
 					answer += "\", ";
@@ -205,7 +211,7 @@ public class TimeDisplayStringFormatter {
 					answer += "\", ";
 					
 					answer += "\"y\" : ";
-					packetsPerSecond = (int)(uniqueElementsPerWindow.size()/windowSize);
+					packetsPerSecond = (int)(packetsInWindow/windowSize);
 					answer+=packetsPerSecond;
 					if(i == lines.length-1){
 						answer += " }\n";
@@ -217,6 +223,7 @@ public class TimeDisplayStringFormatter {
 
 					currWindowStartTime = currPacketTime;
 					uniqueElementsPerWindow.clear();
+					packetsInWindow = 1;
 					//remove any unwanted elements from the array before storing in the map
 					
 					lines[i] = lines[i].replace(parsedPacket[PacketData.Fields.FRAME_TIMEEPOCH.ordinal()], "");
