@@ -240,6 +240,11 @@ class ECEL_GUI(gtk.Window):
         if not pb.emit("delete-event", gtk.gdk.Event(gtk.gdk.DELETE)):
             pb.destroy()
 
+        alert = gtk.MessageDialog(self, gtk.DIALOG_DESTROY_WITH_PARENT, gtk.MESSAGE_INFO,
+                                      gtk.BUTTONS_CLOSE, "Parsing complete")
+        alert.run()
+        alert.destroy()
+
     def pause_plugins(self, button):
         for plugin in self.engine.plugins:
             if plugin.suspend():
