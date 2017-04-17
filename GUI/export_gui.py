@@ -145,7 +145,6 @@ class Export_GUI(gtk.Window):
             gtk.main_iteration()
 
         for plugin in next(os.walk(self.collectors_dir))[1]:
-
             plugin_export_raw_dir = os.path.join(export_raw_dir, plugin)
             plugin_export_compressed_dir = os.path.join(export_compressed_dir, plugin)
             plugin_export_parsed_dir = os.path.join(export_parsed_dir, plugin)
@@ -176,7 +175,6 @@ class Export_GUI(gtk.Window):
                 zip(export_dir, export_dir_notime)
             elif self.radiobutton_compress_export_format_tar.get_active():
                 tar(export_dir, export_dir_notime)
-            export_dir_notime = os.path.join(export_base_dir, EXPORT_DIRNAME.replace("%TIME%", ""))
             pb.pbar.set_text("Cleaning up " + export_dir)
             pb.setValue(.9)
             while gtk.events_pending():
@@ -185,7 +183,15 @@ class Export_GUI(gtk.Window):
         if not pb.emit("delete-event", gtk.gdk.Event(gtk.gdk.DELETE)):
             pb.destroy()
 
+        self.show_alert_message("Export complete")
+
         self.hide_all()
+
+    def show_alert_message(self, msg):
+        alert = gtk.MessageDialog(self, gtk.DIALOG_DESTROY_WITH_PARENT, gtk.MESSAGE_INFO,
+                                      gtk.BUTTONS_CLOSE, msg)
+        alert.run()
+        alert.destroy()
 
     def show_error_message(self, msg):
         alert = gtk.MessageDialog(self, gtk.DIALOG_DESTROY_WITH_PARENT, gtk.MESSAGE_ERROR,
