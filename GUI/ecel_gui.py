@@ -9,6 +9,7 @@ from Config import Runner
 from GUI.export_gui import Export_GUI
 from GUI.progress_bar import ProgressBar
 from GUI.plugin_config_gui import Plugin_Config_GUI
+from GUI.default_config_gui import Default_Config_GUI
 from _version import __version__
 
 PYKEYLOGGER = "pykeylogger"
@@ -87,11 +88,11 @@ class ECEL_GUI(gtk.Window):
         file_menu.set_submenu(filemenu)
         top_menu_bar.append(file_menu)
 
-        engineConfiguration = gtk.MenuItem("Engine Configuration")
-        engineConfiguration.connect("activate", Runner.call_engine_config)
+        engineConfiguration = gtk.MenuItem("Default Configurations")
+        engineConfiguration.connect("activate", self.configure_defaults)
         filemenu.append(engineConfiguration)
 
-        pluginConfiguration = gtk.MenuItem("Plugin Configuration")
+        pluginConfiguration = gtk.MenuItem("Plugin Configurations")
         pluginConfiguration.connect("activate", self.configure_plugins)
         filemenu.append(pluginConfiguration)
 
@@ -117,6 +118,9 @@ class ECEL_GUI(gtk.Window):
 
     def configure_plugins(self, event):
         Plugin_Config_GUI(self, BASE_DIR, CONFIG_FILE_NAME)
+
+    def configure_defaults(self, event):
+        Default_Config_GUI(self, BASE_DIR, CONFIG_FILE_NAME)
 
     # To be used by the status icon Main Application, it will bring the GUI back to the foreground
     def show_gui(self):

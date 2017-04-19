@@ -2,62 +2,24 @@ import gtk
 import json
 import os.path
 
-class Plugin_Config_GUI(gtk.Window):
+class Default_Config_GUI(gtk.Window):
     def __init__(self, parent, base_dir, config_file_name):
-        super(Plugin_Config_GUI, self).__init__()
+        super(Default_Config_GUI, self).__init__()
 
         self.main_gui = parent
         self.base_dir = base_dir
-        self.config_file_name = config_file_name
+        config_file_name = config_file_name
 
-        self.set_title("Plugin Configurations")
+        self.set_title("Default Configurations")
         self.set_modal(True)
         self.set_transient_for(self.main_gui)
         self.set_position(gtk.WIN_POS_CENTER_ON_PARENT)
         # self.set_size_request(500, 250)
         # self.set_resizable(False)
 
-        self.plugin_names = [directory for directory in os.listdir(os.path.join(base_dir, 'plugins', 'collectors')) if
-                             os.path.isdir(os.path.join(base_dir, 'plugins', 'collectors', directory))]
-
         vbox_main = gtk.VBox()
-        hbox_plugins = gtk.HBox()
-        frame_plugin_confs = gtk.Frame("Plugin Configurations:")
 
-        self.vbox_plugin_main = None
-
-        label_plugins = gtk.Label("Plugins")
-        combobox_plugins = gtk.combo_box_new_text()
-        for label in self.plugin_names:
-            combobox_plugins.append_text(label)
-        combobox_plugins.set_active(0)
-        combobox_plugins.connect('changed', self.select_plugin, combobox_plugins, frame_plugin_confs)
-
-        button_close = gtk.Button("Close")
-        button_close.connect("clicked", self.close_plugin_config_dialog)
-
-        hbox_plugins.pack_start(label_plugins)
-        hbox_plugins.pack_start(combobox_plugins)
-        vbox_main.pack_start(hbox_plugins)
-        vbox_main.pack_start(frame_plugin_confs)
-        vbox_main.pack_start(button_close)
-
-        self.show_plugin_configs(combobox_plugins.get_active_text(), frame_plugin_confs)
-
-        self.add(vbox_main)
-        self.show_all()
-
-    def select_plugin(self, event, combobox, frame):
-        self.save_plugin_configs()
-
-        self.show_plugin_configs(combobox.get_active_text(), frame)
-
-    def show_plugin_configs(self, plugin_name, frame):
-        self.file_path = os.path.join(self.base_dir, 'plugins', 'collectors', plugin_name, self.config_file_name)
-
-        if self.vbox_plugin_main:
-            frame.remove(self.vbox_plugin_main)
-        self.vbox_plugin_main = gtk.VBox()
+        self.file_path = os.path.join(self.base_dir, 'engine', config_file_name)
 
         type_counter = 0
         self.types = []
@@ -85,7 +47,7 @@ class Plugin_Config_GUI(gtk.Window):
             self.types.append(setting_type)
 
             settings_label = gtk.Frame(setting_type + " Settings:")
-            self.vbox_plugin_main.pack_start(settings_label)
+            vbox_main.pack_start(settings_label)
 
             for key, value in self.data[setting_type].iteritems():
                 hbox = gtk.HBox()
@@ -130,8 +92,12 @@ class Plugin_Config_GUI(gtk.Window):
             settings_label.add(vbox)
             type_counter += 1
 
-        frame.add(self.vbox_plugin_main)
+        button_close = gtk.Button("Close")
+        button_close.connect("clicked", self.close_plugin_config_dialog)
 
+        vbox_main.pack_start(button_close)
+
+        self.add(vbox_main)
         self.show_all()
 
     def save_plugin_configs(self):
