@@ -8,9 +8,12 @@ import status_icon
 from Config import Runner
 from GUI.export_gui import Export_GUI
 from GUI.progress_bar import ProgressBar
+from GUI.plugin_config_gui import Plugin_Config_GUI
 from _version import __version__
 
 PYKEYLOGGER = "pykeylogger"
+BASE_DIR = os.path.dirname(os.path.dirname(__file__))
+CONFIG_FILE_NAME = 'config.json'
 
 class ECEL_GUI(gtk.Window):
     def __init__(self, engine):
@@ -89,7 +92,7 @@ class ECEL_GUI(gtk.Window):
         filemenu.append(engineConfiguration)
 
         pluginConfiguration = gtk.MenuItem("Plugin Configuration")
-        pluginConfiguration.connect("activate", Runner.call_plugins_config)
+        pluginConfiguration.connect("activate", self.configure_plugins)
         filemenu.append(pluginConfiguration)
 
         # have to be appended in reverse order for some reason.
@@ -111,6 +114,9 @@ class ECEL_GUI(gtk.Window):
 
         # Call function to me System Tray Icon
         self.status_context_menu = status_icon.CustomSystemTrayIcon(engine, self)
+
+    def configure_plugins(self, event):
+        Plugin_Config_GUI(self, BASE_DIR, CONFIG_FILE_NAME)
 
     # To be used by the status icon Main Application, it will bring the GUI back to the foreground
     def show_gui(self):
