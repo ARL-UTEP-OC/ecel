@@ -52,14 +52,19 @@ class ECEL_GUI(gtk.Window):
         self.stopall_button.set_sensitive(False)
 
         separator = gtk.SeparatorToolItem()
+        separator2 = gtk.SeparatorToolItem()
 
         self.parseall_button = gtk.ToolButton(gtk.image_new_from_file(os.path.join(os.path.join(os.getcwd(), "GUI"), "json.png")))
         self.tooltips.set_tip(self.parseall_button, "Execute All Parsers")
         self.parseall_button.connect("clicked", self.parse_all)
 
         self.export_button = gtk.ToolButton(gtk.image_new_from_file(os.path.join(os.path.join(os.getcwd(), "GUI"),"export.png")))
-        self.tooltips.set_tip(self.export_button, "Export Plugin Data")
-        self.export_button.connect("clicked", self.export)
+        self.tooltips.set_tip(self.export_button, "Export All Plugin Data")
+        self.export_button.connect("clicked", self.export_all)
+
+        self.remove_data_button = gtk.ToolButton(gtk.image_new_from_file(os.path.join(os.path.join(os.getcwd(), "GUI"), "delete.png")))
+        self.tooltips.set_tip(self.remove_data_button, "Delete All Plugin Data")
+        self.remove_data_button.connect("clicked", self.delete_all)
 
         #hide_button = gtk.ToolButton(gtk.image_new_from_file(os.path.join(os.path.join(os.getcwd(), "GUI"),"hide.png")))
         #hide_button.connect("clicked", self.hide_gui)
@@ -69,7 +74,9 @@ class ECEL_GUI(gtk.Window):
         toolbar.insert(self.stopall_button, 1)
         toolbar.insert(separator, 2)
         toolbar.insert(self.parseall_button, 3)
-        toolbar.insert(self.export_button, 4)
+        toolbar.insert(separator2, 4)
+        toolbar.insert(self.export_button, 5)
+        toolbar.insert(self.remove_data_button, 6)
         #toolbar.insert(hide_button, 4)
 
         # Creating a Vertical Container To Add Widgets To
@@ -132,8 +139,13 @@ class ECEL_GUI(gtk.Window):
     def hide_gui(self, event):
         self.hide()
 
-    def export(self, event):
+    def export_all(self, event):
         Export_GUI(self)
+
+    def delete_all(self, event):
+        if self.show_confirmation_dialog("Are you sure you want to delete all plugin data (this cannot be undone)?"):
+            remove_cmd = os.path.join(os.path.join(os.getcwd(), "scripts"), "cleanCollectorData.sh")
+            subprocess.call(remove_cmd) #TODO: Change this to not call external script
 
     def create_bbox(self, plugin):
         frame = gtk.Frame(plugin.name)
@@ -293,3 +305,14 @@ class ECEL_GUI(gtk.Window):
         if os.path.isdir(dst):
             dst = os.path.join(dst, os.path.basename(src))
         shutil.copytree(src, dst)
+
+    def show_confirmation_dialog(self, msg):
+        dialog = gtk.MessageDialog(self, gtk.DIALOG_DESTROY_WITH_PARENT, gtk.MESSAGE_INFO,
+                                      gtk.BUTTONS_YES_NO, msg)
+        response = dialog.run()
+        dialog.destroy()
+
+        if response == gtk.RESPONSE_YES:
+            return True
+
+        return False
