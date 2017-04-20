@@ -10,6 +10,7 @@ from GUI.export_gui import Export_GUI
 from GUI.progress_bar import ProgressBar
 from GUI.plugin_config_gui import Plugin_Config_GUI
 from GUI.default_config_gui import Default_Config_GUI
+import engine.plugin
 from _version import __version__
 
 PYKEYLOGGER = "pykeylogger"
@@ -27,7 +28,7 @@ class ECEL_GUI(gtk.Window):
         #self.set_keep_above(False)
         # Set Title and Size of Main Window Frame
         self.set_title("Evaluator-Centric and Extensible Logger v%s" % (__version__))
-        self.set_size_request(850, 500)
+        self.set_size_request(500, 500)
         self.set_position(gtk.WIN_POS_CENTER)
         self.engine = engine
         self.connect("delete-event", self.hide_on_delete)
@@ -154,12 +155,12 @@ class ECEL_GUI(gtk.Window):
 
             startPluginButton = gtk.Button('Start Plugin')
             startPluginButton.connect("clicked", self.startIndividualPlugin, plugin)
-            startPluginButton.set_sensitive(plugin.is_enabled)
+            startPluginButton.set_sensitive(type(plugin) is not engine.plugin.ManualPlugin)
             bbox.add(startPluginButton)
 
             stopPluginButton = gtk.Button('Stop Plugin')
             stopPluginButton.connect("clicked", self.stopIndividualPlugin, plugin)
-            stopPluginButton.set_sensitive(plugin.is_enabled)
+            stopPluginButton.set_sensitive(type(plugin) is not engine.plugin.ManualPlugin)
             bbox.add(stopPluginButton)
 
             parseButton = gtk.Button('Parse Data')
