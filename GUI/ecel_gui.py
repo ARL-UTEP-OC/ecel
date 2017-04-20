@@ -135,52 +135,39 @@ class ECEL_GUI(gtk.Window):
         Export_GUI(self)
 
     def create_bbox(self, plugin):
-        layout = gtk.BUTTONBOX_SPREAD
-        spacing = 10
         frame = gtk.Frame(plugin.name)
 
-        bbox = gtk.HButtonBox()
-        bbox.set_border_width(1)
-        frame.add(bbox)
+        if plugin.is_enabled:
+            layout = gtk.BUTTONBOX_SPREAD
+            spacing = 10
 
-        # Get value of plugin "enabled status" from the associated json file.
-        # hard coded right now, I want to have the "title" from the parameter be used for the path\config.json
+            bbox = gtk.HButtonBox()
+            bbox.set_border_width(1)
+            frame.add(bbox)
 
-        # Set the appearance of the Button Box
-        bbox.set_layout(layout)
-        bbox.set_spacing(spacing)
+            # Get value of plugin "enabled status" from the associated json file.
+            # hard coded right now, I want to have the "title" from the parameter be used for the path\config.json
 
+            # Set the appearance of the Button Box
+            bbox.set_layout(layout)
+            bbox.set_spacing(spacing)
 
-        # enableButton = gtk.Button(str(plugin.is_enabled))
-        # enableButton.connect("clicked", self.enableButton_clicked)
-        # enableButton.set_sensitive(False)
-        # bbox.add(enableButton)
+            startPluginButton = gtk.Button('Start Plugin')
+            startPluginButton.connect("clicked", self.startIndividualPlugin, plugin)
+            startPluginButton.set_sensitive(plugin.is_enabled)
+            bbox.add(startPluginButton)
 
-        startPluginButton = gtk.Button('Start Plugin')
-        startPluginButton.connect("clicked", self.startIndividualPlugin, plugin)
-        if plugin.is_enabled == False:
-            startPluginButton.set_sensitive(False)
-        bbox.add(startPluginButton)
+            stopPluginButton = gtk.Button('Stop Plugin')
+            stopPluginButton.connect("clicked", self.stopIndividualPlugin, plugin)
+            stopPluginButton.set_sensitive(plugin.is_enabled)
+            bbox.add(stopPluginButton)
 
-        stopPluginButton = gtk.Button('Stop Plugin')
-        stopPluginButton.connect("clicked", self.stopIndividualPlugin, plugin)
-        if plugin.is_enabled == False:
-            stopPluginButton.set_sensitive(False)
-        bbox.add(stopPluginButton)
-
-        parseButton = gtk.Button('Parse')
-        parseButton.connect("clicked", self.parser, plugin.name)
-        bbox.add(parseButton)
-
-        if plugin.name == PYKEYLOGGER:
-            appConfigButton = gtk.Button('Application Configuration')
-            appConfigButton.connect("clicked", self.open_control_panel, plugin)
-            bbox.add(appConfigButton)
+            parseButton = gtk.Button('Parse Data')
+            parseButton.connect("clicked", self.parser, plugin.name)
+            bbox.add(parseButton)
         else:
-            appConfigButton = gtk.Button('Application Configuration')
-            appConfigButton.set_sensitive(False)
-            bbox.add(appConfigButton)
-
+            label = gtk.Label("Plugin Disabled")
+            frame.add(label)
 
         return frame
 
