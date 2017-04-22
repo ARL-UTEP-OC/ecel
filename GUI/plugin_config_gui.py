@@ -5,7 +5,7 @@ import os.path
 class Plugin_Config_GUI(gtk.Window):
     def __init__(self, parent, base_dir, config_file_name):
         super(Plugin_Config_GUI, self).__init__()
-
+        self.set_border_width(6)
         self.main_gui = parent
         self.base_dir = base_dir
         self.config_file_name = config_file_name
@@ -14,13 +14,14 @@ class Plugin_Config_GUI(gtk.Window):
         self.set_modal(True)
         self.set_transient_for(self.main_gui)
         self.set_position(gtk.WIN_POS_CENTER_ON_PARENT)
-        # self.set_size_request(500, 250)
-        # self.set_resizable(False)
+        #self.set_size_request(500, 700)
+        self.set_resizable(False)
 
         self.plugin_names = [directory for directory in os.listdir(os.path.join(base_dir, 'plugins', 'collectors')) if
                              os.path.isdir(os.path.join(base_dir, 'plugins', 'collectors', directory))]
 
         vbox_main = gtk.VBox()
+
         hbox_plugins = gtk.HBox()
         frame_plugin_confs = gtk.Frame("Plugin Configurations:")
 
@@ -91,10 +92,15 @@ class Plugin_Config_GUI(gtk.Window):
                 hbox = gtk.HBox()
 
                 if value['Field Type'] == 'Entry':
-                    self.entry_labels[type_counter].append(gtk.Label(key))
+                    print "!!!!",key
+                    entry_name_label = gtk.Label(key)
+                    entry_name_label.set_alignment(0, 0.5)
+                    entry_name_label.set_padding(8,8)
+                    self.entry_labels[type_counter].append(entry_name_label )
                     hbox.pack_start(self.entry_labels[type_counter][self.entry_counter[type_counter]])
 
-                    self.entries[type_counter].append(gtk.Entry())
+                    entry_value_label = gtk.Entry()
+                    self.entries[type_counter].append(entry_value_label)
                     self.entries[type_counter][self.entry_counter[type_counter]].set_text(value['Value'])
 
                     hbox.pack_start(self.entries[type_counter][self.entry_counter[type_counter]])
@@ -102,7 +108,10 @@ class Plugin_Config_GUI(gtk.Window):
                     self.entry_counter[type_counter] += 1
 
                 if value['Field Type'] == 'Option':
-                    self.option_labels[type_counter].append(gtk.Label(key))
+                    option_name_label = gtk.Label(key)
+                    option_name_label.set_alignment(0, 0.5)
+                    option_name_label.set_padding(8,8)
+                    self.option_labels[type_counter].append(option_name_label)
                     hbox.pack_start(self.option_labels[type_counter][self.option_counter[type_counter]])
 
                     if isinstance(value['Selected'], bool):
@@ -115,12 +124,12 @@ class Plugin_Config_GUI(gtk.Window):
                     selected_index = value['Values'].index(value['Selected'])
 
                     combobox = gtk.combo_box_new_text()
+
                     for vals in value['Values']:
                         combobox.append_text(vals)
                     combobox.set_active(selected_index)
 
                     self.options[type_counter].append(combobox)
-
                     hbox.pack_start(self.options[type_counter][self.option_counter[type_counter]])
 
                     self.option_counter[type_counter] += 1
