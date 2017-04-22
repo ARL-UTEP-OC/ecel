@@ -92,7 +92,6 @@ class Plugin_Config_GUI(gtk.Window):
                 hbox = gtk.HBox()
 
                 if value['Field Type'] == 'Entry':
-                    print "!!!!",key
                     entry_name_label = gtk.Label(key)
                     entry_name_label.set_alignment(0, 0.5)
                     entry_name_label.set_padding(8,8)
