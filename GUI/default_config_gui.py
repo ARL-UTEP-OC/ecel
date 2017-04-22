@@ -5,7 +5,7 @@ import os.path
 class Default_Config_GUI(gtk.Window):
     def __init__(self, parent, base_dir, config_file_name):
         super(Default_Config_GUI, self).__init__()
-
+        self.set_border_width(6)
         self.main_gui = parent
         self.base_dir = base_dir
         config_file_name = config_file_name
@@ -15,7 +15,7 @@ class Default_Config_GUI(gtk.Window):
         self.set_transient_for(self.main_gui)
         self.set_position(gtk.WIN_POS_CENTER_ON_PARENT)
         # self.set_size_request(500, 250)
-        # self.set_resizable(False)
+        self.set_resizable(False)
 
         vbox_main = gtk.VBox()
 
@@ -53,7 +53,10 @@ class Default_Config_GUI(gtk.Window):
                 hbox = gtk.HBox()
 
                 if value['Field Type'] == 'Entry':
-                    self.entry_labels[type_counter].append(gtk.Label(key))
+                    entry_name_label = gtk.Label(key)
+                    entry_name_label.set_alignment(0, 0.5)
+                    entry_name_label.set_padding(8,8)
+                    self.entry_labels[type_counter].append(entry_name_label )
                     hbox.pack_start(self.entry_labels[type_counter][self.entry_counter[type_counter]])
 
                     self.entries[type_counter].append(gtk.Entry())
@@ -64,7 +67,10 @@ class Default_Config_GUI(gtk.Window):
                     self.entry_counter[type_counter] += 1
 
                 if value['Field Type'] == 'Option':
-                    self.option_labels[type_counter].append(gtk.Label(key))
+                    option_name_label = gtk.Label(key)
+                    option_name_label.set_alignment(0, 0.5)
+                    option_name_label.set_padding(8,8)
+                    self.option_labels[type_counter].append(option_name_label)
                     hbox.pack_start(self.option_labels[type_counter][self.option_counter[type_counter]])
 
                     if isinstance(value['Selected'], bool):
