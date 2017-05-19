@@ -19,6 +19,7 @@ public class SnoopyToJSON{
    //sample: {\"content\" :\"<2 p/s\", \"className\" :\"traffic\", \"title\" : \"eth:ipv6:udp:dhcpv6\" \n', \"start\" : \"Wed Oct 08 10:56:33 EDT 2014\"},
 
    FileReader fr = new FileReader(filename);
+   //System.out.println("RUNNING with " + filename);
    BufferedReader br = new BufferedReader(fr);
    String line;
    String parsedLine[];
@@ -33,30 +34,34 @@ public class SnoopyToJSON{
 //check if we have another line to read
    line = br.readLine();
    while (line != null) {
+	 System.out.println("Processing line: " + line);
 	 parsedLine = line.split(" ");
-	 if(parsedLine.length < 13)
+	 if(parsedLine.length < 12)
 	 {
+		 System.out.println("CONTINUING BECAUSE LINE IS TOO SHORT");
 		line = br.readLine();
 		continue;
 	 }
 
-     loggerType = parsedLine[5];
+     loggerType = parsedLine[4];
+     System.out.println("LOGGER TYPE: " + loggerType);
      //System.out.println("LOGGER "+loggerType);
      if (!loggerType.contains("snoopy"))
      {
+		 System.out.println("CONTINUING BECAUSE LINE DOES NOT HAVE SNOOPY");
 		 line = br.readLine();
 		 continue;
      }
      
-     timestamp = parsedLine[6].split("datetime:")[1];
-     sid = parsedLine[8];
-     tty = parsedLine[9];
+     timestamp = parsedLine[5].split("datetime:")[1];
+     sid = parsedLine[7];
+     tty = parsedLine[8];
      //read the rest of the line as the command
      command = "";
-     for(int i=12;i<parsedLine.length;i++)
+     for(int i=11;i<parsedLine.length;i++)
 		command += parsedLine[i] + " ";
 
-     //System.out.println("timestamp " + timestamp + " sid " + sid + " tty " + tty + " command " + command);
+     System.out.println("timestamp " + timestamp + " sid " + sid + " tty " + tty + " command " + command);
      
       answer += "\t{\"snoopy_id\" : "+(numItems++)+", ";
       answer += "\"content\" : \"";
