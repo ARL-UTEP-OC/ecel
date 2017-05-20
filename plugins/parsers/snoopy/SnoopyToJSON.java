@@ -34,11 +34,11 @@ public class SnoopyToJSON{
 //check if we have another line to read
    line = br.readLine();
    while (line != null) {
-	 System.out.println("Processing line: " + line);
+	 //System.out.println("Processing line: " + line);
 	 parsedLine = line.split(" ");
 	 if(parsedLine.length < 12)
 	 {
-		 System.out.println("CONTINUING BECAUSE LINE IS TOO SHORT");
+		//System.out.println("CONTINUING BECAUSE LINE IS TOO SHORT");
 		line = br.readLine();
 		continue;
 	 }
@@ -48,7 +48,7 @@ public class SnoopyToJSON{
      //System.out.println("LOGGER "+loggerType);
      if (!loggerType.contains("snoopy"))
      {
-		 System.out.println("CONTINUING BECAUSE LINE DOES NOT HAVE SNOOPY");
+		 //System.out.println("CONTINUING BECAUSE LINE DOES NOT HAVE SNOOPY");
 		 line = br.readLine();
 		 continue;
      }
@@ -61,7 +61,7 @@ public class SnoopyToJSON{
      for(int i=11;i<parsedLine.length;i++)
 		command += parsedLine[i] + " ";
 
-     System.out.println("timestamp " + timestamp + " sid " + sid + " tty " + tty + " command " + command);
+     //System.out.println("timestamp " + timestamp + " sid " + sid + " tty " + tty + " command " + command);
      
       answer += "\t{\"snoopy_id\" : "+(numItems++)+", ";
       answer += "\"content\" : \"";
