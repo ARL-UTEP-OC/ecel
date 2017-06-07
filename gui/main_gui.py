@@ -10,9 +10,9 @@ from gui.progress_bar import ProgressBar
 from gui.plugin_config_gui import PluginConfigGUI
 from _version import __version__
 
-class EcelGUI(gtk.Window):
+class MainGUI(gtk.Window):
     def __init__(self, app_engine):
-        super(EcelGUI, self).__init__()
+        super(MainGUI, self).__init__()
         self.engine = app_engine
 
         self.set_title("Evaluator-Centric and Extensible Logger v%s" % (__version__))
