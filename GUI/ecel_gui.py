@@ -1,194 +1,149 @@
 import gtk
 import os
-import shutil
 import subprocess
-import shlex
-
+import definitions
 import status_icon
-from Config import Runner
-from GUI.export_gui import Export_GUI
+
+import engine.collector
+from GUI.export_gui import ExportGUI
 from GUI.progress_bar import ProgressBar
-from GUI.plugin_config_gui import Plugin_Config_GUI
-from GUI.default_config_gui import Default_Config_GUI
-import engine.plugin
+from GUI.plugin_config_gui import PluginConfigGUI
 from _version import __version__
 
-PYKEYLOGGER = "pykeylogger"
-BASE_DIR = os.path.dirname(os.path.dirname(__file__))
-CONFIG_FILE_NAME = 'config.json'
+class EcelGUI(gtk.Window):
+    def __init__(self, app_engine):
+        super(EcelGUI, self).__init__()
+        self.engine = app_engine
 
-class ECEL_GUI(gtk.Window):
-    def __init__(self, engine):
-        self.devnull = open(os.devnull, 'w')
-        super(ECEL_GUI, self).__init__()
-
-        #create tooltips
-        self.tooltips = gtk.Tooltips()
-
-        #self.set_keep_above(False)
-        # Set Title and Size of Main Window Frame
         self.set_title("Evaluator-Centric and Extensible Logger v%s" % (__version__))
         self.set_size_request(500, 500)
         self.set_position(gtk.WIN_POS_CENTER)
-        self.engine = engine
         self.connect("delete-event", self.hide_on_delete)
-        Runner.scaffold_initial_files()
 
-        # Creating Tool Bar
+        # Create Tool Bar
         toolbar = gtk.Toolbar()
         toolbar.set_style(gtk.TOOLBAR_ICONS)
+        tooltips = gtk.Tooltips()
 
-        #open_button = gtk.ToolButton(gtk.image_new_from_file(os.path.join(os.path.join(os.getcwd(), "GUI"), "open.png")))
-        #open_button.connect("clicked", self.callback)
-        #pause_button = gtk.ToolButton(gtk.image_new_from_file(os.path.join(os.path.join(os.getcwd(), "GUI"),"pause.png")))
-        #pause_button.connect("clicked", self.pause_plugins)
-        self.startall_button = gtk.ToolButton(gtk.image_new_from_file(os.path.join(os.path.join(os.getcwd(), "GUI"),"start.png")))
-        self.tooltips.set_tip(self.startall_button, "Start All Collectors")
+        self.startall_button = gtk.ToolButton(gtk.image_new_from_file(os.path.join(definitions.ICONS_DIR, "start.png")))
+        tooltips.set_tip(self.startall_button, "Start All Collectors")
         self.startall_button.connect("clicked", self.startall_collectors)
 
-        self.stopall_button = gtk.ToolButton(gtk.image_new_from_file(os.path.join(os.path.join(os.getcwd(), "GUI"),"stop.png")))
-        self.tooltips.set_tip(self.stopall_button, "Stop All Collectors")
+        self.stopall_button = gtk.ToolButton(gtk.image_new_from_file(os.path.join(definitions.ICONS_DIR, "stop.png")))
+        tooltips.set_tip(self.stopall_button, "Stop All Collectors")
         self.stopall_button.connect("clicked", self.stopall_collectors)
         self.stopall_button.set_sensitive(False)
 
-        separator = gtk.SeparatorToolItem()
-        separator2 = gtk.SeparatorToolItem()
+        separator1 = gtk.SeparatorToolItem()
 
-        self.parseall_button = gtk.ToolButton(gtk.image_new_from_file(os.path.join(os.path.join(os.getcwd(), "GUI"), "json.png")))
-        self.tooltips.set_tip(self.parseall_button, "Execute All Parsers")
+        self.parseall_button = gtk.ToolButton(gtk.image_new_from_file(os.path.join(definitions.ICONS_DIR, "json.png")))
+        tooltips.set_tip(self.parseall_button, "Execute All Parsers")
         self.parseall_button.connect("clicked", self.parse_all)
 
-        self.export_button = gtk.ToolButton(gtk.image_new_from_file(os.path.join(os.path.join(os.getcwd(), "GUI"),"export.png")))
-        self.tooltips.set_tip(self.export_button, "Export All Plugin Data")
+        separator2 = gtk.SeparatorToolItem()
+
+        self.export_button = gtk.ToolButton(gtk.image_new_from_file(os.path.join(definitions.ICONS_DIR, "export.png")))
+        tooltips.set_tip(self.export_button, "Export All Plugin Data")
         self.export_button.connect("clicked", self.export_all)
 
-        self.remove_data_button = gtk.ToolButton(gtk.image_new_from_file(os.path.join(os.path.join(os.getcwd(), "GUI"), "delete.png")))
-        self.tooltips.set_tip(self.remove_data_button, "Delete All Plugin Data")
+        self.remove_data_button = gtk.ToolButton(gtk.image_new_from_file(os.path.join(definitions.ICONS_DIR, "delete.png")))
+        tooltips.set_tip(self.remove_data_button, "Delete All Plugin Data")
         self.remove_data_button.connect("clicked", self.delete_all)
 
-        #hide_button = gtk.ToolButton(gtk.image_new_from_file(os.path.join(os.path.join(os.getcwd(), "GUI"),"hide.png")))
-        #hide_button.connect("clicked", self.hide_gui)
-        #toolbar.insert(open_button, 0)
+        separator3 = gtk.SeparatorToolItem()
+
+        self.collector_config_button = gtk.ToolButton(gtk.image_new_from_file(os.path.join(definitions.ICONS_DIR, "settings.png")))
+        tooltips.set_tip(self.collector_config_button, "Plugin Configurations")
+        self.collector_config_button.connect("clicked", self.configure_collectors)
+
         toolbar.insert(self.startall_button, 0)
-        #toolbar.insert(pause_button, 2)
         toolbar.insert(self.stopall_button, 1)
-        toolbar.insert(separator, 2)
+        toolbar.insert(separator1, 2)
         toolbar.insert(self.parseall_button, 3)
         toolbar.insert(separator2, 4)
         toolbar.insert(self.export_button, 5)
         toolbar.insert(self.remove_data_button, 6)
-        #toolbar.insert(hide_button, 4)
+        toolbar.insert(separator3, 7)
+        toolbar.insert(self.collector_config_button, 8)
 
-        # Creating a Vertical Container To Add Widgets To
         vbox = gtk.VBox(False, 2)
-
-        # Adding the Vertical Container To Main Window Frame
         self.add(vbox)
         self.connect("destroy", self.close_all)
 
-
         # Create File Menu Bar
-        top_menu_bar = gtk.MenuBar()
+        # top_menu_bar = gtk.MenuBar()
+        #
+        # filemenu = gtk.Menu()
+        # file_menu = gtk.MenuItem("File")
+        # file_menu.set_submenu(filemenu)
+        # top_menu_bar.append(file_menu)
+        #
+        # collectorConfiguration = gtk.MenuItem("Plugin Configurations")
+        # collectorConfiguration.connect("activate", self.configure_collectors)
+        #
+        # exit = gtk.MenuItem("Exit")
+        # exit.connect("activate", self.close_all)
+        #
+        # filemenu.append(collectorConfiguration)
+        # filemenu.append(exit)
+        #
+        # vbox.pack_start(top_menu_bar)
+        vbox.pack_start(toolbar)
 
-        # Create menu that will be displayed in the GUI via the typical File drop down list
-        filemenu = gtk.Menu()
-        file_menu = gtk.MenuItem("File")
-        file_menu.set_submenu(filemenu)
-        top_menu_bar.append(file_menu)
-
-        engineConfiguration = gtk.MenuItem("Default Configurations")
-        engineConfiguration.connect("activate", self.configure_defaults)
-        filemenu.append(engineConfiguration)
-
-        pluginConfiguration = gtk.MenuItem("Plugin Configurations")
-        pluginConfiguration.connect("activate", self.configure_plugins)
-        filemenu.append(pluginConfiguration)
-
-        # have to be appended in reverse order for some reason.
-        exit = gtk.MenuItem("Exit")
-        exit.connect("activate", self.close_all)
-        filemenu.append(exit)
-
-        # Pack both Widgets on Screen
-        vbox.pack_start(top_menu_bar, False, False, 0)
-        vbox.pack_start(toolbar, False, False, 0)
-
-        # Load Plugins On To Screen
-        i=1
-        for plugin in engine.plugins:
-            print "%d) %s" % (i, plugin.name)
-            i = i+1
-            vbox.pack_start(self.create_bbox(plugin),True, True, 5)
+        # Load collectors in window
+        for i, collector in enumerate(app_engine.collectors):
+            print "%d) %s" % (i, collector.name)
+            vbox.pack_start(self.create_collector_bbox(collector), True, True, 5)
         self.show_all()
 
-        # Call function to me System Tray Icon
-        self.status_context_menu = status_icon.CustomSystemTrayIcon(engine, self)
+        self.status_context_menu = status_icon.CustomSystemTrayIcon(app_engine, self)
 
-    def configure_plugins(self, event):
-        Plugin_Config_GUI(self, BASE_DIR, CONFIG_FILE_NAME)
+    def configure_collectors(self, event):
+        PluginConfigGUI(self, self.engine.collectors)
 
-    def configure_defaults(self, event):
-        Default_Config_GUI(self, BASE_DIR, CONFIG_FILE_NAME)
-
-    # To be used by the status icon Main Application, it will bring the GUI back to the foreground
     def show_gui(self):
         self.present()
         self.show_all()
 
-    # Will be accessed via the Hide Gui button.
-    def hide_gui(self, event):
-        self.hide()
-
     def export_all(self, event):
-        Export_GUI(self)
+        ExportGUI(self)
 
     def delete_all(self, event):
-        if self.show_confirmation_dialog("Are you sure you want to delete all plugin data (this cannot be undone)?"):
+        if self.show_confirmation_dialog("Are you sure you want to delete all collector data (this cannot be undone)?"):
             remove_cmd = os.path.join(os.path.join(os.getcwd(), "scripts"), "cleanCollectorData.sh")
             subprocess.call(remove_cmd) #TODO: Change this to not call external script
 
-    def create_bbox(self, plugin):
-        frame = gtk.Frame(plugin.name)
+    def create_collector_bbox(self, collector):
+        frame = gtk.Frame(collector.name)
 
-        if plugin.is_enabled:
+        if collector.is_enabled:
             layout = gtk.BUTTONBOX_SPREAD
             spacing = 10
 
             bbox = gtk.HButtonBox()
             bbox.set_border_width(1)
-            frame.add(bbox)
-
-            # Get value of plugin "enabled status" from the associated json file.
-            # hard coded right now, I want to have the "title" from the parameter be used for the path\config.json
-
-            # Set the appearance of the Button Box
             bbox.set_layout(layout)
             bbox.set_spacing(spacing)
+            frame.add(bbox)
 
             startPluginButton = gtk.Button('Start Plugin')
-            startPluginButton.connect("clicked", self.startIndividualPlugin, plugin)
-            startPluginButton.set_sensitive(type(plugin) is not engine.plugin.ManualPlugin)
+            startPluginButton.connect("clicked", self.startIndividualPlugin, collector)
+            startPluginButton.set_sensitive(not isinstance(collector, engine.collector.ManualCollector))
             bbox.add(startPluginButton)
 
             stopPluginButton = gtk.Button('Stop Plugin')
-            stopPluginButton.connect("clicked", self.stopIndividualPlugin, plugin)
-            stopPluginButton.set_sensitive(type(plugin) is not engine.plugin.ManualPlugin)
+            stopPluginButton.connect("clicked", self.stopIndividualPlugin, collector)
+            stopPluginButton.set_sensitive(not isinstance(collector, engine.collector.ManualCollector))
             bbox.add(stopPluginButton)
 
             parseButton = gtk.Button('Parse Data')
-            parseButton.connect("clicked", self.parser, plugin.name)
+            parseButton.connect("clicked", self.parser, collector)
             bbox.add(parseButton)
         else:
             label = gtk.Label("Plugin Disabled")
             frame.add(label)
 
         return frame
-
-    def enableButton_clicked(self, button):
-        print button.get_label()
-        if button.get_label() == "Enabled":
-            button.set_label("Disabled")
-
 
     def startall_collectors(self, button):
         self.status_context_menu.tray_ind.set_icon(gtk.STOCK_MEDIA_RECORD)
@@ -201,11 +156,11 @@ class ECEL_GUI(gtk.Window):
         while gtk.events_pending():
             gtk.main_iteration()
 
-        for plugin in self.engine.plugins:
-            if plugin.is_enabled:
-                plugin.run()
-            pb.setValue(i / len(self.engine.plugins))
-            pb.pbar.set_text("Starting " + plugin.name)
+        for collector in self.engine.collectors:
+            if collector.is_enabled:
+                collector.run()
+            pb.setValue(i / len(self.engine.collectors))
+            pb.pbar.set_text("Starting " + collector.name)
             while gtk.events_pending():
                 gtk.main_iteration()
             i += 1
@@ -223,11 +178,11 @@ class ECEL_GUI(gtk.Window):
         while gtk.events_pending():
             gtk.main_iteration()
 
-        for plugin in self.engine.plugins:
-            if plugin.is_enabled:
-               plugin.terminate()
-            pb.setValue(i/len(self.engine.plugins))
-            pb.pbar.set_text("Stopping " + plugin.name)
+        for collector in self.engine.collectors:
+            if collector.is_enabled:
+               collector.terminate()
+            pb.setValue(i/len(self.engine.collectors))
+            pb.pbar.set_text("Stopping " + collector.name)
             while gtk.events_pending():
                 gtk.main_iteration()
             i += 1
@@ -240,10 +195,10 @@ class ECEL_GUI(gtk.Window):
         while gtk.events_pending():
             gtk.main_iteration()
 
-        for plugin in self.engine.plugins:
-            self.engine.parsers[plugin.name].parse()
-            pb.setValue(i/len(self.engine.plugins))
-            pb.pbar.set_text("Parsing " + plugin.name)
+        for collector in self.engine.collectors:
+            collector.parser.parse()
+            pb.setValue(i/len(self.engine.collectors))
+            pb.pbar.set_text("Parsing " + collector.name)
             while gtk.events_pending():
                 gtk.main_iteration()
             i += 1
@@ -255,56 +210,20 @@ class ECEL_GUI(gtk.Window):
         alert.run()
         alert.destroy()
 
-    def pause_plugins(self, button):
-        for plugin in self.engine.plugins:
-            if plugin.suspend():
-                plugin.resume()
-            else:
-                plugin.suspend()
-
     def close_all(self, event):
-        for plugin in self.engine.plugins:
-            if plugin.is_enabled:
-               plugin.terminate()
+        for collector in self.engine.collectors:
+            if collector.is_enabled:
+               collector.terminate()
         os._exit(0)
 
+    def parser(self, event, collector):
+        collector.parser.parse()
 
-    def parser(self, event, *args):
-        self.engine.parsers[args[0]].parse()
+    def stopIndividualPlugin(self, event, collector):
+        collector.terminate()
 
-    def open_control_panel(self, event, plugin):
-        subprocess.Popen(shlex.split("python controlpanel.py"),
-                             shell=False,
-                             cwd=plugin.base_dir,
-                             stdout=self.devnull,
-                             stderr=self.devnull)
-
-    def callback(self, widget, data=None):
-        filechooser = gtk.FileChooserDialog('Select Plugin Directory', None,
-                                            gtk.FILE_CHOOSER_ACTION_SELECT_FOLDER,
-                                            ('Cancel', 1, 'Open', 2))
-        ans = filechooser.run()
-        if ans == 2:
-            new_plugin_path = os.path.normpath(filechooser.get_current_folder())
-            folder = os.path.basename(new_plugin_path)
-            if os.name == 'nt':
-                shutil.copytree(new_plugin_path, os.path.join(os.getcwd(), "plugins\\collectors\\" + folder))
-            elif os.name == 'posix':
-                shutil.copytree(new_plugin_path, os.path.join(os.getcwd(), "plugins//collectors//" + folder))
-            filechooser.destroy()
-        else:
-            filechooser.destroy()
-
-    def stopIndividualPlugin(self, event, plugin):
-        plugin.terminate()
-
-    def startIndividualPlugin(self, event, plugin):
-        plugin.run()
-
-    def copy(src, dst, event):
-        if os.path.isdir(dst):
-            dst = os.path.join(dst, os.path.basename(src))
-        shutil.copytree(src, dst)
+    def startIndividualPlugin(self, event, collector):
+        collector.run()
 
     def show_confirmation_dialog(self, msg):
         dialog = gtk.MessageDialog(self, gtk.DIALOG_DESTROY_WITH_PARENT, gtk.MESSAGE_INFO,

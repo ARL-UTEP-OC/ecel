@@ -7,8 +7,8 @@ from engine.parser import Parser
 class ManualScreenShotParser(Parser):
     type = "parsers.ManualScreenShot"
 
-    def __init__(self, plugin):
-        super(ManualScreenShotParser, self).__init__(plugin)
+    def __init__(self, collector):
+        super(ManualScreenShotParser, self).__init__(collector)
         if os.name == 'nt':
             self.script_file = os.path.join(
                 os.path.dirname(os.path.realpath(__file__)), "manualscreen_parser.bat")

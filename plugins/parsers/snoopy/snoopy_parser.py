@@ -7,8 +7,8 @@ from engine.parser import Parser
 class SnoopyParser(Parser):
     type = "parsers.Snoopy"
 
-    def __init__(self, plugin):
-        super(SnoopyParser, self).__init__(plugin)
+    def __init__(self, collector):
+        super(SnoopyParser, self).__init__(collector)
         if os.name == 'nt':
             self.script_file = os.path.join(os.path.dirname(os.path.realpath(__file__)), "snoopy_parser.bat")
         else:

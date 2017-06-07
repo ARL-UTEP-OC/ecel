@@ -1,0 +1,25 @@
+{
+  "collector": {
+    "name": "pykeylogger",
+    "type": "automatic",
+    "configurations": {
+      "general": {
+        "auto restart": {
+          "enabled": false,
+          "time interval": 30
+        }
+      },
+      "archiving": {
+        "enabled": true,
+        "time interval": 30,
+        "file format": "zip"
+      },
+      "parsing": {
+        "parser": "plugins.parsers.pykeylogger.pykeylogger_parser,PyKeyloggerParser"
+      },
+      "custom": {
+        "commands": "python keylogger.pyw"
+      }
+    }
+  }
+}

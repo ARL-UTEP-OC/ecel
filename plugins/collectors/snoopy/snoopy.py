@@ -1,26 +1,27 @@
 import os
 import time
 
-from engine.plugin import Plugin
+from engine.collector import AutomaticCollector
 
 
-class snoopy(Plugin):
+class snoopy(AutomaticCollector):
     type = "snoopy"
     command = ""
 
-    def __init__(self, base_dir, config):
+    def __init__(self, collector_config):
         # call super constructor
-        super(snoopy, self).__init__(base_dir, config)
+        super(snoopy, self).__init__(collector_config)
         # get additional options from config.json
-        self.snoopyLogPath = self.config.get("Snoopy Log Path", {}).get("Value")
+        self.snoopyLogPath = collector_config.get_collector_custom_data()["log path"]
 
-    def build_cmds(self):
+    #TODO: Use self.output_filepath?
+    def build_commands(self):
         epoch_time = "%TIME%"
         out_file_name = epoch_time + "_" + "snoopy"
-        self.out_file_names.append(out_file_name)
+        self.output_filenames.append(out_file_name)
         out_file_path = os.path.join(self.output_dir, out_file_name + ".txt")
         cmd = "./watchSnoopyFile.sh " \
             + str(self.snoopyLogPath) + " " \
             + str(out_file_path)
 
-        self.cmds.append(cmd)
+        self.commands.append(cmd)

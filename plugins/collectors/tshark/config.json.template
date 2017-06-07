@@ -1,0 +1,28 @@
+{
+  "collector": {
+    "name": "tshark",
+    "type": "automatic",
+    "configurations": {
+      "general": {
+        "auto restart": {
+          "enabled": false,
+          "time interval": 30
+        }
+      },
+      "archiving": {
+        "enabled": true,
+        "time interval": 30,
+        "file format": "zip"
+      },
+      "parsing": {
+        "parser": "plugins.parsers.tshark.tshark_parser,TSharkParser"
+      },
+      "custom": {
+        "interfaces": {
+          "mode": "inclusive",
+          "interfaces": "eth0"
+        }
+      }
+    }
+  }
+}

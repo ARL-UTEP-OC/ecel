@@ -6,8 +6,8 @@ from engine.parser import Parser
 
 class PyKeyloggerParser(Parser):
 
-    def __init__(self, plugin):
-        super(PyKeyloggerParser, self).__init__(plugin)
+    def __init__(self, collector):
+        super(PyKeyloggerParser, self).__init__(collector)
         self.click_dir = os.path.join(self.file_or_dir, "click_images")
         self.timed_dir = os.path.join(self.file_or_dir, "timed_screenshots")
         self.file_or_dir = os.path.join(self.file_or_dir, "detailed_log", "logfile.txt")

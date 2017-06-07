@@ -2,23 +2,25 @@ import gtk
 import os
 import shutil
 import time
+import definitions
 from os.path import expanduser
-from engine.archiver.zipFormat import zip
-from engine.archiver.tarFormat import tar
+from engine.archiver.zip_format import zip
+from engine.archiver.tar_format import tar
 from GUI.progress_bar import ProgressBar
 
+#TODO: change to use definitions
 RAW="raw"
 COMPRESSED="compressed"
 PARSED="parsed"
 
 EXPORT_DIRNAME="ecel-export%TIME%"
 
-class Export_GUI(gtk.Window):
+class ExportGUI(gtk.Window):
     def __init__(self, parent):
-        super(Export_GUI, self).__init__()
+        super(ExportGUI, self).__init__()
 
         self.main_gui = parent
-        self.collectors_dir = self.main_gui.engine.collectors_directory
+        self.collectors_dir = definitions.PLUGIN_COLLECTORS_DIR
 
         self.set_title("Export Plugin Data")
         self.set_modal(True)

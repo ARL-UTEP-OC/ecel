@@ -1,5 +1,5 @@
 # !/bin/python
-# file : zipFormat.py
+# file : zip_format.py
 
 import os
 import sys

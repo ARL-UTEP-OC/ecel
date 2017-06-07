@@ -16,11 +16,12 @@ class RegexPostCondition(object):
 
 
 class Parser(object):
-    def __init__(self, plugin):
+    def __init__(self, collector):
         self.post_conditions = []
-        self.plugin = plugin
-        self.file_or_dir = plugin.output_dir
-        self.parsed_folder = os.path.join(plugin.base_dir, "parsed")
+        self.collector = collector
+        self.file_or_dir = collector.output_dir
+        self.parsed_folder = os.path.join(collector.base_dir, "parsed")
+
     def parse(self):
         if (os.path.isdir(self.file_or_dir)):
             self.__parse_directory(self.file_or_dir)

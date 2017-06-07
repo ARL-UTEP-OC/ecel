@@ -1,5 +1,5 @@
 # !/bin/python
-# file : tarFormat.py
+# file : tar_format.py
 
 import os
 import sys

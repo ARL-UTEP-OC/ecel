@@ -54,6 +54,15 @@ if prompt_accepted_Yn "Would you like to install snoopy? ECEL will still run wit
     bash "$ECEL_DIR"/scripts/install-snoopy.sh
 fi
 
+### Create plugin configs
+# #TODO: do this every time it's necessary
+for plugin in "$ECEL_DIR"/plugins/collectors/*; do
+    if [ -d "$plugin" ]; then
+        scp "$plugin"/config.json.template "$plugin"/config.json
+        scp "$plugin"/config_schema.json.template "$plugin"/config_schema.json
+    fi
+done
+
 ### Compile parsers
 #
 echo "$OUTPUT_PREFIX Compiling parsers" #TODO: Compile new plugins
