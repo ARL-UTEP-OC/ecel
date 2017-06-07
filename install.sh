@@ -90,7 +90,7 @@ cat > "$ECEL_DIR"/ecel-gui <<-'EOFecelgui'
 		exit 1
 	fi
 
-	python "$ECEL_DIR"/gui.py
+	python "$ECEL_DIR"/ecel_gui.py
 EOFecelgui
 chmod +x "$ECEL_DIR"/ecel-gui
 install "$ECEL_DIR"/ecel-gui /usr/local/sbin #TODO: Check for security issues

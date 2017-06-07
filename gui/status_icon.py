@@ -83,10 +83,10 @@ class CustomSystemTrayIcon:
         about_dialog.run()
         about_dialog.destroy()
 
-    def kill_me(self, event, engine):
-        for plugin in engine.plugins:
-            if plugin.is_enabled:
-               plugin.terminate()
+    def kill_me(self, event, app_engine):
+        for collector in app_engine.collectors:
+            if collector.is_enabled:
+               collector.terminate()
         os._exit(0)
 
     def show_my_gui(self, event, gui):

@@ -26,11 +26,11 @@ class MainGUI(gtk.Window):
         tooltips = gtk.Tooltips()
 
         self.startall_button = gtk.ToolButton(gtk.image_new_from_file(os.path.join(definitions.ICONS_DIR, "start.png")))
-        tooltips.set_tip(self.startall_button, "Start All Collectors")
+        tooltips.set_tip(self.startall_button, "Start All Automatic Collectors")
         self.startall_button.connect("clicked", self.startall_collectors)
 
         self.stopall_button = gtk.ToolButton(gtk.image_new_from_file(os.path.join(definitions.ICONS_DIR, "stop.png")))
-        tooltips.set_tip(self.stopall_button, "Stop All Collectors")
+        tooltips.set_tip(self.stopall_button, "Stop All Automatic Collectors")
         self.stopall_button.connect("clicked", self.stopall_collectors)
         self.stopall_button.set_sensitive(False)
 
@@ -43,17 +43,17 @@ class MainGUI(gtk.Window):
         separator2 = gtk.SeparatorToolItem()
 
         self.export_button = gtk.ToolButton(gtk.image_new_from_file(os.path.join(definitions.ICONS_DIR, "export.png")))
-        tooltips.set_tip(self.export_button, "Export All Plugin Data")
+        tooltips.set_tip(self.export_button, "Export All Collector Data")
         self.export_button.connect("clicked", self.export_all)
 
         self.remove_data_button = gtk.ToolButton(gtk.image_new_from_file(os.path.join(definitions.ICONS_DIR, "delete.png")))
-        tooltips.set_tip(self.remove_data_button, "Delete All Plugin Data")
+        tooltips.set_tip(self.remove_data_button, "Delete All Collector Data")
         self.remove_data_button.connect("clicked", self.delete_all)
 
         separator3 = gtk.SeparatorToolItem()
 
         self.collector_config_button = gtk.ToolButton(gtk.image_new_from_file(os.path.join(definitions.ICONS_DIR, "settings.png")))
-        tooltips.set_tip(self.collector_config_button, "Plugin Configurations")
+        tooltips.set_tip(self.collector_config_button, "Collector Configurations")
         self.collector_config_button.connect("clicked", self.configure_collectors)
 
         toolbar.insert(self.startall_button, 0)
@@ -116,7 +116,7 @@ class MainGUI(gtk.Window):
     def create_collector_bbox(self, collector):
         frame = gtk.Frame(collector.name)
 
-        if collector.is_enabled:
+        if collector.is_enabled():
             layout = gtk.BUTTONBOX_SPREAD
             spacing = 10
 
@@ -126,21 +126,21 @@ class MainGUI(gtk.Window):
             bbox.set_spacing(spacing)
             frame.add(bbox)
 
-            startPluginButton = gtk.Button('Start Plugin')
-            startPluginButton.connect("clicked", self.startIndividualPlugin, collector)
-            startPluginButton.set_sensitive(not isinstance(collector, engine.collector.ManualCollector))
-            bbox.add(startPluginButton)
+            startCollectorButton = gtk.Button('Start Collector')
+            startCollectorButton.connect("clicked", self.startIndividualCollector, collector)
+            startCollectorButton.set_sensitive(not isinstance(collector, engine.collector.ManualCollector))
+            bbox.add(startCollectorButton)
 
-            stopPluginButton = gtk.Button('Stop Plugin')
-            stopPluginButton.connect("clicked", self.stopIndividualPlugin, collector)
-            stopPluginButton.set_sensitive(not isinstance(collector, engine.collector.ManualCollector))
-            bbox.add(stopPluginButton)
+            stopCollectorButton = gtk.Button('Stop Collector')
+            stopCollectorButton.connect("clicked", self.stopIndividualCollector, collector)
+            stopCollectorButton.set_sensitive(not isinstance(collector, engine.collector.ManualCollector))
+            bbox.add(stopCollectorButton)
 
             parseButton = gtk.Button('Parse Data')
             parseButton.connect("clicked", self.parser, collector)
             bbox.add(parseButton)
         else:
-            label = gtk.Label("Plugin Disabled")
+            label = gtk.Label("Collector Disabled")
             frame.add(label)
 
         return frame
@@ -157,7 +157,7 @@ class MainGUI(gtk.Window):
             gtk.main_iteration()
 
         for collector in self.engine.collectors:
-            if collector.is_enabled:
+            if collector.is_enabled() and isinstance(collector, engine.collector.AutomaticCollector):
                 collector.run()
             pb.setValue(i / len(self.engine.collectors))
             pb.pbar.set_text("Starting " + collector.name)
@@ -179,7 +179,7 @@ class MainGUI(gtk.Window):
             gtk.main_iteration()
 
         for collector in self.engine.collectors:
-            if collector.is_enabled:
+            if collector.is_enabled() and isinstance(collector, engine.collector.AutomaticCollector):
                collector.terminate()
             pb.setValue(i/len(self.engine.collectors))
             pb.pbar.set_text("Stopping " + collector.name)
@@ -219,10 +219,10 @@ class MainGUI(gtk.Window):
     def parser(self, event, collector):
         collector.parser.parse()
 
-    def stopIndividualPlugin(self, event, collector):
+    def stopIndividualCollector(self, event, collector):
         collector.terminate()
 
-    def startIndividualPlugin(self, event, collector):
+    def startIndividualCollector(self, event, collector):
         collector.run()
 
     def show_confirmation_dialog(self, msg):

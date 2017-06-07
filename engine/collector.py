@@ -142,6 +142,12 @@ class Collector(object):
             return True
         return False
 
+    def enable(self):
+        os.remove(os.path.join(self.base_dir, definitions.PLUGIN_DISABLED_FILENAME))
+
+    def disable(self):
+        open(os.path.join(self.base_dir, definitions.PLUGIN_DISABLED_FILENAME), 'a').close()
+
     def is_enabled(self):
         return not os.path.isfile(os.path.join(self.base_dir, definitions.PLUGIN_DISABLED_FILENAME))
 
