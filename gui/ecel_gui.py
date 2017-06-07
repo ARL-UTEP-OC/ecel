@@ -5,9 +5,9 @@ import definitions
 import status_icon
 
 import engine.collector
-from GUI.export_gui import ExportGUI
-from GUI.progress_bar import ProgressBar
-from GUI.plugin_config_gui import PluginConfigGUI
+from gui.export_gui import ExportGUI
+from gui.progress_bar import ProgressBar
+from gui.plugin_config_gui import PluginConfigGUI
 from _version import __version__
 
 class EcelGUI(gtk.Window):

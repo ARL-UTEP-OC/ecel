@@ -292,7 +292,7 @@ class PluginConfigGUI(gtk.Window):
         entry_filepath = gtk.Entry()
         entry_filepath.set_text(value)
         button_select_folder = gtk.ToolButton(
-            gtk.image_new_from_file(os.path.join(os.path.join(os.getcwd(), "GUI"), "open_small.png")))
+            gtk.image_new_from_file(os.path.join(os.path.join(os.getcwd(), "gui"), "open_small.png")))
         button_select_folder.connect("clicked", self.select_folder, entry_filepath)
         hbox_main.pack_start(label_text)
         hbox_main.pack_start(entry_filepath)
@@ -314,7 +314,7 @@ class PluginConfigGUI(gtk.Window):
         entry_filepath = gtk.Entry()
         entry_filepath.set_text(value)
         button_select_folder = gtk.ToolButton(
-            gtk.image_new_from_file(os.path.join(os.path.join(os.getcwd(), "GUI"), "open_small.png")))
+            gtk.image_new_from_file(os.path.join(os.path.join(os.getcwd(), "gui"), "open_small.png")))
         button_select_folder.connect("clicked", self.select_file, entry_filepath)
         hbox_main.pack_start(label_text)
         hbox_main.pack_start(entry_filepath)

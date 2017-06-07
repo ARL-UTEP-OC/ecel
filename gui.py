@@ -1,7 +1,7 @@
 import gtk
 import signal
 from engine.engine import Engine
-from GUI.ecel_gui import EcelGUI
+from gui.ecel_gui import EcelGUI
 
 engine = Engine()
 

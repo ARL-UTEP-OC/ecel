@@ -6,7 +6,7 @@ import definitions
 from os.path import expanduser
 from engine.archiver.zip_format import zip
 from engine.archiver.tar_format import tar
-from GUI.progress_bar import ProgressBar
+from gui.progress_bar import ProgressBar
 
 #TODO: change to use definitions
 RAW="raw"
@@ -46,7 +46,7 @@ class ExportGUI(gtk.Window):
         self.entry_selected_folder = gtk.Entry()
         self.entry_selected_folder.set_text(expanduser("~"))
         self.entry_selected_folder.connect("key-release-event", self.on_key_release)
-        button_select_folder = gtk.ToolButton(gtk.image_new_from_file(os.path.join(os.path.join(os.getcwd(), "GUI"),"open_small.png")))
+        button_select_folder = gtk.ToolButton(gtk.image_new_from_file(os.path.join(os.path.join(os.getcwd(), "gui"),"open_small.png")))
         button_select_folder.connect("clicked", self.select_folder)
 
         button_export = gtk.Button("Export")
