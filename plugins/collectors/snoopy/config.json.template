@@ -6,12 +6,12 @@
       "general": {
         "auto restart": {
           "enabled": false,
-          "time interval": 30
+          "time interval": 1800
         }
       },
       "archiving": {
         "enabled": true,
-        "time interval": 30,
+        "time interval": 1800,
         "file format": "zip"
       },
       "parsing": {
