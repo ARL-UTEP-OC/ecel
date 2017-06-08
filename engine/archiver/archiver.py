@@ -36,6 +36,7 @@ class Archiver():
 
         # 2 Archivers (2 threads) could run if both archiverTimeInterval and sizeCheckPeriod are given.
         # If archiver time is given, it has precedence above the checkFileSize option
+
         if self.archiverTimeInterval > 0:
             self.timeIntervalArchiver = PerpetualTimer(self.archiverTimeInterval, self.compress)
             self.timeIntervalArchiver.start()
@@ -83,9 +84,10 @@ class Archiver():
     #         print(" Current file size: %s " % self.currentFileSize)
     #         self.compress()
 
+    #TODO: Refactor this class
     def compress(self):
         if self.has_data():
-            if self.executeArchiverFunction == True:
+            if self.executeArchiverFunction == True and self.collector.is_running():
                 self.suspend()
                 self.printDebugInfo("Compress function")
 
@@ -148,7 +150,6 @@ class Archiver():
                 except Exception as e:
                     print (e)
 
-    #TODO: Add units to config file or specify units
     def append_to_metafile(self):
         epoch_time = str(int(time.time()))
         try:
@@ -218,11 +219,11 @@ class PerpetualTimer:
     def __init__(self, t, hFunction):
         self.t = t
         self.hFunction = hFunction
-        self.thread = Timer(self.t*60, self.handle_function)
+        self.thread = Timer(self.t, self.handle_function)
 
     def handle_function(self):
         self.hFunction()
-        self.thread = Timer(self.t*60, self.handle_function)
+        self.thread = Timer(self.t, self.handle_function)
         self.thread.start()
 
     def start(self):

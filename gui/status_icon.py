@@ -15,7 +15,7 @@ class CustomSystemTrayIcon:
         main_application_menu_item = gtk.MenuItem("Main Application")
         main_application_menu_item.show()
         menu.append(main_application_menu_item)
-        main_application_menu_item.connect('activate', self.show_my_gui, gui)
+        main_application_menu_item.connect('activate', self.show_main_gui, gui)
 
         #separator
         sep0 = gtk.SeparatorMenuItem()
@@ -89,5 +89,5 @@ class CustomSystemTrayIcon:
                collector.terminate()
         os._exit(0)
 
-    def show_my_gui(self, event, gui):
+    def show_main_gui(self, event, gui):
         gui.show_gui()

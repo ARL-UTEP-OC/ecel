@@ -3,17 +3,11 @@ import os
 import shutil
 import time
 import definitions
+import utils.gui
 from os.path import expanduser
 from engine.archiver.zip_format import zip
 from engine.archiver.tar_format import tar
 from gui.progress_bar import ProgressBar
-
-#TODO: change to use definitions
-RAW="raw"
-COMPRESSED="compressed"
-PARSED="parsed"
-
-EXPORT_DIRNAME="ecel-export%TIME%"
 
 class ExportGUI(gtk.Window):
     def __init__(self, parent):
@@ -124,19 +118,20 @@ class ExportGUI(gtk.Window):
         export_parsed = self.checkbutton_export_parsed.get_active()
 
         if not export_base_dir:
-            self.show_error_message("Please select a directory to export to.")
+            utils.gui.show_error_message(self, "Please select a directory to export to.")
             return
         if not os.path.isdir(export_base_dir):
-            self.show_error_message("Please select a valid directory to export to.")
+            utils.gui.show_error_message(self, "Please select a valid directory to export to.")
             return
         if not export_raw and not export_compressed and not export_parsed:
-            self.show_error_message("Please select at least one data type to export.")
+            utils.gui.show_error_message(self, "Please select at least one data type to export.")
             return
 
-        export_dir = os.path.join(export_base_dir, EXPORT_DIRNAME.replace("%TIME%", "_" + str(int(time.time()))))
-        export_raw_dir = os.path.join(export_dir, RAW)
-        export_compressed_dir = os.path.join(export_dir, COMPRESSED)
-        export_parsed_dir = os.path.join(export_dir, PARSED)
+        export_dir = os.path.join(export_base_dir, definitions.PLUGIN_COLLECTORS_EXPORT_DIRNAME.replace(
+            definitions.TIMESTAMP_PLACEHOLDER, "_" + str(int(time.time()))))
+        export_raw_dir = os.path.join(export_dir, definitions.PLUGIN_COLLECTORS_OUTPUT_DIRNAME)
+        export_compressed_dir = os.path.join(export_dir, definitions.PLUGIN_COLLECTORS_COMPRESSED_DIRNAME)
+        export_parsed_dir = os.path.join(export_dir, definitions.PLUGIN_COLLECTORS_PARSED_DIRNAME)
         os.makedirs(export_raw_dir)
         os.makedirs(export_compressed_dir)
         os.makedirs(export_parsed_dir)
@@ -151,9 +146,9 @@ class ExportGUI(gtk.Window):
             plugin_export_compressed_dir = os.path.join(export_compressed_dir, plugin)
             plugin_export_parsed_dir = os.path.join(export_parsed_dir, plugin)
             plugin_collector_dir = os.path.join(self.collectors_dir, plugin)
-            plugin_collector_raw_dir = os.path.join(plugin_collector_dir, RAW)
-            plugin_collector_compressed_dir = os.path.join(plugin_collector_dir, COMPRESSED)
-            plugin_collector_parsed_dir = os.path.join(plugin_collector_dir, PARSED)
+            plugin_collector_raw_dir = os.path.join(plugin_collector_dir, definitions.PLUGIN_COLLECTORS_OUTPUT_DIRNAME)
+            plugin_collector_compressed_dir = os.path.join(plugin_collector_dir, definitions.PLUGIN_COLLECTORS_COMPRESSED_DIRNAME)
+            plugin_collector_parsed_dir = os.path.join(plugin_collector_dir, definitions.PLUGIN_COLLECTORS_PARSED_DIRNAME)
 
             if export_raw and os.path.exists(plugin_collector_raw_dir) and os.listdir(plugin_collector_raw_dir):
                 shutil.copytree(plugin_collector_raw_dir, plugin_export_raw_dir)
@@ -168,7 +163,8 @@ class ExportGUI(gtk.Window):
             progress += 1
 
         if self.checkbutton_compress_export.get_active():
-            export_dir_notime = os.path.join(export_base_dir, EXPORT_DIRNAME.replace("%TIME%", ""))
+            export_dir_notime = os.path.join(export_base_dir, definitions.PLUGIN_COLLECTORS_EXPORT_DIRNAME.replace(
+                definitions.TIMESTAMP_PLACEHOLDER, ""))
             pb.pbar.set_text("Compressing data to " + export_dir)
             pb.setValue(.85)
             while gtk.events_pending():
@@ -185,18 +181,6 @@ class ExportGUI(gtk.Window):
         if not pb.emit("delete-event", gtk.gdk.Event(gtk.gdk.DELETE)):
             pb.destroy()
 
-        self.show_alert_message("Export complete")
+        utils.gui.show_alert_message(self, "Export complete")
 
         self.hide_all()
-
-    def show_alert_message(self, msg):
-        alert = gtk.MessageDialog(self, gtk.DIALOG_DESTROY_WITH_PARENT, gtk.MESSAGE_INFO,
-                                      gtk.BUTTONS_CLOSE, msg)
-        alert.run()
-        alert.destroy()
-
-    def show_error_message(self, msg):
-        alert = gtk.MessageDialog(self, gtk.DIALOG_DESTROY_WITH_PARENT, gtk.MESSAGE_ERROR,
-                                      gtk.BUTTONS_CLOSE, msg)
-        alert.run()
-        alert.destroy()

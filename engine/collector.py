@@ -9,6 +9,7 @@ import importlib
 from abc import ABCMeta, abstractmethod
 from threading import Thread, Event
 from collections import OrderedDict
+from archiver.archiver import Archiver
 
 class Collector(object):
     __metaclass__ = ABCMeta
@@ -34,7 +35,6 @@ class Collector(object):
 
     def __init__(self, collector_config):
         self.config = collector_config
-        self.config.refresh_data() #TODO: Fix this (it's not working)
         self.name = self.config.get_collector_name()
 
         self.base_dir = os.path.join(definitions.PLUGIN_COLLECTORS_DIR, self.config.foldername)
@@ -49,8 +49,19 @@ class Collector(object):
         self.processes = []
         self.pid_commands = {}
 
-        self.parser = None
-        self.archiver = None
+        self.refresh_data()
+
+    def refresh_data(self):
+        self.config.refresh_data()
+
+        if self.config.collector_has_parser():
+            parser_type = self.config.get_collector_parser()
+            parser_type_tokens = parser_type.split(",")
+            if len(parser_type_tokens) == 2:
+                parser = getattr(__import__(
+                    parser_type_tokens[0], fromlist=[parser_type_tokens[1]]),
+                    parser_type_tokens[1])
+                self.parser = parser(self)
 
     @abstractmethod
     def build_commands(self):
@@ -93,6 +104,7 @@ class Collector(object):
             self.processes.append(process)
             self.pid_commands[process.pid] = command
 
+    #TODO: fix to write proper timestamp
     def create_metafile(self):
         if not os.path.exists(self.output_metadata_dir):
             os.mkdir(self.output_metadata_dir)
@@ -170,6 +182,12 @@ class AutomaticCollector(Collector):
         self.pid_commands = {}
 
         self.archiver = None
+
+    def refresh_data(self):
+        super(AutomaticCollector, self).refresh_data()
+
+        if self.config.collector_has_archiver():
+            self.archiver = Archiver(self)
 
     def run(self):
         if self.is_running():

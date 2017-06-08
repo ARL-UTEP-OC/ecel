@@ -1,10 +1,8 @@
 import gtk
 import os.path
-import re
 import sys
 import netifaces
 import traceback
-
 import definitions
 
 class PluginConfigGUI(gtk.Window):
@@ -12,6 +10,7 @@ class PluginConfigGUI(gtk.Window):
         super(PluginConfigGUI, self).__init__()
         self.main_gui = parent
 
+        #TODO: Add one for compression format
         self.value_type_create = {
             "text": self.create_text_hbox,
             "number": self.create_number_hbox,
@@ -19,6 +18,7 @@ class PluginConfigGUI(gtk.Window):
             "radio": self.create_radio_hbox,
             "option": self.create_option_hbox,
             "options": self.create_options_hbox,
+            "time": self.create_time_hbox,
             "netiface": self.create_netiface_hbox,
             "netifaces": self.create_netifaces_hbox,
             "filepath": self.create_filepath_hbox,
@@ -69,39 +69,29 @@ class PluginConfigGUI(gtk.Window):
 
         self.show_plugin_configs(combobox.get_active_text(), frame)
 
-    def show_plugin_configs(self, plugin, frame):
+    def show_plugin_configs(self, plugin_name, frame):
         if self.vbox_plugin_main:
             frame.remove(self.vbox_plugin_main)
         self.vbox_plugin_main = gtk.VBox()
 
-        try:
-            # self.current_plugin_config = plugin.PluginConfig(plugin)
+        self.current_plugin = next(plugin for plugin in self.plugins if plugin.name == plugin_name)
+        self.current_plugin_config = self.current_plugin.config
+        if not self.current_plugin.is_running():
+            self.current_plugin_config.refresh_data()
 
-            #TODO: remove try/catch stuff: Move to where it's created
+        self.plugin_config_widgets = []
+        self.plugin_config_traces = []
+        self.sensitivity_groups = []
+        self.sensitivity_groups_switch = []
 
-            self.current_plugin = self.get_plugin_by_name(plugin)
-            self.current_plugin_config = self.current_plugin.config
-            if not self.current_plugin.is_running():
-                self.current_plugin_config.refresh_data()
-        except ValueError:
-            traceback.print_exc()
+        self.vbox_plugin_main = self.create_config_vbox(
+            self.current_plugin_config.get_configs_data(),
+            self.current_plugin_config.get_schema_configs_data(),
+            self.current_plugin_config.get_schema_configs_constraints(),
+            "")
 
-            self.current_plugin_config = None
-            self.vbox_plugin_main = self.create_error_vbox("Error loading the configuration files")
-        else:
-            self.plugin_config_widgets = []
-            self.plugin_config_traces = []
-            self.sensitivity_groups = []
-            self.sensitivity_groups_switch = []
-
-            self.vbox_plugin_main = self.create_config_vbox(
-                self.current_plugin_config.get_configs_data(),
-                self.current_plugin_config.get_schema_configs_data(),
-                self.current_plugin_config.get_schema_configs_constraints(),
-                "")
-
-            for sensitivity_group, switch in zip(self.sensitivity_groups, self.sensitivity_groups_switch):
-                self.enabled_checkbox_toggled(switch, sensitivity_group)
+        for sensitivity_group, switch in zip(self.sensitivity_groups, self.sensitivity_groups_switch):
+            self.enabled_checkbox_toggled(switch, sensitivity_group)
 
         if self.current_plugin.is_running():
             self.vbox_plugin_main.set_sensitive(False)
@@ -129,10 +119,10 @@ class PluginConfigGUI(gtk.Window):
             else:
                 if cur_trace_str in constraints:
                     constraint = constraints[cur_trace_str]
-                    item = self.value_type_create.get(value_type, self.create_other_hbox)(
+                    item = self.value_type_create.get(value_type, self.create_error_hbox)(
                         key, inputs[key], cur_trace_str, sensitivity_group, constraint)
                 else:
-                    item = self.value_type_create.get(value_type, self.create_other_hbox)(
+                    item = self.value_type_create.get(value_type, self.create_error_hbox)(
                         key, inputs[key], cur_trace_str, sensitivity_group)
                 vbox_main.pack_start(item)
 
@@ -147,6 +137,9 @@ class PluginConfigGUI(gtk.Window):
         vbox_error.pack_start(err_label)
 
         return vbox_error
+
+    def create_error_hbox(self, label, value, trace, constraints=None, sensitivity_group=None):
+        return self.create_error_vbox("ERROR: Invalid type")
 
     #TODO: Refactor these functions
     def create_text_hbox(self, label, value, trace, sensitivity_group, constraints=None):
@@ -328,6 +321,73 @@ class PluginConfigGUI(gtk.Window):
 
         return hbox_main
 
+    def create_time_hbox(self, label, value, trace, sensitivity_group, constraints=None):
+        hbox_main = gtk.HBox()
+        label_text = gtk.Label(label.title())
+        label_text.set_alignment(0, 0.5)
+        label_text.set_padding(8,8)
+        adjustment = gtk.Adjustment(value, 0, sys.maxint, 1)
+        spinbutton_value = gtk.SpinButton(adjustment)
+        combobox_units = gtk.combo_box_new_text()
+        t_value, units = self.get_time_value_and_units(value)
+        spinbutton_value.set_value(t_value)
+        options = ["seconds", "minutes", "hours", "days", "weeks"]
+        for option in options:
+            combobox_units.append_text(option)
+        selected_index = options.index(units)
+        combobox_units.set_active(selected_index)
+        hbox_main.pack_start(label_text)
+        hbox_main.pack_start(spinbutton_value)
+        hbox_main.pack_start(combobox_units)
+
+        self.plugin_config_widgets.append([spinbutton_value, combobox_units])
+        self.plugin_config_traces.append(trace)
+        sensitivity_group.append(label_text)
+        sensitivity_group.append(spinbutton_value)
+
+        return hbox_main
+
+    #TODO: Refactor these
+    def get_time_value_and_units(self, time):
+        min_unit = 60
+        hr_unit = min_unit * 60
+        day_unit = hr_unit * 24
+        week_unit = day_unit * 7
+
+        unit = "seconds"
+
+        if time % week_unit == 0:
+            time = time / week_unit
+            unit = "weeks"
+        elif time % day_unit == 0:
+            time = time / day_unit
+            unit = "days"
+        elif time % hr_unit == 0:
+            time = time / hr_unit
+            unit = "hours"
+        elif time % min_unit == 0:
+            time = time / min_unit
+            unit = "minutes"
+
+        return time, unit
+
+    def get_time_from_value_and_units(self, time, units):
+        min_unit = 60
+        hr_unit = min_unit * 60
+        day_unit = hr_unit * 24
+        week_unit = day_unit * 7
+
+        if units == "weeks":
+            return time * week_unit
+        if units == "days":
+            return time * day_unit
+        if units == "hours":
+            return time * hr_unit
+        if units == "minutes":
+            return time * min_unit
+
+        return time
+
     def create_netiface_hbox(self, label, value, trace, sensitivity_group, constraints=None):
         return self.create_option_hbox(
             label, value, trace, sensitivity_group, netifaces.interfaces())
@@ -335,9 +395,6 @@ class PluginConfigGUI(gtk.Window):
     def create_netifaces_hbox(self, label, value, trace, sensitivity_group, constraints=None):
         return self.create_options_hbox(
             label, value, trace, sensitivity_group, netifaces.interfaces())
-
-    def create_other_hbox(self, label, value, trace, constraints=None, sensitivity_group=None):
-        return gtk.HBox()
 
     def select_file(self, event, entry_filepath):
         dialog_select_folder = gtk.FileChooserDialog()
@@ -389,26 +446,16 @@ class PluginConfigGUI(gtk.Window):
                 for w in widget:
                     if w.get_active():
                         value.append(w.get_label())
+            elif widget_type == "time":
+                value = self.get_time_from_value_and_units(int(widget[0].get_value()), widget[1].get_active_text())
+            else:
+                raise TypeError("Invalid widget type")
             self.current_plugin_config.set_configs_data_field(trace, value)
 
         self.current_plugin_config.save_data()
 
-    #TODO: Use this or engine's?
-    def get_plugin_by_name(self, plugin_name):
-        return next(plugin for plugin in self.plugins if plugin.name == plugin_name)
-
-
-    #TODO: Remove when no longer necessary
     def close_plugin_config_dialog(self, event):
         self.save_current_plugin_configs()
-
-        self.show_alert_message("Please restart ECEL for changes to take effect.")
+        self.current_plugin.refresh_data()
 
         self.hide_all()
-
-    #TODO: move these to basic lib
-    def show_alert_message(self, msg):
-        alert = gtk.MessageDialog(self, gtk.DIALOG_DESTROY_WITH_PARENT, gtk.MESSAGE_INFO,
-                                      gtk.BUTTONS_CLOSE, msg)
-        alert.run()
-        alert.destroy()

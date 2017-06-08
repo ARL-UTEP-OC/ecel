@@ -6,12 +6,12 @@
       "general": {
         "auto restart": {
           "enabled": "checkbox",
-          "time interval": "number"
+          "time interval": "time"
         }
       },
       "archiving": {
         "enabled": "checkbox",
-        "time interval": "number",
+        "time interval": "time",
         "file format": "option"
       },
       "parsing": {
