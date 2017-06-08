@@ -17,9 +17,6 @@
       "parsing": {
         "parser": "text"
       },
-      "custom": {
-        "commands": "text"
-      },
       "constraints": {
         "archiving|file format": [
           "zip",

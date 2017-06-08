@@ -16,9 +16,6 @@
       },
       "parsing": {
         "parser": "plugins.parsers.pykeylogger.pykeylogger_parser,PyKeyloggerParser"
-      },
-      "custom": {
-        "commands": "python keylogger.pyw"
       }
     }
   }

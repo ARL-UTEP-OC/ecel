@@ -29,7 +29,7 @@ class CaptureScreen():
             savepath = os.path.join(os.getcwd(), 'plugins', 'collectors', 'manualscreenshot', 'raw')
             savefilename = self.comment_entry_text.strip().replace("-","") + "-" + timestamp
             savefull = os.path.join(savepath,savefilename+".png")
-            bitmap.save(savefull)
+            bitmap.save(savefull) #TODO: Fix to have raw folder created!
 
             #write to metafile
             f = open(os.path.join(savepath,"."+savefilename), 'w')
