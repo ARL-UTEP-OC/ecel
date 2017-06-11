@@ -10,3 +10,4 @@ if __name__ == "__main__":
     signal.signal(signal.SIGINT, signal.SIG_DFL)
     MainGUI(engine)
     gtk.main()
+    a = 7
