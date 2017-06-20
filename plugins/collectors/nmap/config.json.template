@@ -19,8 +19,8 @@
       },
       "custom": {
         "interfaces": {
-          "mode": "inclusive",
-          "interfaces": "eth0"
+          "options": " -sP",
+          "network": " 10.0.0.0/24"
         }
       }
     }

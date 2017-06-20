@@ -19,8 +19,8 @@
       },
       "custom": {
         "interfaces": {
-          "mode": "radio",
-          "interfaces": "netifaces"
+          "options": "radio",
+          "network": "text"
         }
       },
       "constraints": {
@@ -28,9 +28,8 @@
           "zip",
           "tar"
         ],
-        "custom|interfaces|mode": [
-          "inclusive",
-          "exclusive"
+        "custom|interfaces|network": [
+          "10.0.0.0/24"
         ]
       }
     }
