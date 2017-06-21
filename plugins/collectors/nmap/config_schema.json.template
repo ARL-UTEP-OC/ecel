@@ -19,8 +19,8 @@
       },
       "custom": {
         "interfaces": {
-          "mode": "radio",
-          "interfaces": "netifaces"
+          "additional options": "text",
+          "ip range": "text"
         }
       },
       "constraints": {
