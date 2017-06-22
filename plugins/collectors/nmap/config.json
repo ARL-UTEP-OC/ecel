@@ -5,8 +5,8 @@
     "configurations": {
       "general": {
         "auto restart": {
-          "enabled": false, 
-          "time interval": 1800
+          "enabled": true, 
+          "time interval": 120
         }
       }, 
       "archiving": {

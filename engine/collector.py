@@ -206,9 +206,6 @@ class AutomaticCollector(Collector):
             self.output_filenames.append(definitions.TIMESTAMP_PLACEHOLDER)
             self.run_command(command)
 
-        if self.processes:
-            print (" [x] Started: %s - pId(s): %s" % (self.name, ', '.join(str(p.pid) for p in self.processes)))
-
         if self.config.get_collector_auto_restart_enabled():
             self.stopFlag = Event()
             ar_thread = self.AutoRestart(self, self.stopFlag)
@@ -223,12 +220,15 @@ class AutomaticCollector(Collector):
                                        cwd=self.base_dir,
                                        stdout=self.devnull,
                                        stderr=self.devnull)
+
         except OSError as err:
             print "Error attempting to run command in collector: %s | command: %s\n" % (self.name, command)
             print "System Error:", err
         else:
             self.processes.append(process)
             self.pid_commands[process.pid] = command
+            print("[x] Started: %s -pID(s): %s" % (self.name,str(process.pid)))
+
 
     def terminate(self):
         if not self.is_running():
@@ -265,9 +265,11 @@ class AutomaticCollector(Collector):
             Thread.__init__(self)
             self.outer = outer
             self.stopped = event
+            self.auto_restart_enabled = self.outer.config.get_collector_auto_restart_enabled()
+            self.time_interval = self.outer.config.get_collector_auto_restart_time_interval()
 
         def run(self):
-            while not self.stopped.wait(self.outer.config.get_collector_auto_restart_time_interval()):
+            while not self.stopped.wait(self.time_interval):
                 procs = list(self.outer.processes)
                 for process in procs:
                     poll_res = process.poll()
@@ -278,9 +280,14 @@ class AutomaticCollector(Collector):
             command = self.outer.pid_commands[dead_process.pid]
             self.outer.processes.remove(dead_process)
             del self.outer.pid_commands[dead_process.pid]
-            print(" --> process %s died, attempting to restart..." % (dead_process.pid))
-            #In the case of tshark, process restarts, but dies if interface is down; can't tell if it continues running
+            if(self.auto_restart_enabled):
+                print("Auto restart enabled for: " + self.outer.name)
+                print("Auto restart interval: " + str(self.time_interval))
+                print("Attempting to restart...")
+            #print(" --> process %s died, attempting to restart..." % (dead_process.pid))
+            #In the case of tshark, process restarts, but dies if interface is down; can't tell if it continues runningd
             self.outer.run_command(command)
+
 
 class CollectorConfig():
     TRACE_DELIMITER = "|" # Delimiter for json key trace
