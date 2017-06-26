@@ -11,9 +11,10 @@ class nmap(AutomaticCollector):
 
         out_file_name = "nmap_" + definitions.TIMESTAMP_PLACEHOLDER
         self.output_filenames.append(out_file_name)
-        out_file_path = os.path.join(self.output_dir, out_file_name + ".txt")
+        out_file_path = os.path.join(self.output_dir, out_file_name + ".xml")
 
         # build commands
-        cmd = self.name + option + network + " -oN " + out_file_path
+        cmd = self.name + option + network + " -oX " + out_file_path
         self.commands.append(cmd)
+
 

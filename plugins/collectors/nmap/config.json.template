@@ -15,7 +15,7 @@
         "file format": "zip"
       },
       "parsing": {
-        "parser": ""
+        "parser": "plugins.parsers.nmap.nmap_parser,NMapParser"
       },
       "custom": {
         "interfaces": {

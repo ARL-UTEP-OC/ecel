@@ -28,8 +28,9 @@
           "zip",
           "tar"
         ],
-        "custom|interfaces|network": [
-          "10.0.0.0/24"
+        "custom|interfaces|mode": [
+          "inclusive",
+          "exclusive"
         ]
       }
     }

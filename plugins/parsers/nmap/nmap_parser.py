@@ -4,7 +4,7 @@ import subprocess
 from engine.parser import Parser
 
 class NMapParser(Parser):
-    type = "parsers.Nmap"
+    type = "parsers.NMap"
 
     def __init__(self, collector):
         super(NMapParser, self).__init__(collector)
