@@ -2,71 +2,69 @@ package parsers;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
-import java.util.ArrayList;
-
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.json.XML;
 
-public class XMLToJSONBuilder 
-{		
+public class XMLToJSONBuilder
+{
 	private static final String PRIMARY_KEY = "nmaprun", ITERABLE_KEY = "host", START_KEY = "startstr";
 	private	static final String ID_FIELD = "nmap_id", CONTENT_FIELD = "content",
 								START_FIELD = "start", CLASS_NAME_FIELD = "className", CLASS_NAME_VALUE = "nmap";
 	private static final int INDENT_FACTOR = 4;
-	private JSONObject json;
+	private JSONObject json, rawJSON;
 	private JSONArray iterable;
 	private String xml, startTime;
 	private StringBuilder nmapJSON;
-	
-	
+
+
 	public XMLToJSONBuilder(String filePath)
 	{
 		this.xml = buildXMLString(filePath);
-		this.json = (xmlToJSON(xml)).getJSONObject(PRIMARY_KEY);
+		this.rawJSON = xmlToJSON(xml);
+		this.json = this.rawJSON.getJSONObject(PRIMARY_KEY);
 		this.iterable = this.json.getJSONArray(ITERABLE_KEY);
-		this.startTime = this.json.getString("startstr");
+		this.startTime = this.json.getString(START_KEY);
 		this.nmapJSON = new StringBuilder();
 		buildNmapJSON();
 	}
-	
+
 	public XMLToJSONBuilder(String filePath, boolean useRaw)
 	{
 		this.xml = buildXMLString(filePath);
-		this.json = (xmlToJSON(xml)).getJSONObject(PRIMARY_KEY);
+		this.rawJSON = xmlToJSON(xml);
+
 	}
-	
+
 	public String getRawJSON()
 	{
-		return this.json.toString(INDENT_FACTOR);
+		return this.rawJSON.toString(INDENT_FACTOR);
 	}
-	
+
 	private String buildXMLString(String filePath)
 	{
-		System.out.println("Building xml string...");
 	    StringBuilder xml = new StringBuilder();
 	    BufferedReader br = null;
 	    String line;
-	    
-	    try 
+
+	    try
 	    {
 	    	br = new BufferedReader(new FileReader(new File(filePath)));
 			while((line=br.readLine())!= null)
 			{
 			    xml.append(line.trim());
 			}
-	    } 
-	    catch (Exception e) 
+	    }
+	    catch (Exception e)
 	    {
 	    	e.printStackTrace();
 	    }
 
-	    return xml.toString(); 
+	    return xml.toString();
 	}
 
 	private JSONObject xmlToJSON(String xml)
 	{
-	   System.out.println("Converting xml string to JSON object...");
 	   return XML.toJSONObject(xml);
 	}
 	

@@ -6,7 +6,7 @@
       "general": {
         "auto restart": {
           "enabled": false, 
-          "time interval": 1800
+          "time interval": 10
         }
       }, 
       "archiving": {
@@ -20,7 +20,7 @@
       "custom": {
         "interfaces": {
           "additional options": " -sP", 
-          "ip range": " 10.0.0.0/24"
+          "ip range": "10.0.0.0/24"
         }
       }
     }
