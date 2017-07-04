@@ -35,7 +35,7 @@ public class SnoopyToJSON{
    line = br.readLine();
    while (line != null) {
 	 //System.out.println("Processing line: " + line);
-	 parsedLine = line.split(" ");
+	 parsedLine = line.split(" +");
 	 if(parsedLine.length < 12)
 	 {
 		//System.out.println("CONTINUING BECAUSE LINE IS TOO SHORT");
@@ -44,7 +44,7 @@ public class SnoopyToJSON{
 	 }
 
      loggerType = parsedLine[4];
-     System.out.println("LOGGER TYPE: " + loggerType);
+     //System.out.println("LOGGER TYPE: " + loggerType);
      //System.out.println("LOGGER "+loggerType);
      if (!loggerType.contains("snoopy"))
      {
@@ -54,6 +54,7 @@ public class SnoopyToJSON{
      }
      
      timestamp = parsedLine[5].split("datetime:")[1];
+     timestamp = removeOffsetTime(parsedLine[5].split("datetime:")[1]);
      sid = parsedLine[7];
      tty = parsedLine[8];
      //read the rest of the line as the command
@@ -152,5 +153,23 @@ public class SnoopyToJSON{
          }
          //sb.append('"');
          return sb.toString();
+     }
+
+     public static String removeOffsetTime(String timestamp)
+     {
+        String answer;
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ");
+        try
+        {
+            Date myFormattedDate = sdf.parse(timestamp);
+            SimpleDateFormat toFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+            toFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
+            System.out.println("TIME" + toFormat.format(myFormattedDate));
+            return toFormat.format(myFormattedDate);
+        }catch(ParseException e)
+        {
+            System.out.println("Error while parsing time in raw snoopy file: " + e);
+            return "";
+        }
      }
 }
