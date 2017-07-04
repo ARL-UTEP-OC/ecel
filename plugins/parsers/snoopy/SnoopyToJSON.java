@@ -164,7 +164,7 @@ public class SnoopyToJSON{
             Date myFormattedDate = sdf.parse(timestamp);
             SimpleDateFormat toFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
             toFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
-            System.out.println("TIME" + toFormat.format(myFormattedDate));
+            //System.out.println("TIME" + toFormat.format(myFormattedDate));
             return toFormat.format(myFormattedDate);
         }catch(ParseException e)
         {
