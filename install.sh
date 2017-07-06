@@ -25,7 +25,7 @@ fi
 
 ### Install dependencies
 #
-REQUIRED_PROGRAMS="openjdk-8-jdk zlib1g-dev libpng-dev libxtst-dev python-gtk2 python-tk python-psutil python-pip python-xlib python-dpkt python-appindicator"
+REQUIRED_PROGRAMS="openjdk-8-jdk zlib1g-dev libpng-dev libxtst-dev python-gtk2 python-tk python-psutil python-gobject python-pip python-xlib python-dpkt"
 REQUIRED_PYTHON_PACKAGES="schedule autopy netifaces"
 REQUIRED_PLUGINS="tshark"
 

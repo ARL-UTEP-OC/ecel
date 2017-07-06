@@ -1,4 +1,5 @@
 import os
+from enum import Enum
 
 ROOT_DIR = os.path.dirname(os.path.abspath(__file__))
 
@@ -33,3 +34,9 @@ PLUGIN_COLLECTORS_METADATA_FILE_COMMAND_PREFIX = "# "
 
 PLUGIN_COLLECTORS_CONFIG_MULTI_OPTION_DELIMITER = ","
 PLUGIN_COLLECTORS_CONFIG_MULTI_OPTION_DELIMITER_REGEX = PLUGIN_COLLECTORS_CONFIG_MULTI_OPTION_DELIMITER + "\s*"
+
+class Action(Enum):
+    RUN = 1
+    STOP = 2
+    PARSE = 3
+    NOTHING = 4

@@ -1,4 +1,6 @@
-import gtk
+import gi
+gi.require_version('Gtk', '3.0')
+from gi.repository import Gtk, Gdk
 import signal
 from engine.engine import Engine
 from gui.main_gui import MainGUI
@@ -6,7 +8,7 @@ from gui.main_gui import MainGUI
 engine = Engine()
 
 if __name__ == "__main__":
-    gtk.threads_init()
+    Gdk.threads_init()
     signal.signal(signal.SIGINT, signal.SIG_DFL)
     MainGUI(engine)
-    gtk.main()
+    Gtk.main()

@@ -1,11 +1,13 @@
-import gtk
+import gi
+gi.require_version('Gtk', '3.0')
+from gi.repository import Gtk,Gdk
 import os.path
 import sys
 import netifaces
 import traceback
 import definitions
 
-class PluginConfigGUI(gtk.Window):
+class PluginConfigGUI(Gtk.Window):
     def __init__(self, parent, plugins):
         super(PluginConfigGUI, self).__init__()
         self.main_gui = parent
@@ -28,7 +30,7 @@ class PluginConfigGUI(gtk.Window):
         self.set_title("Plugin Configurations")
         self.set_modal(True)
         self.set_transient_for(self.main_gui)
-        self.set_position(gtk.WIN_POS_CENTER_ON_PARENT)
+        self.set_position(Gtk.WindowPosition.CENTER_ON_PARENT)
         #self.set_size_request(500, 700)
         self.set_border_width(6)
         self.set_resizable(False)
@@ -36,28 +38,29 @@ class PluginConfigGUI(gtk.Window):
         self.plugins = plugins
         plugin_names = [plugin.name for plugin in self.plugins]
 
-        vbox_main = gtk.VBox()
+        vbox_main = Gtk.VBox()
 
-        hbox_plugins = gtk.HBox()
-        frame_plugin_confs = gtk.Frame("Plugin Configurations:")
+        hbox_plugins = Gtk.HBox()
+        frame_plugin_confs = Gtk.Frame()
+        frame_plugin_confs.set_name("Plugin Configurations:");
 
         self.vbox_plugin_main = None
 
-        label_plugins = gtk.Label("Plugin")
-        combobox_plugins = gtk.combo_box_new_text()
+        label_plugins = Gtk.Label(label="Plugin")
+        combobox_plugins = Gtk.ComboBoxText()
         for label in plugin_names:
             combobox_plugins.append_text(label)
         combobox_plugins.set_active(0)
         combobox_plugins.connect('changed', self.select_plugin, combobox_plugins, frame_plugin_confs)
 
-        button_close = gtk.Button("Close")
+        button_close = Gtk.Button("Close")
         button_close.connect("clicked", self.close_plugin_config_dialog)
 
-        hbox_plugins.pack_start(label_plugins)
-        hbox_plugins.pack_start(combobox_plugins)
-        vbox_main.pack_start(hbox_plugins)
-        vbox_main.pack_start(frame_plugin_confs)
-        vbox_main.pack_start(button_close)
+        hbox_plugins.pack_start(label_plugins, True, True, 0)
+        hbox_plugins.pack_start(combobox_plugins, True, True, 0)
+        vbox_main.pack_start(hbox_plugins, True, True, 0)
+        vbox_main.pack_start(frame_plugin_confs, True, True, 0)
+        vbox_main.pack_start(button_close, True, True, 0)
 
         self.show_plugin_configs(combobox_plugins.get_active_text(), frame_plugin_confs)
 
@@ -72,7 +75,7 @@ class PluginConfigGUI(gtk.Window):
     def show_plugin_configs(self, plugin_name, frame):
         if self.vbox_plugin_main:
             frame.remove(self.vbox_plugin_main)
-        self.vbox_plugin_main = gtk.VBox()
+        self.vbox_plugin_main = Gtk.VBox()
 
         self.current_plugin = next(plugin for plugin in self.plugins if plugin.name == plugin_name)
         self.current_plugin_config = self.current_plugin.config
@@ -101,7 +104,7 @@ class PluginConfigGUI(gtk.Window):
         self.show_all()
 
     def create_config_vbox(self, inputs, types, constraints, trace_str):
-        vbox_main = gtk.VBox()
+        vbox_main = Gtk.VBox()
 
         sensitivity_group = []
 
@@ -111,9 +114,10 @@ class PluginConfigGUI(gtk.Window):
                 delimiter = ""
             cur_trace_str = trace_str + delimiter + str(key)
             if isinstance(value_type, dict):
-                frame = gtk.Frame(key.title() + ":")
+                frame = Gtk.Frame()
+                frame.set_name(key.title() + ":")
                 sensitivity_group.append(frame)
-                vbox_main.pack_start(frame)
+                vbox_main.pack_start(frame, True, True, 0)
                 vbox_frame = self.create_config_vbox(inputs[key], value_type, constraints, cur_trace_str)
                 frame.add(vbox_frame)
             else:
@@ -124,17 +128,17 @@ class PluginConfigGUI(gtk.Window):
                 else:
                     item = self.value_type_create.get(value_type, self.create_error_hbox)(
                         key, inputs[key], cur_trace_str, sensitivity_group)
-                vbox_main.pack_start(item)
+                vbox_main.pack_start(item, True, True, 0)
 
         return vbox_main
 
     def create_error_vbox(self, error_msg):
-        vbox_error = gtk.VBox()
+        vbox_error = Gtk.VBox()
 
         traceback.print_exc()
-        err_label = gtk.Label(error_msg)
-        err_label.modify_fg(gtk.STATE_NORMAL, gtk.gdk.color_parse("red"))
-        vbox_error.pack_start(err_label)
+        err_label = Gtk.Label(label=error_msg)
+        err_label.modify_fg(Gtk.StateType.NORMAL, Gdk.color_parse("red"))
+        vbox_error.pack_start(err_label, True, True, 0)
 
         return vbox_error
 
@@ -143,14 +147,14 @@ class PluginConfigGUI(gtk.Window):
 
     #TODO: Refactor these functions
     def create_text_hbox(self, label, value, trace, sensitivity_group, constraints=None):
-        hbox_main = gtk.HBox()
-        label_text = gtk.Label(label.title())
+        hbox_main = Gtk.HBox()
+        label_text = Gtk.Label(label=label.title())
         label_text.set_alignment(0, 0.5)
         label_text.set_padding(8,8)
-        entry_text = gtk.Entry()
+        entry_text = Gtk.Entry()
         entry_text.set_text(value)
-        hbox_main.pack_start(label_text)
-        hbox_main.pack_start(entry_text)
+        hbox_main.pack_start(label_text, True, True, 0)
+        hbox_main.pack_start(entry_text, True, True, 0)
 
         self.plugin_config_widgets.append(entry_text)
         self.plugin_config_traces.append(trace)
@@ -160,15 +164,15 @@ class PluginConfigGUI(gtk.Window):
         return hbox_main
 
     def create_number_hbox(self, label, value, trace, sensitivity_group, constraints=None):
-        hbox_main = gtk.HBox()
-        label_text = gtk.Label(label.title())
+        hbox_main = Gtk.HBox()
+        label_text = Gtk.Label(label=label.title())
         label_text.set_alignment(0, 0.5)
         label_text.set_padding(8,8)
-        adjustment = gtk.Adjustment(value, 0, sys.maxint, 1)
-        spinbutton_value = gtk.SpinButton(adjustment)
+        adjustment = Gtk.Adjustment(value, 0, sys.maxint, 1)
+        spinbutton_value = Gtk.SpinButton(adjustment)
         spinbutton_value.set_value(value)
-        hbox_main.pack_start(label_text)
-        hbox_main.pack_start(spinbutton_value)
+        hbox_main.pack_start(label_text, True, True, 0)
+        hbox_main.pack_start(spinbutton_value, True, True, 0)
 
         self.plugin_config_widgets.append(spinbutton_value)
         self.plugin_config_traces.append(trace)
@@ -178,12 +182,12 @@ class PluginConfigGUI(gtk.Window):
         return hbox_main
 
     def create_checkbox_hbox(self, label, value, trace, sensitivity_group, constraints=None):
-        hbox_main = gtk.HBox()
-        checkbutton_option = gtk.CheckButton(label.title())
+        hbox_main = Gtk.HBox()
+        checkbutton_option = Gtk.CheckButton(label.title())
         checkbutton_option.set_active(value)
         if label.lower() == "enabled":
             checkbutton_option.connect("toggled", self.enabled_checkbox_toggled, sensitivity_group)
-        hbox_main.pack_start(checkbutton_option)
+        hbox_main.pack_start(checkbutton_option, True, True, 0)
 
         self.plugin_config_widgets.append(checkbutton_option)
         self.plugin_config_traces.append(trace)
@@ -199,8 +203,8 @@ class PluginConfigGUI(gtk.Window):
                 item.set_sensitive(widget.get_active())
 
     def create_radio_hbox(self, label, value, trace, sensitivity_group, constraints=None):
-        hbox_main = gtk.HBox()
-        label_text = gtk.Label(label.title())
+        hbox_main = Gtk.HBox()
+        label_text = Gtk.Label(label=label.title())
         label_text.set_alignment(0, 0.5)
         label_text.set_padding(8,8)
         radiobuttons = []
@@ -210,14 +214,14 @@ class PluginConfigGUI(gtk.Window):
             options = constraints
         previous_button = None
         for option in options:
-            new_button = gtk.RadioButton(previous_button, option)
+            new_button = Gtk.RadioButton(previous_button, option)
             if option == value:
                 new_button.set_active(True)
             radiobuttons.append(new_button)
             previous_button = new_button
-        hbox_main.pack_start(label_text)
+        hbox_main.pack_start(label_text, True, True, 0)
         for radiobutton in radiobuttons:
-            hbox_main.pack_start(radiobutton)
+            hbox_main.pack_start(radiobutton, True, True, 0)
 
         self.plugin_config_widgets.append(radiobuttons)
         self.plugin_config_traces.append(trace)
@@ -227,11 +231,11 @@ class PluginConfigGUI(gtk.Window):
         return hbox_main
 
     def create_option_hbox(self, label, value, trace, sensitivity_group, constraints=None):
-        hbox_main = gtk.HBox()
-        label_options = gtk.Label(label.title())
+        hbox_main = Gtk.HBox()
+        label_options = Gtk.Label(label=label.title())
         label_options.set_alignment(0, 0.5)
         label_options.set_padding(8,8)
-        combobox_options = gtk.combo_box_new_text()
+        combobox_options = Gtk.ComboBoxText()
         if constraints is None:
             options = []
         else:
@@ -240,8 +244,8 @@ class PluginConfigGUI(gtk.Window):
             combobox_options.append_text(option)
         selected_index = options.index(value)
         combobox_options.set_active(selected_index)
-        hbox_main.pack_start(label_options)
-        hbox_main.pack_start(combobox_options)
+        hbox_main.pack_start(label_options, True, True, 0)
+        hbox_main.pack_start(combobox_options, True, True, 0)
 
         self.plugin_config_widgets.append(combobox_options)
         self.plugin_config_traces.append(trace)
@@ -251,8 +255,8 @@ class PluginConfigGUI(gtk.Window):
         return hbox_main
 
     def create_options_hbox(self, label, value, trace, sensitivity_group, constraints=None):
-        hbox_main = gtk.HBox()
-        label_text = gtk.Label(label.title())
+        hbox_main = Gtk.HBox()
+        label_text = Gtk.Label(label=label.title())
         label_text.set_alignment(0, 0.5)
         label_text.set_padding(8,8)
         checkbuttons = []
@@ -262,13 +266,13 @@ class PluginConfigGUI(gtk.Window):
         else:
             options = constraints
         for option in options:
-            new_button = gtk.CheckButton(option)
+            new_button = Gtk.CheckButton(option)
             if option in selected_options:
                 new_button.set_active(True)
             checkbuttons.append(new_button)
-        hbox_main.pack_start(label_text)
+        hbox_main.pack_start(label_text, True, True, 0)
         for checkbutton in checkbuttons:
-            hbox_main.pack_start(checkbutton)
+            hbox_main.pack_start(checkbutton, True, True, 0)
 
         self.plugin_config_widgets.append(checkbuttons)
         self.plugin_config_traces.append(trace)
@@ -278,18 +282,18 @@ class PluginConfigGUI(gtk.Window):
         return hbox_main
 
     def create_path_hbox(self, label, value, trace, sensitivity_group, constraints=None):
-        hbox_main = gtk.HBox()
-        label_text = gtk.Label(label.title())
+        hbox_main = Gtk.HBox()
+        label_text = Gtk.Label(label=label.title())
         label_text.set_alignment(0, 0.5)
         label_text.set_padding(8,8)
-        entry_filepath = gtk.Entry()
+        entry_filepath = Gtk.Entry()
         entry_filepath.set_text(value)
-        button_select_folder = gtk.ToolButton(
-            gtk.image_new_from_file(os.path.join(definitions.ICONS_DIR, "open_small.png")))
+        button_select_folder = Gtk.ToolButton(
+            Gtk.image_new_from_file(os.path.join(definitions.ICONS_DIR, "open_small.png")))
         button_select_folder.connect("clicked", self.select_folder, entry_filepath)
-        hbox_main.pack_start(label_text)
-        hbox_main.pack_start(entry_filepath)
-        hbox_main.pack_start(button_select_folder)
+        hbox_main.pack_start(label_text, True, True, 0)
+        hbox_main.pack_start(entry_filepath, True, True, 0)
+        hbox_main.pack_start(button_select_folder, True, True, 0)
 
         self.plugin_config_widgets.append(entry_filepath)
         self.plugin_config_traces.append(trace)
@@ -300,18 +304,18 @@ class PluginConfigGUI(gtk.Window):
         return hbox_main
 
     def create_filepath_hbox(self, label, value, trace, sensitivity_group, constraints=None):
-        hbox_main = gtk.HBox()
-        label_text = gtk.Label(label.title())
+        hbox_main = Gtk.HBox()
+        label_text = Gtk.Label(label=label.title())
         label_text.set_alignment(0, 0.5)
         label_text.set_padding(8,8)
-        entry_filepath = gtk.Entry()
+        entry_filepath = Gtk.Entry()
         entry_filepath.set_text(value)
-        button_select_folder = gtk.ToolButton(
-            gtk.image_new_from_file(os.path.join(definitions.ICONS_DIR, "open_small.png")))
+        button_select_folder = Gtk.ToolButton(
+            Gtk.Image.new_from_file(os.path.join(definitions.ICONS_DIR, "open_small.png")))
         button_select_folder.connect("clicked", self.select_file, entry_filepath)
-        hbox_main.pack_start(label_text)
-        hbox_main.pack_start(entry_filepath)
-        hbox_main.pack_start(button_select_folder)
+        hbox_main.pack_start(label_text, True, True, 0)
+        hbox_main.pack_start(entry_filepath, True, True, 0)
+        hbox_main.pack_start(button_select_folder, True, True, 0)
 
         self.plugin_config_widgets.append(entry_filepath)
         self.plugin_config_traces.append(trace)
@@ -322,13 +326,14 @@ class PluginConfigGUI(gtk.Window):
         return hbox_main
 
     def create_time_hbox(self, label, value, trace, sensitivity_group, constraints=None):
-        hbox_main = gtk.HBox()
-        label_text = gtk.Label(label.title())
+        hbox_main = Gtk.HBox()
+        label_text = Gtk.Label(label=label.title())
         label_text.set_alignment(0, 0.5)
         label_text.set_padding(8,8)
-        adjustment = gtk.Adjustment(value, 0, sys.maxint, 1)
-        spinbutton_value = gtk.SpinButton(adjustment)
-        combobox_units = gtk.combo_box_new_text()
+        adjustment = Gtk.Adjustment(value, 0, sys.maxint, 1)
+        spinbutton_value = Gtk.SpinButton()
+        spinbutton_value.set_adjustment(adjustment)
+        combobox_units = Gtk.ComboBoxText()
         t_value, units = self.get_time_value_and_units(value)
         spinbutton_value.set_value(t_value)
         options = ["seconds", "minutes", "hours", "days", "weeks"]
@@ -336,9 +341,9 @@ class PluginConfigGUI(gtk.Window):
             combobox_units.append_text(option)
         selected_index = options.index(units)
         combobox_units.set_active(selected_index)
-        hbox_main.pack_start(label_text)
-        hbox_main.pack_start(spinbutton_value)
-        hbox_main.pack_start(combobox_units)
+        hbox_main.pack_start(label_text, True, True, 0)
+        hbox_main.pack_start(spinbutton_value, True, True, 0)
+        hbox_main.pack_start(combobox_units, True, True, 0)
 
         self.plugin_config_widgets.append([spinbutton_value, combobox_units])
         self.plugin_config_traces.append(trace)
@@ -397,28 +402,28 @@ class PluginConfigGUI(gtk.Window):
             label, value, trace, sensitivity_group, netifaces.interfaces())
 
     def select_file(self, event, entry_filepath):
-        dialog_select_folder = gtk.FileChooserDialog()
+        dialog_select_folder = Gtk.FileChooserDialog()
         dialog_select_folder.set_title("Select File")
         dialog_select_folder.set_transient_for(self)
-        dialog_select_folder.add_buttons(gtk.STOCK_CANCEL, gtk.RESPONSE_CANCEL, gtk.STOCK_OPEN, gtk.RESPONSE_OK)
+        dialog_select_folder.add_buttons(Gtk.STOCK_CANCEL, Gtk.ResponseType.CANCEL, Gtk.STOCK_OPEN, Gtk.ResponseType.OK)
         dialog_select_folder.set_filename(entry_filepath.get_text())
 
         response = dialog_select_folder.run()
-        if response == gtk.RESPONSE_OK:
+        if response == Gtk.ResponseType.OK:
             entry_filepath.set_text(dialog_select_folder.get_filename())
 
         dialog_select_folder.destroy()
 
     def select_folder(self, event, entry_filepath):
-        dialog_select_folder = gtk.FileChooserDialog()
+        dialog_select_folder = Gtk.FileChooserDialog()
         dialog_select_folder.set_title("Select Folder")
         dialog_select_folder.set_transient_for(self)
-        dialog_select_folder.set_action(gtk.FILE_CHOOSER_ACTION_SELECT_FOLDER)
-        dialog_select_folder.add_buttons(gtk.STOCK_CANCEL, gtk.RESPONSE_CANCEL, gtk.STOCK_OPEN, gtk.RESPONSE_OK)
+        dialog_select_folder.set_action(Gtk.FileChooserAction.SELECT_FOLDER)
+        dialog_select_folder.add_buttons(Gtk.STOCK_CANCEL, Gtk.ResponseType.CANCEL, Gtk.STOCK_OPEN, Gtk.ResponseType.OK)
         dialog_select_folder.set_current_folder(entry_filepath.get_text())
 
         response = dialog_select_folder.run()
-        if response == gtk.RESPONSE_OK:
+        if response == Gtk.ResponseType.OK:
             entry_filepath.set_text(dialog_select_folder.get_filename())
 
         dialog_select_folder.destroy()
@@ -438,7 +443,12 @@ class PluginConfigGUI(gtk.Window):
             elif widget_type == "radio":
                 for w in widget:
                     if w.get_active():
-                        value = "\"" + w.get_label() + "\""
+                        label = "";
+                        if w.get_label() == None:
+                            label = "NULL";
+                        else:
+                            label = w.get_label()
+                            value = "\"" + label + "\""
             elif widget_type == "option" or widget_type == "netiface":
                 value = "\"" + widget.get_active_text() + "\""
             elif widget_type == "options" or widget_type == "netifaces":
@@ -457,5 +467,4 @@ class PluginConfigGUI(gtk.Window):
     def close_plugin_config_dialog(self, event):
         self.save_current_plugin_configs()
         self.current_plugin.refresh_data()
-
-        self.hide_all()
+        self.hide()

@@ -1,4 +1,6 @@
-import gtk
+import gi
+gi.require_version('Gtk', '3.0')
+from gi.repository import Gtk,Gdk
 import os
 import shutil
 import time
@@ -9,7 +11,7 @@ from engine.archiver.zip_format import zip
 from engine.archiver.tar_format import tar
 from gui.progress_bar import ProgressBar
 
-class ExportGUI(gtk.Window):
+class ExportGUI(Gtk.Window):
     def __init__(self, parent):
         super(ExportGUI, self).__init__()
 
@@ -19,70 +21,70 @@ class ExportGUI(gtk.Window):
         self.set_title("Export Plugin Data")
         self.set_modal(True)
         self.set_transient_for(self.main_gui)
-        self.set_position(gtk.WIN_POS_CENTER_ON_PARENT)
+        self.set_position(Gtk.WindowPosition.CENTER_ON_PARENT)
         self.set_size_request(275, 250)
         self.set_resizable(False)
 
-        self.checkbutton_export_raw = gtk.CheckButton("All raw data")
+        self.checkbutton_export_raw = Gtk.CheckButton("All raw data")
         self.checkbutton_export_raw.set_active(True)
-        self.checkbutton_export_compressed = gtk.CheckButton("All compressed data")
+        self.checkbutton_export_compressed = Gtk.CheckButton("All compressed data")
         self.checkbutton_export_compressed.set_active(True)
-        self.checkbutton_export_parsed = gtk.CheckButton("All parsed data")
+        self.checkbutton_export_parsed = Gtk.CheckButton("All parsed data")
         self.checkbutton_export_parsed.set_active(True)
 
-        self.checkbutton_compress_export = gtk.CheckButton("Compress exported files:")
+        self.checkbutton_compress_export = Gtk.CheckButton("Compress exported files:")
         self.checkbutton_compress_export.set_active(True)
         self.checkbutton_compress_export.connect("toggled", self.checkbutton_compress_export_toggled)
-        self.radiobutton_compress_export_format_zip = gtk.RadioButton(None, ".zip format")
+        self.radiobutton_compress_export_format_zip = Gtk.RadioButton(None, ".zip format")
         self.radiobutton_compress_export_format_zip.set_active(True)
-        self.radiobutton_compress_export_format_tar = gtk.RadioButton(self.radiobutton_compress_export_format_zip, ".tar.bz2 format")
+        self.radiobutton_compress_export_format_tar = Gtk.RadioButton(self.radiobutton_compress_export_format_zip, ".tar.bz2 format")
 
-        self.entry_selected_folder = gtk.Entry()
+        self.entry_selected_folder = Gtk.Entry()
         self.entry_selected_folder.set_text(expanduser("~"))
         self.entry_selected_folder.connect("key-release-event", self.on_key_release)
-        button_select_folder = gtk.ToolButton(gtk.image_new_from_file(os.path.join(definitions.ICONS_DIR, "open_small.png")))
+        button_select_folder = Gtk.ToolButton(Gtk.Image.new_from_file(os.path.join(definitions.ICONS_DIR, "open_small.png")))
         button_select_folder.connect("clicked", self.select_folder)
 
-        button_export = gtk.Button("Export")
+        button_export = Gtk.Button("Export")
         button_export.connect("clicked", self.export)
 
-        button_cancel = gtk.Button("Cancel")
+        button_cancel = Gtk.Button("Cancel")
         button_cancel.connect("clicked", self.close_export_dialog)
 
-        vbox = gtk.VBox()
-        frame_exporttype = gtk.Frame("Export:")
-        vbox_exporttype = gtk.VBox()
-        vbox_exporttype.pack_start(self.checkbutton_export_raw)
-        vbox_exporttype.pack_start(self.checkbutton_export_compressed)
-        vbox_exporttype.pack_start(self.checkbutton_export_parsed)
-        frame_exportoptions = gtk.Frame("Export Options:")
-        vbox_exportoptions = gtk.VBox()
-        vbox_exportoptions.pack_start(self.checkbutton_compress_export)
-        hbox_exportformat = gtk.HBox()
-        hbox_exportformat.pack_start(self.radiobutton_compress_export_format_zip)
-        hbox_exportformat.pack_start(self.radiobutton_compress_export_format_tar)
-        vbox_exportoptions.pack_start(hbox_exportformat)
-        frame_exportto = gtk.Frame("Export To:")
-        hbox_exportto = gtk.HBox()
-        hbox_exportto.pack_start(self.entry_selected_folder)
-        hbox_exportto.pack_start(button_select_folder)
-        hbox_okcancel = gtk.HBox()
-        hbox_okcancel.pack_start(button_cancel)
-        hbox_okcancel.pack_start(button_export)
+        vbox = Gtk.VBox()
+        frame_exporttype = Gtk.Frame()
+        vbox_exporttype = Gtk.VBox()
+        vbox_exporttype.pack_start(self.checkbutton_export_raw, True, True, 0)
+        vbox_exporttype.pack_start(self.checkbutton_export_compressed, True, True, 0)
+        vbox_exporttype.pack_start(self.checkbutton_export_parsed, True, True, 0)
+        frame_exportoptions = Gtk.Frame()
+        vbox_exportoptions = Gtk.VBox()
+        vbox_exportoptions.pack_start(self.checkbutton_compress_export, True, True, 0)
+        hbox_exportformat = Gtk.HBox()
+        hbox_exportformat.pack_start(self.radiobutton_compress_export_format_zip, True, True, 0)
+        hbox_exportformat.pack_start(self.radiobutton_compress_export_format_tar, True, True, 0)
+        vbox_exportoptions.pack_start(hbox_exportformat, True, True, 0)
+        frame_exportto = Gtk.Frame()
+        hbox_exportto = Gtk.HBox()
+        hbox_exportto.pack_start(self.entry_selected_folder, True, True, 0)
+        hbox_exportto.pack_start(button_select_folder, True, True, 0)
+        hbox_okcancel = Gtk.HBox()
+        hbox_okcancel.pack_start(button_cancel, True, True, 0)
+        hbox_okcancel.pack_start(button_export, True, True, 0)
         frame_exporttype.add(vbox_exporttype)
         frame_exportoptions.add(vbox_exportoptions)
         frame_exportto.add(hbox_exportto)
-        vbox.pack_start(frame_exporttype)
-        vbox.pack_start(frame_exportoptions)
-        vbox.pack_start(frame_exportto)
-        vbox.pack_start(hbox_okcancel)
+        vbox.pack_start(frame_exporttype, True, True, 0)
+        vbox.pack_start(frame_exportoptions, True, True, 0)
+        vbox.pack_start(frame_exportto, True, True, 0)
+        vbox.pack_start(hbox_okcancel, True, True, 0)
 
         self.add(vbox)
 
         self.show_all()
 
     def on_key_release(self, widget, event):
-        keyname = gtk.gdk.keyval_name(event.keyval)
+        keyname = Gdk.keyval_name(event.keyval)
         if keyname == "KP_Enter" or keyname == "Return":
             self.export(event)
 
@@ -95,21 +97,21 @@ class ExportGUI(gtk.Window):
             self.radiobutton_compress_export_format_tar.set_sensitive(False)
 
     def select_folder(self, event):
-        dialog_select_folder = gtk.FileChooserDialog()
+        dialog_select_folder = Gtk.FileChooserDialog()
         dialog_select_folder.set_title("Export To")
         dialog_select_folder.set_transient_for(self)
-        dialog_select_folder.set_action(gtk.FILE_CHOOSER_ACTION_SELECT_FOLDER)
-        dialog_select_folder.add_buttons(gtk.STOCK_CANCEL, gtk.RESPONSE_CANCEL, gtk.STOCK_OPEN, gtk.RESPONSE_OK)
+        dialog_select_folder.set_action(Gtk.FileChooserAction.SELECT_FOLDER)
+        dialog_select_folder.add_buttons(Gtk.STOCK_CANCEL, Gtk.ResponseType.CANCEL, Gtk.STOCK_OPEN, Gtk.ResponseType.OK)
         dialog_select_folder.set_current_folder(self.entry_selected_folder.get_text())
 
         response = dialog_select_folder.run()
-        if response == gtk.RESPONSE_OK:
+        if response == Gtk.ResponseType.OK:
             self.entry_selected_folder.set_text(dialog_select_folder.get_filename())
 
         dialog_select_folder.destroy()
 
     def close_export_dialog(self, event):
-        self.hide_all()
+        self.hide()
 
     def export(self, event):
         export_base_dir = self.entry_selected_folder.get_text()
@@ -138,8 +140,8 @@ class ExportGUI(gtk.Window):
 
         progress = 0
         pb = ProgressBar()
-        while gtk.events_pending():
-            gtk.main_iteration()
+        while Gtk.events_pending():
+            Gtk.main_iteration()
 
         for plugin in next(os.walk(self.collectors_dir))[1]:
             plugin_export_raw_dir = os.path.join(export_raw_dir, plugin)
@@ -158,8 +160,8 @@ class ExportGUI(gtk.Window):
                 shutil.copytree(plugin_collector_parsed_dir, plugin_export_parsed_dir)
             pb.setValue((progress / len(next(os.walk(self.collectors_dir))[1]))*.8)
             pb.pbar.set_text("Copying files " + plugin)
-            while gtk.events_pending():
-                gtk.main_iteration()
+            while Gtk.events_pending():
+                Gtk.main_iteration()
             progress += 1
 
         if self.checkbutton_compress_export.get_active():
@@ -167,20 +169,20 @@ class ExportGUI(gtk.Window):
                 definitions.TIMESTAMP_PLACEHOLDER, ""))
             pb.pbar.set_text("Compressing data to " + export_dir)
             pb.setValue(.85)
-            while gtk.events_pending():
-                gtk.main_iteration()
+            while Gtk.events_pending():
+                Gtk.main_iteration()
             if self.radiobutton_compress_export_format_zip.get_active():
                 zip(export_dir, export_dir_notime)
             elif self.radiobutton_compress_export_format_tar.get_active():
                 tar(export_dir, export_dir_notime)
             pb.pbar.set_text("Cleaning up " + export_dir)
             pb.setValue(.9)
-            while gtk.events_pending():
-                gtk.main_iteration()
+            while Gtk.events_pending():
+                Gtk.main_iteration()
             shutil.rmtree(export_dir)
-        if not pb.emit("delete-event", gtk.gdk.Event(gtk.gdk.DELETE)):
+        if not pb.emit("delete-event", Gdk.Event(Gdk.EventType.DELETE)):
             pb.destroy()
 
         utils.gui.show_alert_message(self, "Export complete")
 
-        self.hide_all()
+        self.hide()

@@ -1,7 +1,7 @@
 package parsers;
 
 import utils.FileOutput;
-
+import org.json.JSONException;
 /*
  	* Uses https://github.com/stleary/JSON-java repository to convert xml nmap output file to its JSON representation.
  	*
@@ -25,11 +25,13 @@ import utils.FileOutput;
 
 public class NmapDataParser {
 
+	private static final String ERROR_JSON = "{\"exception_message\":";
+	private static String xmlFilePath;
+	private static String outputFilePath;
+	private static XMLToJSONBuilder json;
+
 	public static void main(String[] args)
 	{
-		String xmlFilePath, outputFilePath;
-		XMLToJSONBuilder json;
-
 		if(args.length != 2)
 		{
 			System.out.println("Argument error.");
@@ -48,13 +50,32 @@ public class NmapDataParser {
 			FileOutput.WriteToFile(outputFilePath, json.getNmapJSON());
 			System.out.println("Done...");
 		}
-		catch(Exception e)
+		catch(JSONException e)
 		{
-			System.out.println("An exception was thrown while trying to parse nmaps xml file, returning raw json file instead...");
+			writeRawJSON();
+		}
+	}
+	private static void writeRawJSON() //couldnt parse xml file due to unexpected keys, xml data...
+	{
+		try
+		{
+			System.out.println("An exception was thrown while trying to parse " + xmlFilePath + ", returning raw json file instead...");
+			System.out.println("File in error: " + outputFilePath);
 			json = new XMLToJSONBuilder(xmlFilePath,true);
 			FileOutput.WriteToFile(outputFilePath, json.getRawJSON());
-			System.out.println("Exception details: " + e.getMessage());
 
-		}		
+		}
+		catch(Exception e)
+		{
+			writeErrorJSON(e);
+		}
+	}
+
+	private static void writeErrorJSON(Exception e) //could not parse for other reasons, display error json.
+	{
+		String error = ERROR_JSON + "\"" + e.getMessage() + "\"}";
+		System.out.println("Could not parse xml file into json. Please check error json file.");
+		System.out.println("Error json file: " + outputFilePath);
+		FileOutput.WriteToFile(outputFilePath, error);
 	}
 }

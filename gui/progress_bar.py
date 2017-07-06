@@ -2,12 +2,11 @@
 
 # example progressbar.py
 
-import pygtk
+import gi
+gi.require_version('Gtk', '3.0')
+from gi.repository import Gtk
 
-pygtk.require('2.0')
-import gtk
-
-class ProgressBar(gtk.Window):
+class ProgressBar(Gtk.Window):
 
     # Clean up allocated memory and remove the timer
     def destroy_progress(self, widget, data=None):
@@ -26,18 +25,18 @@ class ProgressBar(gtk.Window):
         self.set_resizable(False)
         self.connect("destroy", self.destroy_progress)
         self.set_title("Progress Bar")
-        self.set_position(gtk.WIN_POS_CENTER)
+        self.set_position(Gtk.WindowPosition.CENTER)
         self.set_size_request(460, 50)
         self.set_border_width(0)
 
         #Create the VBox in case we want to add additional items later
-        vbox = gtk.VBox(False, 5)
+        vbox = Gtk.VBox(False, 5)
         vbox.set_border_width(10)
         self.add(vbox)
         vbox.show()
 
         # Create the ProgressBar
-        self.pbar = gtk.ProgressBar()
+        self.pbar = Gtk.ProgressBar()
         self.pbar.set_fraction(0.0)
         self.pbar.set_text("Starting")
         vbox.add(self.pbar)

@@ -37,6 +37,8 @@ class Collector(object):
         self.config = collector_config
         self.name = self.config.get_collector_name()
 
+        self.action = definitions.Action.RUN
+
         self.base_dir = os.path.join(definitions.PLUGIN_COLLECTORS_DIR, self.config.foldername)
         self.output_dir = os.path.join(self.base_dir, definitions.PLUGIN_COLLECTORS_OUTPUT_DIRNAME)
         self.parsed_dir = os.path.join(self.base_dir, definitions.PLUGIN_COLLECTORS_PARSED_DIRNAME)
@@ -67,6 +69,12 @@ class Collector(object):
     def build_commands(self):
         ''' To override: Needs to set self.commands and self.output_filenames '''
         pass
+
+    def set_action(self,action):
+        self.action = action
+
+    def get_action(self):
+        return self.action
 
     def run(self):
         if self.is_running():
