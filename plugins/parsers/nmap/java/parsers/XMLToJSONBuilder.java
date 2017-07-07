@@ -8,12 +8,12 @@ import org.json.XML;
 
 public class XMLToJSONBuilder
 {
-	private static final String PRIMARY_KEY = "nmaprun", ITERABLE_KEY = "host", START_KEY = "startstr";
+	private static final String PRIMARY_KEY = "nmaprun", ITERABLE_KEY = "host", START_TIME_KEY = "startstr";
 	private	static final String ID_FIELD = "nmap_id", CONTENT_FIELD = "content",
 								START_FIELD = "start", CLASS_NAME_FIELD = "className", CLASS_NAME_VALUE = "nmap";
 	private static final int INDENT_FACTOR = 4;
 	private JSONObject json, rawJSON;
-	private JSONArray iterable;
+	private JSONArray iterable;//depends on the nmap command run, but in the case of nmap -sP 10.0.0.0/24, a list of hosts are returned. Therefore, when the json object is built, the 'host' key is iterated over.
 	private String xml, startTime;
 	private StringBuilder nmapJSON;
 
@@ -24,7 +24,7 @@ public class XMLToJSONBuilder
 		this.rawJSON = xmlToJSON(xml);
 		this.json = this.rawJSON.getJSONObject(PRIMARY_KEY);
 		this.iterable = this.json.getJSONArray(ITERABLE_KEY);
-		this.startTime = this.json.getString(START_KEY);
+		this.startTime = this.json.getString(START_TIME_KEY);
 		this.nmapJSON = new StringBuilder();
 		buildNmapJSON();
 	}
@@ -67,26 +67,26 @@ public class XMLToJSONBuilder
 	{
 	   return XML.toJSONObject(xml);
 	}
-	
+
 	public String getNmapJSON()
 	{
 		return this.nmapJSON.toString();
 	}
-	
+
 	private void buildNmapJSON()
 	{
-		    boolean appendEndString;
+		    boolean appendEndStringWithComma;
 		    String endString, data;
-		    
+
 		    System.out.println("Building nmap json file...");
-		    
+
 		    this.nmapJSON.append("[");
-		    
+
 		    for(int i = 0; i < this.iterable.length(); i++)
 		    {
-			    appendEndString = i < this.iterable.length() - 1;
+		    	appendEndStringWithComma = i < this.iterable.length() - 1;
 			    data = this.iterable.getJSONObject(i).toString(INDENT_FACTOR);
-			    
+
 				this.nmapJSON.append("{" + (appendKeyValuePair(ID_FIELD, (i+1),"int")));
 				this.nmapJSON.append(",");
 				this.nmapJSON.append((appendKeyValuePair(CONTENT_FIELD, data,"obj")));
@@ -94,7 +94,7 @@ public class XMLToJSONBuilder
 				this.nmapJSON.append((appendKeyValuePair(START_FIELD, this.startTime,"String")));
 				this.nmapJSON.append(",");
 				this.nmapJSON.append((appendKeyValuePair(CLASS_NAME_FIELD, CLASS_NAME_VALUE ,"String")));
-				endString = (appendEndString ? "}, " : "}");
+				endString = (appendEndStringWithComma ? "}, " : "}");
 				
 				this.nmapJSON.append(endString);			
 		    }

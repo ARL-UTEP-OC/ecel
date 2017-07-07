@@ -1,6 +1,6 @@
 import os
 import subprocess
-
+import definitions
 from engine.parser import Parser
 
 class NMapParser(Parser):
@@ -20,4 +20,4 @@ class NMapParser(Parser):
                 cwd=os.path.dirname(os.path.realpath(__file__)),
                 stdout=subprocess.PIPE, shell=True, stderr=subprocess.PIPE)
         else:
-            subprocess.call([self.script_file, self.file_or_dir, self.parsed_folder], shell=False)
+            subprocess.call([self.script_file, self.file_or_dir, self.parsed_folder,os.path.join(definitions.PLUGIN_PARSERS_DIR,"nmap/XMLToJSON.jar")], shell=False)
