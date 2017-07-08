@@ -1,7 +1,7 @@
 package parsers;
 
 import utils.FileOutput;
-import org.json.JSONException;
+
 /*
  	* Uses https://github.com/stleary/JSON-java repository to convert xml nmap output file to its JSON representation.
  	*
@@ -30,6 +30,7 @@ public class NmapDataParser {
 	private static String outputFilePath;
 	private static XMLToJSONBuilder json;
 
+
 	public static void main(String[] args)
 	{
 		if(args.length != 2)
@@ -50,23 +51,9 @@ public class NmapDataParser {
 			FileOutput.WriteToFile(outputFilePath, json.getNmapJSON());
 			System.out.println("Done...");
 		}
-		catch(JSONException e)
-		{
-			writeRawJSON();
-		}
-	}
-	private static void writeRawJSON() //couldnt parse xml file due to unexpected keys, xml data...
-	{
-		try
-		{
-			System.out.println("An exception was thrown while trying to parse " + xmlFilePath + ", returning raw json file instead...");
-			System.out.println("File in error: " + outputFilePath);
-			json = new XMLToJSONBuilder(xmlFilePath,true);
-			FileOutput.WriteToFile(outputFilePath, json.getRawJSON());
-
-		}
 		catch(Exception e)
 		{
+			System.out.println("Could not create JSON file. Check " + outputFilePath + " for details.");
 			writeErrorJSON(e);
 		}
 	}
