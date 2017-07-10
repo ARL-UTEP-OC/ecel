@@ -37,10 +37,12 @@ class MainGUI(Gtk.Window):
         self.startall_button = Gtk.ToolButton()
         self.startall_button.set_icon_widget(self.get_image("start.png"))
         self.startall_button.connect("clicked", self.process_active_collectors,Action.RUN)
+        self.startall_button.set_sensitive(True)
 
         self.stopall_button = Gtk.ToolButton()
         self.stopall_button.set_icon_widget(self.get_image("stop.png"))
         self.stopall_button.connect("clicked", self.process_active_collectors,Action.STOP)
+        self.stopall_button.set_sensitive(False)
 
         self.parseall_button = Gtk.ToolButton()
         self.parseall_button.set_icon_widget(self.get_image("json.png"))
@@ -105,14 +107,20 @@ class MainGUI(Gtk.Window):
         separator2 = Gtk.SeparatorToolItem()
         separator3 = Gtk.SeparatorToolItem()
 
+        self.startall_button.set_tooltip_text("Start selected collectors")
         toolbar.insert(self.startall_button, 0)
+        self.stopall_button.set_tooltip_text("Stop selected collectors")
         toolbar.insert(self.stopall_button, 1)
         toolbar.insert(separator1, 2)
+        self.parseall_button.set_tooltip_text("Parse selected collector data")
         toolbar.insert(self.parseall_button, 3)
         toolbar.insert(separator2, 4)
+        self.export_button.set_tooltip_text("Export collector data")
         toolbar.insert(self.export_button, 5)
+        self.remove_data_button.set_tooltip_text("Delete all collector data")
         toolbar.insert(self.remove_data_button, 6)
         toolbar.insert(separator3, 7)
+        self.collector_config_button.set_tooltip_text("Configure collectors")
         toolbar.insert(self.collector_config_button, 8)
 
         return toolbar
@@ -159,22 +167,30 @@ class MainGUI(Gtk.Window):
 
     def update_active_collectors(self, event, lboxRow):
         self.collectorStatus[lboxRow.get_name()] = not self.collectorStatus[lboxRow.get_name()]
-        do_select = self.collectorStatus[lboxRow.get_name()]
-
-        if(do_select == False):
+        set_selected = self.collectorStatus[lboxRow.get_name()] #dictionary object needed to toggle listbox row
+        if(set_selected == False):
             self.collectorList.unselect_row(lboxRow)
 
     def process_active_collectors(self,event,action):
-        for i, c in enumerate(self.collectorList.get_selected_rows()):
-            collector = Engine.Engine().get_collector(c.get_name())
+
+        selected_collectors = self.collectorList.get_selected_rows()
+
+        if(selected_collectors.__len__() == 0):
+            print("No collectors selected...")
+
+        for i, c in enumerate(selected_collectors):
+            collector = self.engine.get_collector(c.get_name())
             if collector.is_enabled() and isinstance(collector, engine.collector.AutomaticCollector):
                 if(action == Action.RUN):
+                    self.startall_button.set_sensitive(False)
+                    self.stopall_button.set_sensitive(True)
                     collector.run()
                 if(action == Action.STOP):
+                    self.startall_button.set_sensitive(True)
+                    self.stopall_button.set_sensitive(False)
                     collector.terminate()
             if(action == Action.PARSE):
-                collector.parser.parse
-
+                collector.parser.parse()
 
     def create_collector_bbox(self, collector):
         frame = Gtk.Frame()
