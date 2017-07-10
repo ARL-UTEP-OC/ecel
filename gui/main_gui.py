@@ -1,12 +1,13 @@
 import gi
 gi.require_version('Gtk', '3.0')
 from gi.repository import Gtk,Gdk
+from enum import Enum
 import os
 import subprocess
 import status_icon
 import definitions
 import engine.collector
-import engine.engine
+import engine.engine as Engine
 from gui.export_gui import ExportGUI
 from gui.progress_bar import ProgressBar
 from gui.plugin_config_gui import PluginConfigGUI
@@ -18,6 +19,8 @@ class MainGUI(Gtk.Window):
         super(MainGUI, self).__init__()
 
         self.numCollectors = engine.engine.Engine().get_collector_length()
+        self.activeCollectors = []
+        self.collectorStatus = {}
 
         self.set_title("Evaluator-Centric and Extensible Logger v%s" % (__version__))
         self.set_size_request(definitions.MAIN_WINDOW_WIDTH, definitions.MAIN_WINDOW_HEIGHT)
@@ -33,15 +36,15 @@ class MainGUI(Gtk.Window):
 
         self.startall_button = Gtk.ToolButton()
         self.startall_button.set_icon_widget(self.get_image("start.png"))
-        self.startall_button.connect("clicked", self.startall_collectors)
+        self.startall_button.connect("clicked", self.process_active_collectors,Action.RUN)
 
         self.stopall_button = Gtk.ToolButton()
         self.stopall_button.set_icon_widget(self.get_image("stop.png"))
-        self.stopall_button.connect("clicked", self.stopall_collectors)
+        self.stopall_button.connect("clicked", self.process_active_collectors,Action.STOP)
 
         self.parseall_button = Gtk.ToolButton()
         self.parseall_button.set_icon_widget(self.get_image("json.png"))
-        self.parseall_button.connect("clicked", self.parse_all)
+        self.parseall_button.connect("clicked", self.process_active_collectors, Action.PARSE)
 
         self.export_button = Gtk.ToolButton()
         self.export_button.set_icon_widget(self.get_image("export.png"))
@@ -61,19 +64,21 @@ class MainGUI(Gtk.Window):
         self.toolbarWidget.add(self.create_toolbar())
 
         self.collectorList = Gtk.ListBox()
+        self.collectorList.set_selection_mode(Gtk.SelectionMode.MULTIPLE)
+        self.collectorList.connect("row-activated",self.update_active_collectors)
 
         self.collectorWidget = Gtk.Box()
         self.collectorWidget.set_orientation(Gtk.Orientation.VERTICAL)
         self.collectorWidget.set_size_request(definitions.COLLECTOR_WIDGET_WIDTH,definitions.MAIN_WINDOW_HEIGHT - definitions.TOOL_BAR_HEIGHT)
         self.collectorWidget.add(self.collectorList)
 
-        self.pluginWidget = Gtk.Box()
-        self.pluginWidget.set_size_request(definitions.MAIN_WINDOW_WIDTH - definitions.COLLECTOR_WIDGET_WIDTH,definitions.MAIN_WINDOW_HEIGHT - definitions.TOOL_BAR_HEIGHT)
+        self.configWidget = Gtk.Box()
+        self.configWidget.set_size_request(definitions.MAIN_WINDOW_WIDTH - definitions.COLLECTOR_WIDGET_WIDTH,definitions.MAIN_WINDOW_HEIGHT - definitions.TOOL_BAR_HEIGHT)
 
         self.main_body = Gtk.Box()
         self.main_body.set_orientation(Gtk.Orientation.HORIZONTAL)
         self.main_body.add(self.collectorWidget)
-        self.main_body.add(self.pluginWidget)
+        self.main_body.add(self.configWidget)
 
         self.grid.set_orientation(Gtk.Orientation.VERTICAL)
         self.grid.add(self.toolbarWidget)
@@ -86,6 +91,7 @@ class MainGUI(Gtk.Window):
         for i, collector in enumerate(self.engine.collectors):
             print "%d) %s" % (i, collector.name)
             self.collectorList.add(self.create_collector_row(collector))
+            self.collectorStatus[collector.name] = False
 
         self.show_all()
         self.status_context_menu = status_icon.CustomSystemTrayIcon(app_engine, self)
@@ -140,12 +146,35 @@ class MainGUI(Gtk.Window):
 
     def create_collector_row(self,collector):
 
+        label = Gtk.Label()
+        label.set_label(collector.name)
+
         row = Gtk.ListBoxRow()
         row_height = definitions.MAIN_WINDOW_HEIGHT / self.numCollectors
         row.set_size_request(definitions.COLLECTOR_WIDGET_WIDTH,row_height)
-        row.set_name("green")
+        row.set_name(collector.name)
+        row.add(label)
 
         return row
+
+    def update_active_collectors(self, event, lboxRow):
+        self.collectorStatus[lboxRow.get_name()] = not self.collectorStatus[lboxRow.get_name()]
+        do_select = self.collectorStatus[lboxRow.get_name()]
+
+        if(do_select == False):
+            self.collectorList.unselect_row(lboxRow)
+
+    def process_active_collectors(self,event,action):
+        for i, c in enumerate(self.collectorList.get_selected_rows()):
+            collector = Engine.Engine().get_collector(c.get_name())
+            if collector.is_enabled() and isinstance(collector, engine.collector.AutomaticCollector):
+                if(action == Action.RUN):
+                    collector.run()
+                if(action == Action.STOP):
+                    collector.terminate()
+            if(action == Action.PARSE):
+                collector.parser.parse
+
 
     def create_collector_bbox(self, collector):
         frame = Gtk.Frame()
@@ -275,3 +304,8 @@ class MainGUI(Gtk.Window):
             return True
 
         return False
+
+class Action(Enum):
+    RUN = 1,
+    STOP = 2,
+    PARSE = 3
