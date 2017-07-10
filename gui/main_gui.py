@@ -6,6 +6,7 @@ import subprocess
 import status_icon
 import definitions
 import engine.collector
+import engine.engine
 from gui.export_gui import ExportGUI
 from gui.progress_bar import ProgressBar
 from gui.plugin_config_gui import PluginConfigGUI
@@ -16,8 +17,10 @@ class MainGUI(Gtk.Window):
     def __init__(self, app_engine):
         super(MainGUI, self).__init__()
 
+        self.numCollectors = engine.engine.Engine().get_collector_length()
+
         self.set_title("Evaluator-Centric and Extensible Logger v%s" % (__version__))
-        self.set_size_request(650, 500)
+        self.set_size_request(definitions.MAIN_WINDOW_WIDTH, definitions.MAIN_WINDOW_HEIGHT)
         self.set_position(Gtk.WindowPosition.CENTER)
         self.connect("delete-event", self.hide_on_delete)
 
@@ -30,21 +33,21 @@ class MainGUI(Gtk.Window):
 
         self.startall_button = Gtk.ToolButton()
         self.startall_button.set_icon_widget(self.get_image("start.png"))
-        self.startall_button.connect("clicked", self.run_collector_actions)
+        self.startall_button.connect("clicked", self.startall_collectors)
 
         self.stopall_button = Gtk.ToolButton()
         self.stopall_button.set_icon_widget(self.get_image("stop.png"))
-        self.stopall_button.connect("clicked", self.run_collector_actions)
+        self.stopall_button.connect("clicked", self.stopall_collectors)
 
         self.parseall_button = Gtk.ToolButton()
         self.parseall_button.set_icon_widget(self.get_image("json.png"))
-        self.parseall_button.connect("clicked", self.run_collector_actions)
+        self.parseall_button.connect("clicked", self.parse_all)
 
         self.export_button = Gtk.ToolButton()
         self.export_button.set_icon_widget(self.get_image("export.png"))
         self.export_button.connect("clicked", self.export_all)
 
-        self.remove_data_button = Gtk.ToolButton(Gtk.Image.new_from_file(os.path.join(definitions.ICONS_DIR, "delete.png")))
+        self.remove_data_button = Gtk.ToolButton()
         self.remove_data_button.set_icon_widget(self.get_image("delete.png"))
         self.remove_data_button.connect("clicked", self.delete_all)
 
@@ -54,15 +57,18 @@ class MainGUI(Gtk.Window):
 
         self.toolbarWidget = Gtk.Box()
         self.toolbarWidget.set_orientation(Gtk.Orientation.HORIZONTAL)
-        self.toolbarWidget.set_size_request(650,20)
+        self.toolbarWidget.set_size_request(definitions.MAIN_WINDOW_WIDTH,definitions.TOOL_BAR_HEIGHT)
         self.toolbarWidget.add(self.create_toolbar())
+
+        self.collectorList = Gtk.ListBox()
 
         self.collectorWidget = Gtk.Box()
         self.collectorWidget.set_orientation(Gtk.Orientation.VERTICAL)
-        self.collectorWidget.set_size_request(225,480)
+        self.collectorWidget.set_size_request(definitions.COLLECTOR_WIDGET_WIDTH,definitions.MAIN_WINDOW_HEIGHT - definitions.TOOL_BAR_HEIGHT)
+        self.collectorWidget.add(self.collectorList)
 
         self.pluginWidget = Gtk.Box()
-        self.pluginWidget.set_size_request(425,480)
+        self.pluginWidget.set_size_request(definitions.MAIN_WINDOW_WIDTH - definitions.COLLECTOR_WIDGET_WIDTH,definitions.MAIN_WINDOW_HEIGHT - definitions.TOOL_BAR_HEIGHT)
 
         self.main_body = Gtk.Box()
         self.main_body.set_orientation(Gtk.Orientation.HORIZONTAL)
@@ -79,7 +85,7 @@ class MainGUI(Gtk.Window):
 
         for i, collector in enumerate(self.engine.collectors):
             print "%d) %s" % (i, collector.name)
-            self.collectorWidget.pack_start(self.create_collector_frame(collector), True, True, 0)
+            self.collectorList.add(self.create_collector_row(collector))
 
         self.show_all()
         self.status_context_menu = status_icon.CustomSystemTrayIcon(app_engine, self)
@@ -87,43 +93,23 @@ class MainGUI(Gtk.Window):
     def create_toolbar(self):
         toolbar = Gtk.Toolbar()
         toolbar.set_style(Gtk.ToolbarStyle.ICONS)
+        toolbar.set_size_request(definitions.MAIN_WINDOW_WIDTH,definitions.TOOL_BAR_HEIGHT)
 
         separator1 = Gtk.SeparatorToolItem()
         separator2 = Gtk.SeparatorToolItem()
         separator3 = Gtk.SeparatorToolItem()
 
         toolbar.insert(self.startall_button, 0)
-        toolbar.insert(separator1, 1)
-        toolbar.insert(self.export_button, 2)
-        toolbar.insert(separator2,3)
-        toolbar.insert(self.remove_data_button, 4)
-        toolbar.insert(separator3, 5)
-        toolbar.insert(self.collector_config_button, 6)
-        toolbar.set_size_request(650,20)
+        toolbar.insert(self.stopall_button, 1)
+        toolbar.insert(separator1, 2)
+        toolbar.insert(self.parseall_button, 3)
+        toolbar.insert(separator2, 4)
+        toolbar.insert(self.export_button, 5)
+        toolbar.insert(self.remove_data_button, 6)
+        toolbar.insert(separator3, 7)
+        toolbar.insert(self.collector_config_button, 8)
 
         return toolbar
-
-    def update_collector_action(self, event, collector,action):
-
-        if(action == definitions.Action.RUN):
-            collector.set_action(definitions.Action.RUN)
-        if(action == definitions.Action.STOP):
-            collector.set_action(definitions.Action.STOP)
-        if(action == definitions.Action.PARSE):
-            collector.set_action(definitions.Action.PARSE)
-
-    def run_collector_actions(self, event):
-        for collector in self.engine.collectors:
-            action = collector.get_action()
-            if collector.is_enabled() and isinstance(collector, engine.collector.AutomaticCollector):
-                if(action == definitions.Action.RUN):
-                    collector.run()
-                if(action == definitions.Action.STOP):
-                    collector.terminate()
-                if(action == definitions.Action.PARSE):
-                    collector.parser.parse()
-                if(action == definitions.Action.NOTHING):
-                    print("NO action specified for " + collector.name + " collector")
 
     def get_image(self,name):
         image = Gtk.Image()
@@ -147,42 +133,19 @@ class MainGUI(Gtk.Window):
             subprocess.call(remove_cmd) #TODO: Change this to not call external script
 
     def set_styles(self):
-        self.cssProvider.load_from_path("/root/Practicum/ecel/gui/css/widget_styles.css")
+        self.cssProvider.load_from_path(definitions.PLUGIN_CSS_DIR + "widget_styles.css")
         screen = Gdk.Screen.get_default()
         context = Gtk.StyleContext()
         context.add_provider_for_screen(screen, self.cssProvider, Gtk.STYLE_PROVIDER_PRIORITY_USER)
 
-    def create_collector_frame(self,collector):
-        checkBoxWidget = self.create_collector_bbox_widget(collector)
-        frame = Gtk.Frame()
-        frame.set_label(collector.name)
-        frame.add(checkBoxWidget)
-        frame.set_size_request(20,20)
-        return frame
+    def create_collector_row(self,collector):
 
-    def create_collector_bbox_widget(self,collector):
-        containerBox = Gtk.ButtonBox()
-        containerBox.set_orientation(Gtk.Orientation.VERTICAL)
+        row = Gtk.ListBoxRow()
+        row_height = definitions.MAIN_WINDOW_HEIGHT / self.numCollectors
+        row.set_size_request(definitions.COLLECTOR_WIDGET_WIDTH,row_height)
+        row.set_name("green")
 
-        checkBoxSection = Gtk.ButtonBox()
-        checkBoxSection.set_orientation(Gtk.Orientation.HORIZONTAL)
-
-        runRadio = Gtk.RadioButton("Run")
-        runRadio.connect("clicked", self.update_collector_action, collector, definitions.Action.RUN)
-
-        stopRadio = Gtk.RadioButton.new_with_label_from_widget(runRadio, "Stop")
-        stopRadio.connect("clicked", self.update_collector_action, collector, definitions.Action.STOP)
-
-        parseRadio = Gtk.RadioButton.new_with_label_from_widget(runRadio, "Parse")
-        parseRadio.connect("clicked", self.update_collector_action, collector, definitions.Action.PARSE)
-
-        checkBoxSection.add(runRadio)
-        checkBoxSection.add(stopRadio)
-        checkBoxSection.add(parseRadio)
-
-        containerBox.add(checkBoxSection)
-
-        return containerBox
+        return row
 
     def create_collector_bbox(self, collector):
         frame = Gtk.Frame()

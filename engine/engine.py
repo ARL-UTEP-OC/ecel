@@ -35,3 +35,6 @@ class Engine(object):
 
     def get_collector(self, name):
         return next(p for p in self.collectors if p.name == name)
+
+    def get_collector_length(self):
+        return self.collectors.__len__()
