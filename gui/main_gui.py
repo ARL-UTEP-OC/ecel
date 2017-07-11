@@ -94,7 +94,7 @@ class MainGUI(gtk.Window):
         for i, collector in enumerate(app_engine.collectors):
             print "%d) %s" % (i, collector.name)
             vbox.pack_start(self.create_collector_bbox(collector), True, True, 5)
-        self.show_all()
+        #self.show_all()
 
         self.status_context_menu = status_icon.CustomSystemTrayIcon(app_engine, self)
 
