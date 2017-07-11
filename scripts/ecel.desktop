@@ -1,0 +1,10 @@
+[Desktop Entry]
+Name=ECEL
+GenericName=
+Commend=
+Exec=/root/git/github/ecel/ecel-gui
+Terminal=false
+Type=Application
+X-GNOME-Autostart-enabled=true
+
+#copy this file to ~/.confi/autostart/
