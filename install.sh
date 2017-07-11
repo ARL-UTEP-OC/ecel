@@ -96,8 +96,15 @@ chmod +x "$ECEL_DIR"/ecel-gui
 install "$ECEL_DIR"/ecel-gui /usr/local/sbin #TODO: Check for security issues
 ### Configure to run on boot
 #
-if prompt_accepted_Yn "Would you like to run ECEL automatically on login (only works on Kali 2016.2+)?"; then
-    cp "$ECEL_DIR"/scripts/ecel.desktop ~/.config/autostart/
+### Configure to run on boot
+#
+if prompt_accepted_Yn "Would you like to run ECEL automatically on login (only w
+orks on Kali 2016.2+)?"; then
+	AUTOSTART_DIR=~/.config/autostart/
+    if [ ! -d "$AUTOSTART_DIR" ]; then
+		mkdir "$AUTOSTART_DIR"
+	fi
+    cp "$ECEL_DIR"/scripts/ecel.desktop "$AUTOSTART_DIR"
 fi
 
 echo "$OUTPUT_PREFIX Installation Complete"
