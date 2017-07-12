@@ -66,6 +66,7 @@ class MainGUI(Gtk.Window):
         self.collectorList = Gtk.ListBox()
         self.collectorList.set_selection_mode(Gtk.SelectionMode.MULTIPLE)
         self.collectorList.connect("row-activated",self.update_active_collectors)
+        self.collectorList.connect("event",self.create_collector_menu)
 
         self.collectorWidget = Gtk.Box()
         self.collectorWidget.set_orientation(Gtk.Orientation.VERTICAL)
@@ -160,11 +161,19 @@ class MainGUI(Gtk.Window):
         row.set_size_request(definitions.COLLECTOR_WIDGET_WIDTH,row_height)
         row.set_name(collector.name)
         row.add(label)
-
         row.get_style_context().add_class("listBoxRow")
         row.get_style_context().add_class("inactive-color")
 
         return row
+
+    def create_collector_menu(self,collectorList,event):
+            if(event.button.button == Gdk.BUTTON_SECONDARY and event.get_event_type() == Gdk.EventType.BUTTON_PRESS):
+                menu = Gtk.Menu()
+                print(collectorList.get_selected_row().get_name())
+                item = Gtk.MenuItem("TEST")
+                menu.append(item)
+                item.show()
+                #menu.popup(None,None, None, None, 0 , event.get_time())
 
     def update_active_collectors(self, event, lboxRow):
         self.collectorStatus[lboxRow.get_name()] = not self.collectorStatus[lboxRow.get_name()]
@@ -176,7 +185,6 @@ class MainGUI(Gtk.Window):
         if(set_selected == True):
             lboxRow.get_style_context().add_class("active-color")
             lboxRow.get_style_context().remove_class("inactive-color")
-
 
     def process_active_collectors(self,event,action):
 
