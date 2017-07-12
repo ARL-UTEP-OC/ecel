@@ -5,12 +5,12 @@
     "configurations": {
       "general": {
         "auto restart": {
-          "enabled": false,
-          "time interval": 1800
+          "enabled": true,
+          "time interval": 30
         }
       },
       "archiving": {
-        "enabled": true,
+        "enabled": false,
         "time interval": 1800,
         "file format": "zip"
       },
@@ -19,8 +19,8 @@
       },
       "custom": {
         "interfaces": {
-          "mode": "inclusive",
-          "interfaces": "eth0"
+          "mode": "exclusive",
+          "interfaces": "lo"
         }
       }
     }
