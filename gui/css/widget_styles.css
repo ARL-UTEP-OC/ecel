@@ -1,4 +1,22 @@
-GtkLabel
+.listBoxRow
+{
+   border-top:1px solid black;
+   border-right: 1px solid black;
+}
+
+.active-color
+{
+    background-color:#5CB3FF;
+}
+
+.inactive-color
+{
+   background-color:#D1D0CE;
+}
+
+.border
 {
     border:1px solid black;
 }
+
+

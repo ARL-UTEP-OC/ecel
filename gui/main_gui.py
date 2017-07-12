@@ -1,7 +1,7 @@
 import gi
 gi.require_version('Gtk', '3.0')
 from gi.repository import Gtk,Gdk
-from enum import Enum
+from utils.collector_action import Action
 import os
 import subprocess
 import status_icon
@@ -18,16 +18,14 @@ class MainGUI(Gtk.Window):
     def __init__(self, app_engine):
         super(MainGUI, self).__init__()
 
-        self.numCollectors = engine.engine.Engine().get_collector_length()
-        self.activeCollectors = []
-        self.collectorStatus = {}
-
         self.set_title("Evaluator-Centric and Extensible Logger v%s" % (__version__))
         self.set_size_request(definitions.MAIN_WINDOW_WIDTH, definitions.MAIN_WINDOW_HEIGHT)
         self.set_position(Gtk.WindowPosition.CENTER)
         self.connect("delete-event", self.hide_on_delete)
 
         self.engine = app_engine
+        self.numCollectors = self.engine.get_collector_length()
+        self.collectorStatus = {}
 
         self.grid = Gtk.Grid()
 
@@ -107,20 +105,20 @@ class MainGUI(Gtk.Window):
         separator2 = Gtk.SeparatorToolItem()
         separator3 = Gtk.SeparatorToolItem()
 
-        self.startall_button.set_tooltip_text("Start selected collectors")
+        self.startall_button.set_tooltip_text("Start All Selected Collectors")
         toolbar.insert(self.startall_button, 0)
-        self.stopall_button.set_tooltip_text("Stop selected collectors")
+        self.stopall_button.set_tooltip_text("Stop All Selected collectors")
         toolbar.insert(self.stopall_button, 1)
         toolbar.insert(separator1, 2)
-        self.parseall_button.set_tooltip_text("Parse selected collector data")
+        self.parseall_button.set_tooltip_text("Execute Selected Parsers")
         toolbar.insert(self.parseall_button, 3)
         toolbar.insert(separator2, 4)
-        self.export_button.set_tooltip_text("Export collector data")
+        self.export_button.set_tooltip_text("Export All Collector Data")
         toolbar.insert(self.export_button, 5)
-        self.remove_data_button.set_tooltip_text("Delete all collector data")
+        self.remove_data_button.set_tooltip_text("Delete All Collector Data")
         toolbar.insert(self.remove_data_button, 6)
         toolbar.insert(separator3, 7)
-        self.collector_config_button.set_tooltip_text("Configure collectors")
+        self.collector_config_button.set_tooltip_text("Collector Configurations")
         toolbar.insert(self.collector_config_button, 8)
 
         return toolbar
@@ -163,6 +161,9 @@ class MainGUI(Gtk.Window):
         row.set_name(collector.name)
         row.add(label)
 
+        row.get_style_context().add_class("listBoxRow")
+        row.get_style_context().add_class("inactive-color")
+
         return row
 
     def update_active_collectors(self, event, lboxRow):
@@ -170,6 +171,12 @@ class MainGUI(Gtk.Window):
         set_selected = self.collectorStatus[lboxRow.get_name()] #dictionary object needed to toggle listbox row
         if(set_selected == False):
             self.collectorList.unselect_row(lboxRow)
+            lboxRow.get_style_context().add_class("inactive-color")
+            lboxRow.get_style_context().remove_class("active-color")
+        if(set_selected == True):
+            lboxRow.get_style_context().add_class("active-color")
+            lboxRow.get_style_context().remove_class("inactive-color")
+
 
     def process_active_collectors(self,event,action):
 
@@ -321,7 +328,4 @@ class MainGUI(Gtk.Window):
 
         return False
 
-class Action(Enum):
-    RUN = 1,
-    STOP = 2,
-    PARSE = 3
+
