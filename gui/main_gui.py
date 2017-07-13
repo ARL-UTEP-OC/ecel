@@ -130,8 +130,19 @@ class MainGUI(Gtk.Window):
         image.show()
         return image
 
-    def set_config_window(self,collector):
-        print('setting config window...')
+    def clear_config_window(self):
+        self.configWidget.foreach(self.delete_widget)
+
+    def delete_widget(self,widget):
+        widget.destroy()
+
+    def create_config_window(self,event,collector):
+        self.clear_config_window()
+        config_frame = PluginConfigGUI(self, collector).get_plugin_frame()
+        config_frame.unparent()
+        config_frame.show_all()
+        #config_frame.set_size_request()
+        self.configWidget.add(config_frame)
 
     def configure_collectors(self, event):
         PluginConfigGUI(self, self.engine.collectors)
@@ -185,6 +196,7 @@ class MainGUI(Gtk.Window):
             parseItem.connect("activate",self.parser,collector)
 
             collectorSettingsItem = Gtk.MenuItem("Show " + collector.name + " configuration")
+            collectorSettingsItem.connect("activate",self.create_config_window,collector)
 
             if(isinstance(collector, engine.collector.AutomaticCollector)):
                 menu.append(runItem)

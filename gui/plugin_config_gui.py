@@ -8,7 +8,7 @@ import traceback
 import definitions
 
 class PluginConfigGUI(Gtk.Window):
-    def __init__(self, parent, plugins):
+    def __init__(self, parent, collector):
         super(PluginConfigGUI, self).__init__()
         self.main_gui = parent
 
@@ -35,10 +35,8 @@ class PluginConfigGUI(Gtk.Window):
         self.set_border_width(6)
         self.set_resizable(False)
 
-        self.plugins = plugins
-        plugin_names = [plugin.name for plugin in self.plugins]
-
-        vbox_main = Gtk.VBox()
+        self.vbox_main = Gtk.VBox()
+        self.vbox_main.add(Gtk.Label(collector.name + " Configuration"))
 
         hbox_plugins = Gtk.HBox()
         frame_plugin_confs = Gtk.Frame()
@@ -46,38 +44,31 @@ class PluginConfigGUI(Gtk.Window):
 
         self.vbox_plugin_main = None
 
-        label_plugins = Gtk.Label(label="Plugin")
-        combobox_plugins = Gtk.ComboBoxText()
-        for label in plugin_names:
-            combobox_plugins.append_text(label)
-        combobox_plugins.set_active(0)
-        combobox_plugins.connect('changed', self.select_plugin, combobox_plugins, frame_plugin_confs)
-
         button_close = Gtk.Button("Close")
         button_close.connect("clicked", self.close_plugin_config_dialog)
 
-        hbox_plugins.pack_start(label_plugins, True, True, 0)
-        hbox_plugins.pack_start(combobox_plugins, True, True, 0)
-        vbox_main.pack_start(hbox_plugins, True, True, 0)
-        vbox_main.pack_start(frame_plugin_confs, True, True, 0)
-        vbox_main.pack_start(button_close, True, True, 0)
+        self.vbox_main.pack_start(hbox_plugins, True, True, 0)
+        self.vbox_main.pack_start(frame_plugin_confs, True, True, 0)
+        self.vbox_main.pack_start(button_close, True, True, 0)
 
-        self.show_plugin_configs(combobox_plugins.get_active_text(), frame_plugin_confs)
+        self.show_plugin_configs(collector, frame_plugin_confs)
 
-        self.add(vbox_main)
-        self.show_all()
+        self.add(self.vbox_main)
+        self.hide()
+
+    def get_plugin_frame(self):
+        return self.vbox_main
 
     def select_plugin(self, event, combobox, frame):
         self.save_current_plugin_configs()
-
         self.show_plugin_configs(combobox.get_active_text(), frame)
 
-    def show_plugin_configs(self, plugin_name, frame):
+    def show_plugin_configs(self, collector, frame):
         if self.vbox_plugin_main:
             frame.remove(self.vbox_plugin_main)
         self.vbox_plugin_main = Gtk.VBox()
 
-        self.current_plugin = next(plugin for plugin in self.plugins if plugin.name == plugin_name)
+        self.current_plugin = collector
         self.current_plugin_config = self.current_plugin.config
         if not self.current_plugin.is_running():
             self.current_plugin_config.refresh_data()
