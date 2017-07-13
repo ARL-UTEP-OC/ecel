@@ -74,7 +74,7 @@ class MainGUI(Gtk.Window):
         self.collectorWidget.add(self.collectorList)
 
         self.configWidget = Gtk.Box()
-        self.configWidget.set_size_request(definitions.MAIN_WINDOW_WIDTH - definitions.COLLECTOR_WIDGET_WIDTH,definitions.MAIN_WINDOW_HEIGHT - definitions.TOOL_BAR_HEIGHT)
+        self.configWidget.set_size_request(definitions.CONFIG_WINDOW_WIDTH,definitions.CONFIG_WINDOW_HEIGHT)
 
         self.main_body = Gtk.Box()
         self.main_body.set_orientation(Gtk.Orientation.HORIZONTAL)
@@ -141,7 +141,7 @@ class MainGUI(Gtk.Window):
         config_frame = PluginConfigGUI(self, collector).get_plugin_frame()
         config_frame.unparent()
         config_frame.show_all()
-        #config_frame.set_size_request()
+        config_frame.set_size_request(definitions.CONFIG_WINDOW_WIDTH,definitions.CONFIG_WINDOW_HEIGHT)
         self.configWidget.add(config_frame)
 
     def configure_collectors(self, event):

@@ -36,7 +36,8 @@ class PluginConfigGUI(Gtk.Window):
         self.set_resizable(False)
 
         self.vbox_main = Gtk.VBox()
-        self.vbox_main.add(Gtk.Label(collector.name + " Configuration"))
+        header = Gtk.HeaderBar()
+        header.set_title(collector.name + " Plugin Configurations")
 
         hbox_plugins = Gtk.HBox()
         frame_plugin_confs = Gtk.Frame()
@@ -44,10 +45,10 @@ class PluginConfigGUI(Gtk.Window):
 
         self.vbox_plugin_main = None
 
-        button_close = Gtk.Button("Close")
+        button_close = Gtk.Button("Save")
         button_close.connect("clicked", self.close_plugin_config_dialog)
 
-        self.vbox_main.pack_start(hbox_plugins, True, True, 0)
+        self.vbox_main.pack_start(header, True, True, 0)
         self.vbox_main.pack_start(frame_plugin_confs, True, True, 0)
         self.vbox_main.pack_start(button_close, True, True, 0)
 
