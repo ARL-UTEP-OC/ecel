@@ -130,6 +130,9 @@ class MainGUI(Gtk.Window):
         image.show()
         return image
 
+    def set_config_window(self,collector):
+        print('setting config window...')
+
     def configure_collectors(self, event):
         PluginConfigGUI(self, self.engine.collectors)
 
@@ -187,15 +190,12 @@ class MainGUI(Gtk.Window):
                 menu.append(runItem)
                 menu.append(stopItem)
 
-            #menu.append(collectorSettingsItem)
             menu.append(parseItem)
+            menu.append(collectorSettingsItem)
 
             menu.show_all()
             menu.popup(None, None, None, None, event.button, event.time)
             return True
-
-    def test(self,event):
-        print("id be doing stuff to a collector right now")
 
     def update_active_collectors(self, event, lboxRow):
         self.collectorStatus[lboxRow.get_name()] = not self.collectorStatus[lboxRow.get_name()]
