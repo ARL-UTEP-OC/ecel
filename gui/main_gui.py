@@ -66,7 +66,7 @@ class MainGUI(Gtk.Window):
         self.collectorList = Gtk.ListBox()
         self.collectorList.set_selection_mode(Gtk.SelectionMode.MULTIPLE)
         self.collectorList.connect("row-activated",self.update_active_collectors)
-        self.collectorList.connect("event",self.create_collector_menu)
+        self.collectorList.connect("button-press-event",self.show_collector_menu)
 
         self.collectorWidget = Gtk.Box()
         self.collectorWidget.set_orientation(Gtk.Orientation.VERTICAL)
@@ -166,14 +166,36 @@ class MainGUI(Gtk.Window):
 
         return row
 
-    def create_collector_menu(self,collectorList,event):
-            if(event.button.button == Gdk.BUTTON_SECONDARY and event.get_event_type() == Gdk.EventType.BUTTON_PRESS):
-                menu = Gtk.Menu()
-                print(collectorList.get_selected_row().get_name())
-                item = Gtk.MenuItem("TEST")
-                menu.append(item)
-                item.show()
-                #menu.popup(None,None, None, None, 0 , event.get_time())
+    def show_collector_menu(self,listBox,event):
+        active_row = listBox.get_selected_row()
+        if(event.button == Gdk.BUTTON_SECONDARY and active_row != None):
+            menu = Gtk.Menu()
+            collector = self.engine.get_collector(active_row.get_name())
+
+            runItem = Gtk.MenuItem("Run " + collector.name)
+            runItem.connect("activate",self.startIndividualCollector,collector)
+
+            stopItem = Gtk.MenuItem("Stop " + collector.name)
+            stopItem.connect("activate",self.stopIndividualCollector,collector)
+
+            parseItem = Gtk.MenuItem("Parse " + collector.name + " data")
+            parseItem.connect("activate",self.parser,collector)
+
+            collectorSettingsItem = Gtk.MenuItem("Show " + collector.name + " configuration")
+
+            if(isinstance(collector, engine.collector.AutomaticCollector)):
+                menu.append(runItem)
+                menu.append(stopItem)
+
+            #menu.append(collectorSettingsItem)
+            menu.append(parseItem)
+
+            menu.show_all()
+            menu.popup(None, None, None, None, event.button, event.time)
+            return True
+
+    def test(self,event):
+        print("id be doing stuff to a collector right now")
 
     def update_active_collectors(self, event, lboxRow):
         self.collectorStatus[lboxRow.get_name()] = not self.collectorStatus[lboxRow.get_name()]
