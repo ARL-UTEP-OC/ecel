@@ -25,10 +25,16 @@ class MainGUI(Gtk.Window):
 
         self.engine = app_engine
         self.numCollectors = self.engine.get_collector_length()
+
+        # Used to determine if a collector should be marked as active. {"collector":True/False (if should toggle)}
+        # Work around to the fact that Gtk.ListBoxRows do NOT toggle when multiple selections are allowed.
         self.collectorStatus = {}
 
+        # Main container grid
         self.grid = Gtk.Grid()
 
+        # Adds css file to be used in this window along with all of its children.
+        # To add a css class to a widget: {widget}.get_style_context().add_class("css_class_name")
         self.cssProvider = Gtk.CssProvider()
         self.set_styles()
 
@@ -63,19 +69,23 @@ class MainGUI(Gtk.Window):
         self.toolbarWidget.set_size_request(definitions.MAIN_WINDOW_WIDTH,definitions.TOOL_BAR_HEIGHT)
         self.toolbarWidget.add(self.create_toolbar())
 
+        # List of Gtk.ListBoxRows representing collector plugins
         self.collectorList = Gtk.ListBox()
         self.collectorList.set_selection_mode(Gtk.SelectionMode.MULTIPLE)
         self.collectorList.connect("row-activated",self.update_active_collectors)
-        self.collectorList.connect("button-press-event",self.show_collector_menu)
+        self.collectorList.connect("button-press-event", self.show_collector_menu)
 
+        # Container for the list of collector plugins
         self.collectorWidget = Gtk.Box()
         self.collectorWidget.set_orientation(Gtk.Orientation.VERTICAL)
         self.collectorWidget.set_size_request(definitions.COLLECTOR_WIDGET_WIDTH,definitions.MAIN_WINDOW_HEIGHT - definitions.TOOL_BAR_HEIGHT)
         self.collectorWidget.add(self.collectorList)
 
+        # Area of grid where configuration window appears.
         self.configWidget = Gtk.Box()
         self.configWidget.set_size_request(definitions.CONFIG_WINDOW_WIDTH,definitions.CONFIG_WINDOW_HEIGHT)
 
+        # contains collector widget AND config Widget
         self.main_body = Gtk.Box()
         self.main_body.set_orientation(Gtk.Orientation.HORIZONTAL)
         self.main_body.add(self.collectorWidget)

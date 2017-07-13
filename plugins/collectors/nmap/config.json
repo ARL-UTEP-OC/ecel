@@ -5,12 +5,12 @@
     "configurations": {
       "general": {
         "auto restart": {
-          "enabled": false, 
+          "enabled": true, 
           "time interval": 1800
         }
       }, 
       "archiving": {
-        "enabled": true, 
+        "enabled": false, 
         "time interval": 1800, 
         "file format": "zip"
       }, 
@@ -20,7 +20,7 @@
       "custom": {
         "interfaces": {
           "additional options": " -sP", 
-          "ip range": "localhost"
+          "ip range": "10.0.0.0"
         }
       }
     }
