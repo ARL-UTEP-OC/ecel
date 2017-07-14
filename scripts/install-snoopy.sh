@@ -2,7 +2,7 @@
 set -e
 
 ECEL_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )/.." && pwd )"
-INSTALL_DIR="$ECEL_DIR"/plugins/snoopy
+INSTALL_DIR="$ECEL_DIR"/plugins/collectors/snoopy/snoopy_install
 
 ### Install snoopy
 #
@@ -14,6 +14,8 @@ cd "$INSTALL_DIR"
 bash "$INSTALL_DIR"/snoopy-install.sh stable
 
 ### Configure snoopy
-#
-#TODO: a custom change for the config file; may have to compile this in... need to test
 cp "$ECEL_DIR"/plugins/collectors/snoopy/config/snoopy.ini /etc/snoopy.ini
+
+#We only want snoopy to run when ecel says so
+echo SNOOPY: Disabling snoopy
+bash snoopy-disable
