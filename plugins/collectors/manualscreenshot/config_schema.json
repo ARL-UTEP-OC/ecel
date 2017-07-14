@@ -1,0 +1,11 @@
+{
+  "collector": {
+    "name": "string",
+    "type": "string",
+    "configurations": {
+      "parsing": {
+        "parser": "text"
+      }
+    }
+  }
+}
