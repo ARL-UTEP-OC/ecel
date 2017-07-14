@@ -6,6 +6,7 @@ import sys
 import netifaces
 import traceback
 import definitions
+from utils.css_provider import CssProvider
 
 class PluginConfigGUI(Gtk.Window):
     def __init__(self, parent, collector):
@@ -27,6 +28,8 @@ class PluginConfigGUI(Gtk.Window):
             "path": self.create_path_hbox
         }
 
+        self.css = CssProvider("widget_styles.css")
+
         self.set_title("Plugin Configurations")
         self.set_modal(True)
         self.set_transient_for(self.main_gui)
@@ -36,11 +39,17 @@ class PluginConfigGUI(Gtk.Window):
         self.set_resizable(False)
 
         self.vbox_main = Gtk.VBox()
-        header = Gtk.HeaderBar()
-        header.set_title(collector.name + " Plugin Configurations")
-        header.set_sensitive(True)
 
-        hbox_plugins = Gtk.HBox()
+        headerBox = Gtk.Box()
+
+        headerLabel = Gtk.Label()
+        headerLabel.set_label(collector.name + " Plugin Configurations")
+
+        headerBox.add(headerLabel)
+        headerBox.get_style_context().add_class("config-header")
+
+        headerLabel.set_margin_left(definitions.CONFIG_WINDOW_WIDTH / 3) # center align text in header box
+
         frame_plugin_confs = Gtk.Frame()
         frame_plugin_confs.set_name("Plugin Configurations:");
 
@@ -49,7 +58,7 @@ class PluginConfigGUI(Gtk.Window):
         button_close = Gtk.Button("Save")
         button_close.connect("clicked", self.close_plugin_config_dialog)
 
-        self.vbox_main.pack_start(header, True, True, 0)
+        self.vbox_main.pack_start(headerBox, True, True, 0)
         self.vbox_main.pack_start(frame_plugin_confs, True, True, 0)
         self.vbox_main.pack_start(button_close, True, True, 0)
 
@@ -59,7 +68,6 @@ class PluginConfigGUI(Gtk.Window):
         self.hide()
 
     def get_plugin_frame(self):
-        self.vbox_main.set_sensitive(True)
         return self.vbox_main
 
     def select_plugin(self, event, combobox, frame):

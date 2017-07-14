@@ -7,6 +7,7 @@ import subprocess
 import status_icon
 import definitions
 import engine.collector
+from utils.css_provider import CssProvider
 from gui.export_gui import ExportGUI
 from gui.progress_bar import ProgressBar
 from gui.plugin_config_gui import PluginConfigGUI
@@ -34,8 +35,7 @@ class MainGUI(Gtk.Window):
 
         # Adds css file to be used in this window along with all of its children.
         # To add a css class to a widget: {widget}.get_style_context().add_class("css_class_name")
-        self.cssProvider = Gtk.CssProvider()
-        self.set_styles()
+        self.cssProvider = CssProvider("widget_styles.css")
 
         self.startall_button = Gtk.ToolButton()
         self.startall_button.set_icon_widget(self.get_image("start.png"))
@@ -147,6 +147,7 @@ class MainGUI(Gtk.Window):
         config_frame.unparent()
         config_frame.show_all()
         config_frame.set_size_request(definitions.CONFIG_WINDOW_WIDTH,definitions.CONFIG_WINDOW_HEIGHT)
+        config_frame.set_sensitive(True)
         self.configWidget.add(config_frame)
 
     def configure_collectors(self, event):
@@ -163,12 +164,6 @@ class MainGUI(Gtk.Window):
         if self.show_confirmation_dialog("Are you sure you want to delete all collector data (this cannot be undone)?"):
             remove_cmd = os.path.join(os.path.join(os.getcwd(), "scripts"), "cleanCollectorData.sh")
             subprocess.call(remove_cmd) #TODO: Change this to not call external script
-
-    def set_styles(self):
-        self.cssProvider.load_from_path(definitions.PLUGIN_CSS_DIR + "widget_styles.css")
-        screen = Gdk.Screen.get_default()
-        context = Gtk.StyleContext()
-        context.add_provider_for_screen(screen, self.cssProvider, Gtk.STYLE_PROVIDER_PRIORITY_USER)
 
     def create_collector_row(self,collector):
 
