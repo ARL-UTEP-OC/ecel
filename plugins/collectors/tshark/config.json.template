@@ -1,27 +1,37 @@
 {
   "collector": {
-    "name": "tshark",
-    "type": "automatic",
+    "name": "string",
+    "type": "string",
     "configurations": {
       "general": {
         "auto restart": {
-          "enabled": true,
-          "time interval": 30
+          "enabled": "checkbox",
+          "time interval": "time"
         }
       },
       "archiving": {
-        "enabled": false,
-        "time interval": 1800,
-        "file format": "zip"
+        "enabled": "checkbox",
+        "time interval": "time",
+        "file format": "option"
       },
       "parsing": {
-        "parser": "plugins.parsers.tshark.tshark_parser,TSharkParser"
+        "parser": "text"
       },
       "custom": {
         "interfaces": {
-          "mode": "exclusive",
-          "interfaces": "lo"
+          "mode": "radio",
+          "interfaces": "netifaces"
         }
+      },
+      "constraints": {
+        "archiving|file format": [
+          "zip",
+          "tar"
+        ],
+        "custom|interfaces|mode": [
+          "inclusive",
+          "exclusive"
+        ]
       }
     }
   }

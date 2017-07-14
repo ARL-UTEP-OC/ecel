@@ -72,7 +72,6 @@ class MainGUI(Gtk.Window):
         self.collectorList = Gtk.ListBox()
         self.collectorList.set_selection_mode(Gtk.SelectionMode.MULTIPLE)
         self.collectorList.connect("row-activated",self.update_active_collectors)
-        #self.collectorList.connect("button-press-event", self.show_collector_menu)
 
         # Container for the list of collector plugins
         self.collectorWidget = Gtk.Box()
@@ -209,10 +208,8 @@ class MainGUI(Gtk.Window):
             collectorSettingsItem = Gtk.MenuItem("Show " + collector.name + " configuration")
             collectorSettingsItem.connect("activate",self.create_config_window,collector)
 
-            if(isinstance(collector, engine.collector.AutomaticCollector)):
-                menu.append(runItem)
-                menu.append(stopItem)
-
+            menu.append(runItem)
+            menu.append(stopItem)
             menu.append(parseItem)
             menu.append(collectorSettingsItem)
 

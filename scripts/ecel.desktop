@@ -1,10 +1,9 @@
 [Desktop Entry]
 Name=ECEL
 GenericName=
-Commend=
-Exec=/root/git/github/ecel/ecel-gui
+Comment=Evaluator Centric and Extensible Logger
+Exec=/root/Practicum/ecelDevelopment/ecel-gui
 Terminal=false
 Type=Application
 X-GNOME-Autostart-enabled=true
 
-#copy this file to ~/.config/autostart/

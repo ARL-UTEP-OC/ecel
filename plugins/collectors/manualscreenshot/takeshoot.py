@@ -1,5 +1,7 @@
+import gi
+gi.require_version('Gtk', '3.0')
+from gi.repository import Gtk,Gdk
 import getpass
-import gtk
 import os
 import datetime
 from time import sleep
@@ -17,10 +19,10 @@ class CaptureScreen():
         self.comment_entry_text = ""
 
         response = self.save_shot()
-        if response == gtk.RESPONSE_ACCEPT:
+        if response == Gtk.RESPONSE_ACCEPT:
             # wait 1 second before taking the snapshot
-            while gtk.events_pending():
-                gtk.main_iteration()
+            while Gdk.events_pending():
+                Gdk.main_iteration()
             sleep(1)
 
             timestamp = datetime.datetime.now().strftime("%Y%m%d-%H%M%S")
@@ -50,20 +52,20 @@ class CaptureScreen():
 
     def save_shot(self):
         # create a new window
-        dialog = gtk.Dialog("Manual ScreenShot",
+        dialog = Gtk.Dialog("Manual ScreenShot",
                             None,
-                            gtk.DIALOG_MODAL | gtk.DIALOG_DESTROY_WITH_PARENT,
-                            (gtk.STOCK_CANCEL, gtk.RESPONSE_REJECT,
-                             gtk.STOCK_OK, gtk.RESPONSE_ACCEPT))
+                            Gtk.Dialog.destroy | Gtk.Dialog.destroy
+                            (Gtk.STOCK_CANCEL, Gtk.ResponseType.REJECT,
+                             Gtk.STOCK_OK, Gtk.ResponseType.ACCEPT))
 
         dialog.set_size_request(400, 250)
         dialog.set_title("Manual ScreenShot Comment ECEL V2.0")
 
-        table = gtk.Table(5,2,False)
+        table = Gtk.Table(5,2,False)
         table.show()
         # create ip row
-        ipLabel = gtk.Label("IP")
-        ipEntry = gtk.Entry()
+        ipLabel = Gtk.Label("IP")
+        ipEntry = Gtk.Entry()
         table.attach(ipLabel, 0, 1, 0, 1)
         table.attach(ipEntry, 1, 2, 0, 1)
         ipLabel.show()
@@ -78,8 +80,8 @@ class CaptureScreen():
         portEntry.show()
 
         # create initial row
-        initialLabel = gtk.Label("Initials")
-        initialEntry = gtk.Entry()
+        initialLabel = Gtk.Label("Initials")
+        initialEntry = Gtk.Entry()
         table.attach(initialLabel, 0, 1, 2, 3)
         table.attach(initialEntry, 1, 2, 2, 3)
         initialLabel.show()
@@ -87,7 +89,7 @@ class CaptureScreen():
 
         #create the comment entry field
         maxChar = 64
-        commentEntry = gtk.Entry()
+        commentEntry = Gtk.Entry()
         commentEntry.set_max_length(maxChar)
         commentEntry.insert_text("Enter Comment")
         commentEntry.select_region(0, len(commentEntry.get_text()))

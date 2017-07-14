@@ -38,6 +38,7 @@ class PluginConfigGUI(Gtk.Window):
         self.vbox_main = Gtk.VBox()
         header = Gtk.HeaderBar()
         header.set_title(collector.name + " Plugin Configurations")
+        header.set_sensitive(True)
 
         hbox_plugins = Gtk.HBox()
         frame_plugin_confs = Gtk.Frame()
@@ -58,6 +59,7 @@ class PluginConfigGUI(Gtk.Window):
         self.hide()
 
     def get_plugin_frame(self):
+        self.vbox_main.set_sensitive(True)
         return self.vbox_main
 
     def select_plugin(self, event, combobox, frame):
@@ -206,7 +208,10 @@ class PluginConfigGUI(Gtk.Window):
             options = constraints
         previous_button = None
         for option in options:
-            new_button = Gtk.RadioButton(previous_button, option)
+            new_button = Gtk.RadioButton()
+            new_button.set_label(option)
+            if(previous_button != None):
+                new_button = new_button.new_with_label_from_widget(previous_button,option)
             if option == value:
                 new_button.set_active(True)
             radiobuttons.append(new_button)
@@ -441,12 +446,7 @@ class PluginConfigGUI(Gtk.Window):
             elif widget_type == "radio":
                 for w in widget:
                     if w.get_active():
-                        label = "";
-                        if w.get_label() == None:
-                            label = "NULL";
-                        else:
-                            label = w.get_label()
-                            value = "\"" + label + "\""
+                        value = "\"" + w.get_label() + "\""
             elif widget_type == "option" or widget_type == "netiface":
                 value = "\"" + widget.get_active_text() + "\""
             elif widget_type == "options" or widget_type == "netifaces":

@@ -1,28 +1,26 @@
 {
   "collector": {
-    "name": "tshark", 
-    "type": "automatic", 
+    "name": "tshark",
+    "type": "automatic",
     "configurations": {
       "general": {
         "auto restart": {
-          "enabled": false, 
-          "time interval": 28
+          "enabled": true,
+          "time interval": 30
         }
-      }, 
+      },
       "archiving": {
-        "enabled": true, 
-        "time interval": 1800, 
-        "file format": "tar"
-      }, 
+        "enabled": false,
+        "time interval": 1800,
+        "file format": "zip"
+      },
       "parsing": {
         "parser": "plugins.parsers.tshark.tshark_parser,TSharkParser"
-      }, 
+      },
       "custom": {
         "interfaces": {
-          "mode": "<Gtk.RadioButton object at 0x7f13b1e6f410 (GtkRadioButton at 0x1bb01a0)>", 
-          "interfaces": [
-            "lo"
-          ]
+          "mode": "exclusive",
+          "interfaces": "lo"
         }
       }
     }
