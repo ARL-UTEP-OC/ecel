@@ -72,7 +72,7 @@ class MainGUI(Gtk.Window):
         self.collectorList = Gtk.ListBox()
         self.collectorList.set_selection_mode(Gtk.SelectionMode.MULTIPLE)
         self.collectorList.connect("row-activated",self.update_active_collectors)
-        self.collectorList.connect("button-press-event", self.show_collector_menu)
+        #self.collectorList.connect("button-press-event", self.show_collector_menu)
 
         # Container for the list of collector plugins
         self.collectorWidget = Gtk.Box()
@@ -180,17 +180,22 @@ class MainGUI(Gtk.Window):
         row_height = definitions.MAIN_WINDOW_HEIGHT / self.numCollectors
         row.set_size_request(definitions.COLLECTOR_WIDGET_WIDTH,row_height)
         row.set_name(collector.name)
-        row.add(label)
+
+        box = Gtk.EventBox()
+        box.add(label)
+        box.connect("button-press-event",self.show_collector_menu,collector.name)
+
+        row.add(box)
         row.get_style_context().add_class("listBoxRow")
         row.get_style_context().add_class("inactive-color")
 
         return row
 
-    def show_collector_menu(self,listBox,event):
-        active_row = listBox.get_selected_row()
-        if(event.button == Gdk.BUTTON_SECONDARY and active_row != None):
+    def show_collector_menu(self, eventBox, event, collectorName):
+
+        if(event.button == Gdk.BUTTON_SECONDARY): # right click
             menu = Gtk.Menu()
-            collector = self.engine.get_collector(active_row.get_name())
+            collector = self.engine.get_collector(collectorName)
 
             runItem = Gtk.MenuItem("Run " + collector.name)
             runItem.connect("activate",self.startIndividualCollector,collector)

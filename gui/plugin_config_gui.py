@@ -45,7 +45,7 @@ class PluginConfigGUI(Gtk.Window):
 
         self.vbox_plugin_main = None
 
-        button_close = Gtk.Button("Close")
+        button_close = Gtk.Button("Save")
         button_close.connect("clicked", self.close_plugin_config_dialog)
 
         self.vbox_main.pack_start(header, True, True, 0)
