@@ -7,7 +7,6 @@ import subprocess
 import status_icon
 import definitions
 import engine.collector
-import engine.engine as Engine
 from gui.export_gui import ExportGUI
 from gui.progress_bar import ProgressBar
 from gui.plugin_config_gui import PluginConfigGUI
@@ -128,9 +127,6 @@ class MainGUI(Gtk.Window):
         toolbar.insert(self.export_button, 5)
         self.remove_data_button.set_tooltip_text("Delete All Collector Data")
         toolbar.insert(self.remove_data_button, 6)
-        toolbar.insert(separator3, 7)
-        self.collector_config_button.set_tooltip_text("Collector Configurations")
-        toolbar.insert(self.collector_config_button, 8)
 
         return toolbar
 

@@ -1,26 +1,26 @@
 {
   "collector": {
-    "name": "nmap", 
-    "type": "automatic", 
+    "name": "nmap",
+    "type": "automatic",
     "configurations": {
       "general": {
         "auto restart": {
-          "enabled": true, 
+          "enabled": false,
           "time interval": 1800
         }
-      }, 
+      },
       "archiving": {
-        "enabled": false, 
-        "time interval": 1800, 
+        "enabled": true,
+        "time interval": 1800,
         "file format": "zip"
-      }, 
+      },
       "parsing": {
         "parser": "plugins.parsers.nmap.nmap_parser,NMapParser"
-      }, 
+      },
       "custom": {
         "interfaces": {
-          "additional options": " -sP", 
-          "ip range": "10.0.0.0"
+          "additional options": " -sP",
+          "ip range": " localhost"
         }
       }
     }
