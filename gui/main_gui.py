@@ -80,6 +80,8 @@ class MainGUI(Gtk.Window):
         self.collectorWidget.set_size_request(definitions.COLLECTOR_WIDGET_WIDTH,definitions.MAIN_WINDOW_HEIGHT - definitions.TOOL_BAR_HEIGHT)
         self.collectorWidget.add(self.collectorList)
 
+        self.currentConfigWindow = None
+
         # Area of grid where configuration window appears.
         self.configWidget = Gtk.Box()
         self.configWidget.set_size_request(definitions.CONFIG_WINDOW_WIDTH,definitions.CONFIG_WINDOW_HEIGHT)
@@ -157,12 +159,13 @@ class MainGUI(Gtk.Window):
 
     def create_config_window(self,event,collector):
         self.clear_config_window()
-        config_frame = PluginConfigGUI(self, collector).get_plugin_frame()
-        config_frame.unparent()
-        config_frame.show_all()
-        config_frame.set_size_request(definitions.CONFIG_WINDOW_WIDTH,definitions.CONFIG_WINDOW_HEIGHT)
-        config_frame.set_sensitive(True)
-        self.configWidget.add(config_frame)
+        self.currentConfigWindow = PluginConfigGUI(self, collector).get_plugin_frame()
+        self.currentConfigWindow.set_name(collector.name)
+        self.currentConfigWindow.unparent()
+        self.currentConfigWindow.show_all()
+        self.currentConfigWindow.set_size_request(definitions.CONFIG_WINDOW_WIDTH,definitions.CONFIG_WINDOW_HEIGHT)
+        self.currentConfigWindow.set_sensitive(not collector.is_running())
+        self.configWidget.add(self.currentConfigWindow)
 
     def configure_collectors(self, event):
         PluginConfigGUI(self, self.engine.collectors)
@@ -248,6 +251,9 @@ class MainGUI(Gtk.Window):
 
         for i, c in enumerate(selected_collectors):
             collector = self.engine.get_collector(c.get_name())
+            if(self.currentConfigWindow != None and self.currentConfigWindow.get_name() == collector.name):
+                self.currentConfigWindow.set_sensitive(collector.is_running())
+                # Config window should NOT be editable IF collector is running
             if collector.is_enabled() and isinstance(collector, engine.collector.AutomaticCollector):
                 if(action == Action.RUN):
                     self.startall_button.set_sensitive(False)
@@ -373,9 +379,13 @@ class MainGUI(Gtk.Window):
         collector.parser.parse()
 
     def stopIndividualCollector(self, event, collector):
+        if (self.currentConfigWindow != None and self.currentConfigWindow.get_name() == collector.name):
+            self.currentConfigWindow.set_sensitive(collector.is_running())
         collector.terminate()
 
     def startIndividualCollector(self, event, collector):
+        if (self.currentConfigWindow != None and self.currentConfigWindow.get_name() == collector.name):
+            self.currentConfigWindow.set_sensitive(collector.is_running())
         collector.run()
 
     def show_confirmation_dialog(self, msg):
