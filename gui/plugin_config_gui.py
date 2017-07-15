@@ -33,13 +33,10 @@ class PluginConfigGUI(Gtk.Window):
         self.vbox_main = Gtk.VBox()
 
         headerBox = Gtk.Box()
-
         headerLabel = Gtk.Label()
         headerLabel.set_label(collector.name + " Plugin Configurations")
-
         headerBox.add(headerLabel)
         headerBox.get_style_context().add_class("config-header")
-
         headerLabel.set_margin_left(definitions.CONFIG_WINDOW_WIDTH / 3) # center align text in header box
 
         frame_plugin_confs = Gtk.Frame()
@@ -57,6 +54,14 @@ class PluginConfigGUI(Gtk.Window):
         self.show_plugin_configs(collector, frame_plugin_confs)
 
         self.add(self.vbox_main)
+
+        self.vbox_plugin_main.set_sensitive(True)
+        self.vbox_main.set_sensitive(True)
+        headerBox.set_sensitive(True)
+        frame_plugin_confs.set_sensitive(True)
+        button_close.set_sensitive(True)
+        self.set_sensitive(True)
+
         self.hide()
 
     def get_plugin_frame(self):

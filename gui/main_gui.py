@@ -217,8 +217,10 @@ class MainGUI(Gtk.Window):
             collectorSettingsItem = Gtk.MenuItem("Show " + collector.name + " configuration")
             collectorSettingsItem.connect("activate",self.create_config_window,collector)
 
-            menu.append(runItem)
-            menu.append(stopItem)
+            if(isinstance(collector,engine.collector.AutomaticCollector)):
+                menu.append(runItem)
+                menu.append(stopItem)
+
             menu.append(parseItem)
             menu.append(collectorSettingsItem)
 
