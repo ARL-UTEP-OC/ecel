@@ -29,15 +29,7 @@ class PluginConfigGUI(Gtk.Window):
         }
 
         self.css = CssProvider("widget_styles.css")
-
         self.set_title("Plugin Configurations")
-        self.set_modal(True)
-        self.set_transient_for(self.main_gui)
-        self.set_position(Gtk.WindowPosition.CENTER_ON_PARENT)
-        #self.set_size_request(500, 700)
-        self.set_border_width(6)
-        self.set_resizable(False)
-
         self.vbox_main = Gtk.VBox()
 
         headerBox = Gtk.Box()

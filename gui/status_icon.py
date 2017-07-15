@@ -68,9 +68,9 @@ class CustomSystemTrayIcon:
         quit_menu_item.connect('activate', self.kill_me, app_engine)
 
         #self.tray_ind = appindicator.Indicator("ECEL", Gtk.STOCK_NO, appindicator.CATEGORY_SYSTEM_SERVICES)
-        self.tray_ind = AppIndicator3.Indicator.new("ECEL", Gtk.STOCK_NO, AppIndicator3.IndicatorCategory.OTHER)
-        self.tray_ind.set_status(AppIndicator3.IndicatorStatus.ACTIVE)
-        self.tray_ind.set_menu(menu)
+        #self.tray_ind = AppIndicator3.Indicator.new("ECEL", Gtk.STOCK_NO, AppIndicator3.IndicatorCategory.OTHER)
+        #self.tray_ind.set_status(AppIndicator3.IndicatorStatus.ACTIVE)
+        #self.tray_ind.set_menu(menu)
 
         menu.show_all()
 

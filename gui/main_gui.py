@@ -72,6 +72,7 @@ class MainGUI(Gtk.Window):
         self.collectorList = Gtk.ListBox()
         self.collectorList.set_selection_mode(Gtk.SelectionMode.MULTIPLE)
         self.collectorList.connect("row-activated",self.update_active_collectors)
+        self.collectorList.connect("key-press-event",self.handle_ctrl_shift_keys)
 
         # Container for the list of collector plugins
         self.collectorWidget = Gtk.Box()
@@ -104,6 +105,19 @@ class MainGUI(Gtk.Window):
 
         self.show_all()
         self.status_context_menu = status_icon.CustomSystemTrayIcon(app_engine, self)
+
+    def handle_ctrl_shift_keys(self,a, event):
+        modifiers = Gtk.AccelFlags.MASK
+        print("*****************")
+        print("Modifiers: ")
+        print(modifiers)
+        print("Event state: ")
+        print(event.state)
+        print("Control mask: ")
+        print(Gdk.ModifierType.CONTROL_MASK)
+        print("event: ")
+        print(event)
+        print("*****************")
 
     def create_toolbar(self):
         toolbar = Gtk.Toolbar()
