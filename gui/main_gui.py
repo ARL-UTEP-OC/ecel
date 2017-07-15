@@ -26,10 +26,6 @@ class MainGUI(Gtk.Window):
         self.engine = app_engine
         self.numCollectors = self.engine.get_collector_length()
 
-        # Used to determine if a collector should be marked as active. {"collector":True/False (if should toggle)}
-        # Work around to the fact that Gtk.ListBoxRows do NOT toggle when multiple selections are allowed.
-        self.collectorStatus = {}
-
         # Main container grid
         self.grid = Gtk.Grid()
 
@@ -71,8 +67,11 @@ class MainGUI(Gtk.Window):
         # List of Gtk.ListBoxRows representing collector plugins
         self.collectorList = Gtk.ListBox()
         self.collectorList.set_selection_mode(Gtk.SelectionMode.SINGLE)
+        # Highlight/gray out list box rows depending on which collectors are marked active
         self.collectorList.connect("row-activated",self.update_row_colors)
+        # Enable multiple collector selection when (SHIFT + CTRL) occurs (selection mode == MULTIPLE)
         self.collectorList.connect("key-press-event",self.ctrl_shift_enable_multiple_collector_selection)
+        # Makes the next click revert back to single selection mode when (SHIFT + CTRL) released
         self.collectorList.connect("key-release-event",self.ctrl_shift_disable_multiple_collector_selection)
 
         # Container for the list of collector plugins
@@ -104,11 +103,11 @@ class MainGUI(Gtk.Window):
         for i, collector in enumerate(self.engine.collectors):
             print "%d) %s" % (i, collector.name)
             self.collectorList.add(self.create_collector_row(collector))
-            self.collectorStatus[collector.name] = False
 
         self.show_all()
         self.status_context_menu = status_icon.CustomSystemTrayIcon(app_engine, self)
 
+    # When (SHIFT + CTRL) occurs, enable multiple collector selection
     def ctrl_shift_enable_multiple_collector_selection(self, listBox, event):
         modifiers = Gtk.accelerator_get_default_mod_mask()
         if(((event.state & modifiers) == Gdk.ModifierType.CONTROL_MASK)
@@ -116,18 +115,22 @@ class MainGUI(Gtk.Window):
            ):
                 self.collectorList.set_selection_mode(Gtk.SelectionMode.MULTIPLE)
 
+    # When (SHIFT + CTRL) keys are released, revert back to single selection on next click
     def ctrl_shift_disable_multiple_collector_selection(self, listBox, event):
         modifiers = Gtk.accelerator_get_default_mod_mask()
         if (((event.state & modifiers) == Gdk.ModifierType.CONTROL_MASK) == False
                 | ((event.state & modifiers) == Gdk.ModifierType.SHIFT_MASK) == False):
+            # Next click will reset collector list to single selection mode
             self.collectorList.connect("button-press-event",self.enable_single_selection)
-            # Next click will reset collector list to
 
-
+    # Revert back to single selection only for collectors
     def enable_single_selection(self,lBox,event):
+        # Left click
         if(event.button == Gdk.BUTTON_PRIMARY):
+            # Unselect all rows
             self.collectorList.unselect_all()
-            self.collectorList.disconnect_by_func(self.enable_single_selection) # disable
+            # Disable this handler so that multiple selection is possible again in the future.
+            self.collectorList.disconnect_by_func(self.enable_single_selection)
 
     def create_toolbar(self):
         toolbar = Gtk.Toolbar()
@@ -153,18 +156,22 @@ class MainGUI(Gtk.Window):
 
         return toolbar
 
+    # Return image based on image name
     def get_image(self,name):
         image = Gtk.Image()
         image.set_from_file(os.path.join(definitions.ICONS_DIR, name))
         image.show()
         return image
 
+    # Destroy anything in the current config window before placing new config window
     def clear_config_window(self):
         self.configWidget.foreach(self.delete_widget)
 
+    # Helper for clear_config_window()
     def delete_widget(self,widget):
         widget.destroy()
 
+    # Pull the collectors configuration from plugin_configure_gui.py and place in config window.
     def create_config_window(self,event,collector):
         self.clear_config_window()
         self.currentConfigWindow = PluginConfigGUI(self, collector).get_plugin_frame()
@@ -190,6 +197,7 @@ class MainGUI(Gtk.Window):
             remove_cmd = os.path.join(os.path.join(os.getcwd(), "scripts"), "cleanCollectorData.sh")
             subprocess.call(remove_cmd) #TODO: Change this to not call external script
 
+    # Create list box row for specific collector (left pane)
     def create_collector_row(self,collector):
 
         label = Gtk.Label()
@@ -210,6 +218,7 @@ class MainGUI(Gtk.Window):
 
         return row
 
+    # Show options over collector row on right click
     def show_collector_menu(self, eventBox, event, collectorName):
 
         if(event.button == Gdk.BUTTON_SECONDARY): # right click
@@ -228,6 +237,7 @@ class MainGUI(Gtk.Window):
             collectorSettingsItem = Gtk.MenuItem("Show " + collector.name + " configuration")
             collectorSettingsItem.connect("activate",self.create_config_window,collector)
 
+            # manual collector should only be run by icon
             if(isinstance(collector,engine.collector.AutomaticCollector)):
                 menu.append(runItem)
                 menu.append(stopItem)
@@ -239,9 +249,11 @@ class MainGUI(Gtk.Window):
             menu.popup(None, None, None, None, event.button, event.time)
             return True
 
+    # Update background colors of collector rows based on isSelected()
     def update_row_colors(self, event, lboxRow):
         self.collectorList.foreach(self.update_row_color)
 
+    # Helper for update_row_colors
     def update_row_color(self,row):
         if(row.is_selected()):
             row.get_style_context().add_class("active-color")
@@ -250,6 +262,7 @@ class MainGUI(Gtk.Window):
             row.get_style_context().remove_class("active-color")
             row.get_style_context().add_class("inactive-color")
 
+    # Perform the designated action (run,stop,parse) for all selected collectors
     def process_active_collectors(self,event,action):
 
         selected_collectors = self.collectorList.get_selected_rows()
