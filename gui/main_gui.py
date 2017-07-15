@@ -129,6 +129,8 @@ class MainGUI(Gtk.Window):
         if(event.button == Gdk.BUTTON_PRIMARY):
             # Unselect all rows
             self.collectorList.unselect_all()
+            # Reset selection mode to single
+            self.collectorList.set_selection_mode(Gtk.SelectionMode.SINGLE)
             # Disable this handler so that multiple selection is possible again in the future.
             self.collectorList.disconnect_by_func(self.enable_single_selection)
 
