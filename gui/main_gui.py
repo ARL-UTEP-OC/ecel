@@ -70,9 +70,10 @@ class MainGUI(Gtk.Window):
 
         # List of Gtk.ListBoxRows representing collector plugins
         self.collectorList = Gtk.ListBox()
-        self.collectorList.set_selection_mode(Gtk.SelectionMode.MULTIPLE)
-        self.collectorList.connect("row-activated",self.update_active_collectors)
-        self.collectorList.connect("key-press-event",self.handle_ctrl_shift_keys)
+        self.collectorList.set_selection_mode(Gtk.SelectionMode.SINGLE)
+        self.collectorList.connect("row-activated",self.update_row_colors)
+        self.collectorList.connect("key-press-event",self.ctrl_shift_enable_multiple_collector_selection)
+        self.collectorList.connect("key-release-event",self.ctrl_shift_disable_multiple_collector_selection)
 
         # Container for the list of collector plugins
         self.collectorWidget = Gtk.Box()
@@ -108,18 +109,25 @@ class MainGUI(Gtk.Window):
         self.show_all()
         self.status_context_menu = status_icon.CustomSystemTrayIcon(app_engine, self)
 
-    def handle_ctrl_shift_keys(self,a, event):
-        modifiers = Gtk.AccelFlags.MASK
-        print("*****************")
-        print("Modifiers: ")
-        print(modifiers)
-        print("Event state: ")
-        print(event.state)
-        print("Control mask: ")
-        print(Gdk.ModifierType.CONTROL_MASK)
-        print("event: ")
-        print(event)
-        print("*****************")
+    def ctrl_shift_enable_multiple_collector_selection(self, listBox, event):
+        modifiers = Gtk.accelerator_get_default_mod_mask()
+        if(((event.state & modifiers) == Gdk.ModifierType.CONTROL_MASK)
+            | (event.state & modifiers) == Gdk.ModifierType.SHIFT_MASK
+           ):
+                self.collectorList.set_selection_mode(Gtk.SelectionMode.MULTIPLE)
+
+    def ctrl_shift_disable_multiple_collector_selection(self, listBox, event):
+        modifiers = Gtk.accelerator_get_default_mod_mask()
+        if (((event.state & modifiers) == Gdk.ModifierType.CONTROL_MASK) == False
+                | ((event.state & modifiers) == Gdk.ModifierType.SHIFT_MASK) == False):
+            self.collectorList.connect("button-press-event",self.enable_single_selection)
+            # Next click will reset collector list to
+
+
+    def enable_single_selection(self,lBox,event):
+        if(event.button == Gdk.BUTTON_PRIMARY):
+            self.collectorList.unselect_all()
+            self.collectorList.disconnect_by_func(self.enable_single_selection) # disable
 
     def create_toolbar(self):
         toolbar = Gtk.Toolbar()
@@ -231,16 +239,16 @@ class MainGUI(Gtk.Window):
             menu.popup(None, None, None, None, event.button, event.time)
             return True
 
-    def update_active_collectors(self, event, lboxRow):
-        self.collectorStatus[lboxRow.get_name()] = not self.collectorStatus[lboxRow.get_name()]
-        set_selected = self.collectorStatus[lboxRow.get_name()] #dictionary object needed to toggle listbox row
-        if(set_selected == False):
-            self.collectorList.unselect_row(lboxRow)
-            lboxRow.get_style_context().add_class("inactive-color")
-            lboxRow.get_style_context().remove_class("active-color")
-        if(set_selected == True):
-            lboxRow.get_style_context().add_class("active-color")
-            lboxRow.get_style_context().remove_class("inactive-color")
+    def update_row_colors(self, event, lboxRow):
+        self.collectorList.foreach(self.update_row_color)
+
+    def update_row_color(self,row):
+        if(row.is_selected()):
+            row.get_style_context().add_class("active-color")
+            row.get_style_context().remove_class("inactive-color")
+        if(row.is_selected() == False):
+            row.get_style_context().remove_class("active-color")
+            row.get_style_context().add_class("inactive-color")
 
     def process_active_collectors(self,event,action):
 
