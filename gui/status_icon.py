@@ -1,7 +1,6 @@
 # For GUI
 import gi
 gi.require_version('Gtk', '3.0')
-from gi.repository import Gtk
 gi.require_version('AppIndicator3', '0.1')
 from gi.repository import Gtk, AppIndicator3
 import os
@@ -68,7 +67,6 @@ class CustomSystemTrayIcon:
         quit_menu_item.connect('activate', self.kill_me, app_engine)
 
         self.tray_ind = AppIndicator3.Indicator.new("ECEL", Gtk.STOCK_NO, AppIndicator3.IndicatorCategory.SYSTEM_SERVICES)
-        self.tray_ind = AppIndicator3.Indicator.new("ECEL", Gtk.STOCK_NO, AppIndicator3.IndicatorCategory.OTHER)
         self.tray_ind.set_status(AppIndicator3.IndicatorStatus.ACTIVE)
         self.tray_ind.set_menu(menu)
 
