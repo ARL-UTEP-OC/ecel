@@ -327,7 +327,7 @@ class MainGUI(Gtk.Window):
     def startall_collectors(self, button):
         self.stopall_button.set_sensitive(True)
         self.startall_button.set_sensitive(False)
-        self.status_context_menu.tray_ind.set_icon(Gtk.STOCK_NO)
+        self.status_context_menu.tray_ind.set_icon(Gtk.STOCK_MEDIA_RECORD)
         self.status_context_menu.stopall_menu_item.set_sensitive(True)
         self.status_context_menu.startall_menu_item.set_sensitive(False)
         i = 0.0
