@@ -19,10 +19,10 @@ class CaptureScreen():
         self.comment_entry_text = ""
 
         response = self.save_shot()
-        if response == Gtk.RESPONSE_ACCEPT:
+        if response == Gtk.ResponseType.ACCEPT:
             # wait 1 second before taking the snapshot
             while Gdk.events_pending():
-                Gdk.main_iteration()
+                Gtk.main_iteration()
             sleep(1)
 
             timestamp = datetime.datetime.now().strftime("%Y%m%d-%H%M%S")
@@ -54,7 +54,7 @@ class CaptureScreen():
         # create a new window
         dialog = Gtk.Dialog("Manual ScreenShot",
                             None,
-                            Gtk.Dialog.destroy | Gtk.Dialog.destroy
+                            Gtk.DialogFlags.MODAL | Gtk.DialogFlags.DESTROY_WITH_PARENT,
                             (Gtk.STOCK_CANCEL, Gtk.ResponseType.REJECT,
                              Gtk.STOCK_OK, Gtk.ResponseType.ACCEPT))
 
@@ -72,8 +72,8 @@ class CaptureScreen():
         ipEntry.show()
 
         # create Port row
-        portLabel = gtk.Label("Port")
-        portEntry = gtk.Entry()
+        portLabel = Gtk.Label("Port")
+        portEntry = Gtk.Entry()
         table.attach(portLabel, 0, 1, 1, 2)
         table.attach(portEntry, 1, 2, 1, 2)
         portLabel.show()
@@ -91,12 +91,12 @@ class CaptureScreen():
         maxChar = 64
         commentEntry = Gtk.Entry()
         commentEntry.set_max_length(maxChar)
-        commentEntry.insert_text("Enter Comment")
+        commentEntry.insert_text("Enter Comment",0)
         commentEntry.select_region(0, len(commentEntry.get_text()))
         table.attach(commentEntry, 0, 2, 3, 4)
         commentEntry.show()
 
-        dialog.vbox.pack_start(table)
+        dialog.vbox.pack_start(table,True,True,0)
 
         response = dialog.run()
 
@@ -104,6 +104,6 @@ class CaptureScreen():
         self.port_entry_text = portEntry.get_text()
         self.initial_entry_text = initialEntry.get_text()
         self.comment_entry_text = commentEntry.get_text()
-        dialog.hide_all()
+        dialog.hide()
         dialog.destroy()
         return response
