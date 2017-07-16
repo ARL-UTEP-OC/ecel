@@ -325,6 +325,7 @@ class MainGUI(Gtk.Window):
         return frame
 
     def startall_collectors(self, button):
+        self.collectorList.set_selection_mode(Gtk.SelectionMode.MULTIPLE)
         self.stopall_button.set_sensitive(True)
         self.startall_button.set_sensitive(False)
         self.status_context_menu.tray_ind.set_icon(Gtk.STOCK_MEDIA_RECORD)
@@ -338,6 +339,7 @@ class MainGUI(Gtk.Window):
         for collector in self.engine.collectors:
             if collector.is_enabled() and isinstance(collector, engine.collector.AutomaticCollector):
                 collector.run()
+                self.update_collector_status(Action.RUN,collector.name)
             pb.setValue(i / len(self.engine.collectors))
             pb.pbar.set_text("Stopping " + collector.name)
             while Gtk.events_pending():
@@ -349,7 +351,18 @@ class MainGUI(Gtk.Window):
         #if not pb.emit("delete-event", Gdk.Event(Gdk.DELETE)):
             #pb.destroy()
 
+    def update_collector_status(self,action,collectorName):
+        row = filter(lambda r: r.get_name() == collectorName, self.collectorList.get_children())
+        if(row.__len__() > 0):
+            collectorRow = row.pop()
+            if(action == Action.RUN):
+                self.collectorList.select_row(collectorRow)
+            if(action == Action.STOP):
+                self.collectorList.unselect_row(collectorRow)
+            self.update_row_color(collectorRow)
+
     def stopall_collectors(self, button):
+        self.collectorList.set_selection_mode(Gtk.SelectionMode.SINGLE)
         self.stopall_button.set_sensitive(False)
         self.startall_button.set_sensitive(True)
         self.status_context_menu.tray_ind.set_icon(Gtk.STOCK_NO)
@@ -363,6 +376,7 @@ class MainGUI(Gtk.Window):
         for collector in self.engine.collectors:
             if collector.is_enabled() and isinstance(collector, engine.collector.AutomaticCollector):
                 collector.terminate()
+                self.update_collector_status(Action.STOP,collector.name)
             pb.setValue(i / len(self.engine.collectors))
             pb.pbar.set_text("Stopping " + collector.name)
             while Gtk.events_pending():
