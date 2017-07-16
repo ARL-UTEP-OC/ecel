@@ -121,6 +121,8 @@ class MainGUI(Gtk.Window):
         if (((event.state & modifiers) == Gdk.ModifierType.CONTROL_MASK) == False
                 | ((event.state & modifiers) == Gdk.ModifierType.SHIFT_MASK) == False):
             # Next click will reset collector list to single selection mode
+            # Next click because if we just reset to single selection now...
+            # ...any selected collectors would be unselected automatically
             self.collectorList.connect("button-press-event",self.enable_single_selection)
 
     # Revert back to single selection only for collectors
@@ -183,6 +185,7 @@ class MainGUI(Gtk.Window):
         self.currentConfigWindow.set_size_request(definitions.CONFIG_WINDOW_WIDTH,definitions.CONFIG_WINDOW_HEIGHT)
         self.currentConfigWindow.set_sensitive(not collector.is_running())
         self.configWidget.add(self.currentConfigWindow)
+        self.configWidget.set_sensitive(True)
 
     def configure_collectors(self, event):
         PluginConfigGUI(self, self.engine.collectors)
