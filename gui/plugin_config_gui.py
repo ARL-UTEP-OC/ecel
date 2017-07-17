@@ -8,7 +8,7 @@ import traceback
 import definitions
 from utils.css_provider import CssProvider
 
-class PluginConfigGUI(Gtk.Window):
+class PluginConfigGUI(Gtk.Frame):
     def __init__(self, parent, collector):
         super(PluginConfigGUI, self).__init__()
         self.main_gui = parent
@@ -29,7 +29,6 @@ class PluginConfigGUI(Gtk.Window):
         }
 
         self.css = CssProvider("widget_styles.css")
-        self.set_title("Plugin Configurations")
         self.vbox_main = Gtk.VBox()
 
         headerBox = Gtk.Box()
@@ -61,8 +60,6 @@ class PluginConfigGUI(Gtk.Window):
         frame_plugin_confs.set_sensitive(True)
         button_close.set_sensitive(True)
         self.set_sensitive(True)
-
-        self.hide()
 
     def get_plugin_frame(self):
         return self.vbox_main
