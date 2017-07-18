@@ -6,7 +6,6 @@ import sys
 import netifaces
 import traceback
 import definitions
-from utils.css_provider import CssProvider
 
 class PluginConfigGUI(Gtk.Frame):
     def __init__(self, parent, collector):
@@ -42,12 +41,12 @@ class PluginConfigGUI(Gtk.Frame):
 
         self.vbox_plugin_main = None
 
-        button_close = Gtk.Button("Save")
-        button_close.connect("clicked", self.close_plugin_config_dialog)
+        self.button_save= Gtk.Button("Save")
+        self.button_save.connect("clicked", self.close_plugin_config_dialog)
 
         self.vbox_main.pack_start(headerBox, True, True, 0)
         self.vbox_main.pack_start(frame_plugin_confs, True, True, 0)
-        self.vbox_main.pack_start(button_close, True, True, 0)
+        self.vbox_main.pack_start(self.button_save, True, True, 0)
 
         self.show_plugin_configs(collector, frame_plugin_confs)
 
@@ -57,8 +56,11 @@ class PluginConfigGUI(Gtk.Frame):
         self.vbox_main.set_sensitive(True)
         headerBox.set_sensitive(True)
         frame_plugin_confs.set_sensitive(True)
-        button_close.set_sensitive(True)
         self.set_sensitive(True)
+        self.button_save.set_sensitive(False)
+
+    def enable_save_button(self,widget,event):
+        self.button_save.set_sensitive(True)
 
     def get_plugin_frame(self):
         return self.vbox_main
@@ -147,6 +149,7 @@ class PluginConfigGUI(Gtk.Frame):
         label_text.set_alignment(0, 0.5)
         label_text.set_padding(8,8)
         entry_text = Gtk.Entry()
+        entry_text.connect("button-press-event",self.enable_save_button)
         entry_text.set_text(value)
         hbox_main.pack_start(label_text, True, True, 0)
         hbox_main.pack_start(entry_text, True, True, 0)
@@ -161,10 +164,9 @@ class PluginConfigGUI(Gtk.Frame):
     def create_number_hbox(self, label, value, trace, sensitivity_group, constraints=None):
         hbox_main = Gtk.HBox()
         label_text = Gtk.Label(label=label.title())
-        label_text.set_alignment(0, 0.5)
-        label_text.set_padding(8,8)
         adjustment = Gtk.Adjustment(value, 0, sys.maxint, 1)
         spinbutton_value = Gtk.SpinButton(adjustment)
+        spinbutton_value.connect("event",self.enable_save_button,None)
         spinbutton_value.set_value(value)
         hbox_main.pack_start(label_text, True, True, 0)
         hbox_main.pack_start(spinbutton_value, True, True, 0)
@@ -193,6 +195,7 @@ class PluginConfigGUI(Gtk.Frame):
         return hbox_main
 
     def enabled_checkbox_toggled(self, widget, sensitivity_group):
+        self.enable_save_button(None,None)
         for item in sensitivity_group:
             if item is not widget:
                 item.set_sensitive(widget.get_active())
@@ -203,11 +206,11 @@ class PluginConfigGUI(Gtk.Frame):
         label_text.set_alignment(0, 0.5)
         label_text.set_padding(8,8)
         radiobuttons = []
+        previous_button = None
         if constraints is None:
             options = [value]
         else:
             options = constraints
-        previous_button = None
         for option in options:
             new_button = Gtk.RadioButton()
             new_button.set_label(option)
@@ -221,6 +224,7 @@ class PluginConfigGUI(Gtk.Frame):
         for radiobutton in radiobuttons:
             hbox_main.pack_start(radiobutton, True, True, 0)
 
+        previous_button.connect("toggled",self.enable_save_button,None)
         self.plugin_config_widgets.append(radiobuttons)
         self.plugin_config_traces.append(trace)
         sensitivity_group.append(label_text)
@@ -234,6 +238,7 @@ class PluginConfigGUI(Gtk.Frame):
         label_options.set_alignment(0, 0.5)
         label_options.set_padding(8,8)
         combobox_options = Gtk.ComboBoxText()
+        combobox_options.connect("changed",self.enable_save_button,None)
         if constraints is None:
             options = []
         else:
@@ -337,7 +342,9 @@ class PluginConfigGUI(Gtk.Frame):
         adjustment = Gtk.Adjustment(value, 0, sys.maxint, 1)
         spinbutton_value = Gtk.SpinButton()
         spinbutton_value.set_adjustment(adjustment)
+        spinbutton_value.connect("value-changed",self.enable_save_button, None)
         combobox_units = Gtk.ComboBoxText()
+        combobox_units.connect("changed",self.enable_save_button,None)
         t_value, units = self.get_time_value_and_units(value)
         spinbutton_value.set_value(t_value)
         options = ["seconds", "minutes", "hours", "days", "weeks"]
@@ -467,3 +474,4 @@ class PluginConfigGUI(Gtk.Frame):
         self.save_current_plugin_configs()
         self.current_plugin.refresh_data()
         self.hide()
+        self.button_save.set_sensitive(False)
