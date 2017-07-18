@@ -58,11 +58,13 @@ class ExportGUI(Gtk.Window):
 
         vbox = Gtk.VBox()
         frame_exporttype = Gtk.Frame()
+        frame_exporttype.set_label("Export:")
         vbox_exporttype = Gtk.VBox()
         vbox_exporttype.pack_start(self.checkbutton_export_raw, True, True, 0)
         vbox_exporttype.pack_start(self.checkbutton_export_compressed, True, True, 0)
         vbox_exporttype.pack_start(self.checkbutton_export_parsed, True, True, 0)
         frame_exportoptions = Gtk.Frame()
+        frame_exportoptions.set_label("Export Options:")
         vbox_exportoptions = Gtk.VBox()
         vbox_exportoptions.pack_start(self.checkbutton_compress_export, True, True, 0)
         hbox_exportformat = Gtk.HBox()

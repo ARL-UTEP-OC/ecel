@@ -112,7 +112,7 @@ class PluginConfigGUI(Gtk.Frame):
             cur_trace_str = trace_str + delimiter + str(key)
             if isinstance(value_type, dict):
                 frame = Gtk.Frame()
-                frame.set_name(key.title() + ":")
+                frame.set_label(key.title() + ":")
                 sensitivity_group.append(frame)
                 vbox_main.pack_start(frame, True, True, 0)
                 vbox_frame = self.create_config_vbox(inputs[key], value_type, constraints, cur_trace_str)
