@@ -36,7 +36,7 @@ class MainGUI(Gtk.Window):
         self.startall_button = Gtk.ToolButton()
         self.startall_button.set_icon_widget(self.get_image("start.png"))
         self.startall_button.connect("clicked", self.process_active_collectors,Action.RUN)
-        self.startall_button.set_sensitive(True)
+        self.startall_button.set_sensitive(False)
 
         self.stopall_button = Gtk.ToolButton()
         self.stopall_button.set_icon_widget(self.get_image("stop.png"))
@@ -215,7 +215,7 @@ class MainGUI(Gtk.Window):
 
         box = Gtk.EventBox()
         box.add(label)
-        box.connect("button-press-event",self.show_collector_menu,collector.name)
+        box.connect("button-press-event",self.collector_listbox_handler,collector.name)
 
         row.add(box)
         row.get_style_context().add_class("listBoxRow")
@@ -224,7 +224,7 @@ class MainGUI(Gtk.Window):
         return row
 
     # Show options over collector row on right click
-    def show_collector_menu(self, eventBox, event, collectorName):
+    def collector_listbox_handler(self, eventBox, event, collectorName):
 
         collector = self.engine.get_collector(collectorName)
 
@@ -257,6 +257,7 @@ class MainGUI(Gtk.Window):
 
     # Update background colors of collector rows based on isSelected()
     def update_row_colors(self, event, lboxRow):
+        self.startall_button.set_sensitive(True)
         self.collectorList.foreach(self.update_row_color)
 
     # Helper for update_row_colors
@@ -341,6 +342,8 @@ class MainGUI(Gtk.Window):
             if collector.is_enabled() and isinstance(collector, engine.collector.AutomaticCollector):
                 collector.run()
                 self.update_collector_status(Action.RUN,collector.name)
+                if(self.currentConfigWindow != None):
+                    self.currentConfigWindow.set_sensitive(False)
             pb.setValue(i / len(self.engine.collectors))
             pb.pbar.set_text("Stopping " + collector.name)
             while Gtk.events_pending():
@@ -378,6 +381,8 @@ class MainGUI(Gtk.Window):
             if collector.is_enabled() and isinstance(collector, engine.collector.AutomaticCollector):
                 collector.terminate()
                 self.update_collector_status(Action.STOP,collector.name)
+                if(self.currentConfigWindow != None):
+                    self.currentConfigWindow.set_sensitive(True)
             pb.setValue(i / len(self.engine.collectors))
             pb.pbar.set_text("Stopping " + collector.name)
             while Gtk.events_pending():
