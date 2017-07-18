@@ -65,11 +65,7 @@ public class NetworkDataParser {
             }
 
 		    System.out.println("\tProcessing " + (buffer.split("\r\n|\r|\n").length-1) +" data items");
-			String output = TimeDisplayStringFormatter.formatJSONString(buffer, windowSize);
-
-			FileOutput.WriteToFile(outputDirectory+"/networkDataAll.JSON", output);
-			output = TimeDisplayStringFormatter.formatJSONStringXY(buffer, windowSize);
-			FileOutput.WriteToFile(outputDirectory+"/networkDataXY.JSON", output);
+			TimeDisplayStringFormatter.writeJSONFiles(buffer, windowSize, outputDirectory);
 		    System.out.println("\tProcessing complete ");
 		if(buffer.trim().equals(""))
 		{
