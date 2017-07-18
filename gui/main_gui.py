@@ -226,9 +226,14 @@ class MainGUI(Gtk.Window):
     # Show options over collector row on right click
     def show_collector_menu(self, eventBox, event, collectorName):
 
+        collector = self.engine.get_collector(collectorName)
+
+        # Left click AND selection mode == SINGLE
+        if(event.button == Gdk.BUTTON_PRIMARY and (self.collectorList.get_selection_mode() == Gtk.SelectionMode.SINGLE)):
+            self.create_config_window(event,collector)
+
         if(event.button == Gdk.BUTTON_SECONDARY): # right click
             menu = Gtk.Menu()
-            collector = self.engine.get_collector(collectorName)
 
             runItem = Gtk.MenuItem("Run " + collector.name)
             runItem.connect("activate",self.startIndividualCollector,collector)
@@ -239,16 +244,12 @@ class MainGUI(Gtk.Window):
             parseItem = Gtk.MenuItem("Parse " + collector.name + " data")
             parseItem.connect("activate",self.parser,collector)
 
-            collectorSettingsItem = Gtk.MenuItem("Show " + collector.name + " configuration")
-            collectorSettingsItem.connect("activate",self.create_config_window,collector)
-
             # manual collector should only be run by icon
             if(isinstance(collector,engine.collector.AutomaticCollector)):
                 menu.append(runItem)
                 menu.append(stopItem)
 
             menu.append(parseItem)
-            menu.append(collectorSettingsItem)
 
             menu.show_all()
             menu.popup(None, None, None, None, event.button, event.time)
