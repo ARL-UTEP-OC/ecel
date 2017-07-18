@@ -28,7 +28,6 @@ class PluginConfigGUI(Gtk.Frame):
             "path": self.create_path_hbox
         }
 
-        self.css = CssProvider("widget_styles.css")
         self.vbox_main = Gtk.VBox()
 
         headerBox = Gtk.Box()

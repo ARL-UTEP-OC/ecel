@@ -233,27 +233,30 @@ class MainGUI(Gtk.Window):
             self.create_config_window(event,collector)
 
         if(event.button == Gdk.BUTTON_SECONDARY): # right click
-            menu = Gtk.Menu()
+            self.show_collector_popup_menu(event,collector)
 
-            runItem = Gtk.MenuItem("Run " + collector.name)
-            runItem.connect("activate",self.startIndividualCollector,collector)
+    def show_collector_popup_menu(self, event, collector):
+        menu = Gtk.Menu()
 
-            stopItem = Gtk.MenuItem("Stop " + collector.name)
-            stopItem.connect("activate",self.stopIndividualCollector,collector)
+        runItem = Gtk.MenuItem("Run " + collector.name)
+        runItem.connect("activate", self.startIndividualCollector, collector)
 
-            parseItem = Gtk.MenuItem("Parse " + collector.name + " data")
-            parseItem.connect("activate",self.parser,collector)
+        stopItem = Gtk.MenuItem("Stop " + collector.name)
+        stopItem.connect("activate", self.stopIndividualCollector, collector)
 
-            # manual collector should only be run by icon
-            if(isinstance(collector,engine.collector.AutomaticCollector)):
-                menu.append(runItem)
-                menu.append(stopItem)
+        parseItem = Gtk.MenuItem("Parse " + collector.name + " data")
+        parseItem.connect("activate", self.parser, collector)
 
-            menu.append(parseItem)
+        # manual collector should only be run by icon
+        if (isinstance(collector, engine.collector.AutomaticCollector)):
+            menu.append(runItem)
+            menu.append(stopItem)
 
-            menu.show_all()
-            menu.popup(None, None, None, None, event.button, event.time)
-            return True
+        menu.append(parseItem)
+
+        menu.show_all()
+        menu.popup(None, None, None, None, event.button, event.time)
+        return True
 
     # Update background colors of collector rows based on isSelected()
     def update_row_colors(self, event, lboxRow):
@@ -348,6 +351,7 @@ class MainGUI(Gtk.Window):
             pb.pbar.set_text("Stopping " + collector.name)
             while Gtk.events_pending():
                 Gtk.main_iteration()
+                pb.setValue(i)
             i += 1
             if(i == len(self.engine.collectors)):
                 pb.setValue(100)
@@ -428,11 +432,15 @@ class MainGUI(Gtk.Window):
         if (self.currentConfigWindow != None and self.currentConfigWindow.get_name() == collector.name):
             self.currentConfigWindow.set_sensitive(collector.is_running())
         collector.terminate()
+        self.startall_button.set_sensitive(False)
+        self.stopall_button.set_sensitive(True)
 
     def startIndividualCollector(self, event, collector):
         if (self.currentConfigWindow != None and self.currentConfigWindow.get_name() == collector.name):
             self.currentConfigWindow.set_sensitive(collector.is_running())
         collector.run()
+        self.startall_button.set_sensitive(True)
+        self.stopall_button.set_sensitive(False)
 
     def show_confirmation_dialog(self, msg):
         dialog = Gtk.MessageDialog(self, Gtk.DialogFlags.DESTROY_WITH_PARENT, Gtk.MessageType.INFO,
@@ -445,4 +453,9 @@ class MainGUI(Gtk.Window):
 
         return False
 
+    # Manual override on widget.hide_on_delete()
+    # Without this, app window termninates when gui is closed.
+    def hide_on_delete(self, main_gui, event):
+        main_gui.hide()
+        return True
 
