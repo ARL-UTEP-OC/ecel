@@ -7,6 +7,7 @@ import subprocess
 import status_icon
 import definitions
 import engine.collector
+from collector_list_box import CollectorListBox
 from utils.css_provider import CssProvider
 from gui.export_gui import ExportGUI
 from gui.progress_bar import ProgressBar
@@ -28,10 +29,6 @@ class MainGUI(Gtk.Window):
 
         # Main container grid
         self.grid = Gtk.Grid()
-
-        # Adds css file to be used in this window along with all of its children.
-        # To add a css class to a widget: {widget}.get_style_context().add_class("css_class_name")
-        self.cssProvider = CssProvider("widget_styles.css")
 
         self.startall_button = Gtk.ToolButton()
         self.startall_button.set_icon_widget(self.get_image("start.png"))
@@ -55,26 +52,15 @@ class MainGUI(Gtk.Window):
         self.remove_data_button.set_icon_widget(self.get_image("delete.png"))
         self.remove_data_button.connect("clicked", self.delete_all)
 
-        self.collector_config_button = Gtk.ToolButton()
-        self.collector_config_button.set_icon_widget(self.get_image("settings.png"))
-        self.collector_config_button.connect("clicked", self.configure_collectors)
-
         self.toolbarWidget = Gtk.Box()
         self.toolbarWidget.set_orientation(Gtk.Orientation.HORIZONTAL)
         self.toolbarWidget.set_size_request(definitions.MAIN_WINDOW_WIDTH,definitions.TOOL_BAR_HEIGHT)
         self.toolbarWidget.add(self.create_toolbar())
 
         # List of Gtk.ListBoxRows representing collector plugins
-        self.collectorList = Gtk.ListBox()
-        self.collectorList.set_selection_mode(Gtk.SelectionMode.SINGLE)
-        # Highlight/gray out list box rows depending on which collectors are marked active
-        self.collectorList.connect("row-activated",self.update_row_colors)
-        # Enable multiple collector selection when (SHIFT + CTRL) occurs (selection mode == MULTIPLE)
-        self.collectorList.connect("key-press-event",self.ctrl_shift_enable_multiple_collector_selection)
-        # Makes the next click revert back to single selection mode when (SHIFT + CTRL) released
-        self.collectorList.connect("key-release-event",self.ctrl_shift_disable_multiple_collector_selection)
+        self.collectorList = CollectorListBox(self.engine, self)
 
-        # Container for the list of collector plugins
+        # Container for the list of collector plugins (the 'left pane')
         self.collectorWidget = Gtk.Box()
         self.collectorWidget.set_orientation(Gtk.Orientation.VERTICAL)
         self.collectorWidget.set_size_request(definitions.COLLECTOR_WIDGET_WIDTH,definitions.MAIN_WINDOW_HEIGHT - definitions.TOOL_BAR_HEIGHT)
@@ -102,39 +88,13 @@ class MainGUI(Gtk.Window):
 
         for i, collector in enumerate(self.engine.collectors):
             print "%d) %s" % (i, collector.name)
-            self.collectorList.add(self.create_collector_row(collector))
 
         self.show_all()
         self.status_context_menu = status_icon.CustomSystemTrayIcon(app_engine, self)
 
-    # When (SHIFT + CTRL) occurs, enable multiple collector selection
-    def ctrl_shift_enable_multiple_collector_selection(self, listBox, event):
-        modifiers = Gtk.accelerator_get_default_mod_mask()
-        if(((event.state & modifiers) == Gdk.ModifierType.CONTROL_MASK)
-            | (event.state & modifiers) == Gdk.ModifierType.SHIFT_MASK
-           ):
-                self.collectorList.set_selection_mode(Gtk.SelectionMode.MULTIPLE)
-
-    # When (SHIFT + CTRL) keys are released, revert back to single selection on next click
-    def ctrl_shift_disable_multiple_collector_selection(self, listBox, event):
-        modifiers = Gtk.accelerator_get_default_mod_mask()
-        if (((event.state & modifiers) == Gdk.ModifierType.CONTROL_MASK) == False
-                | ((event.state & modifiers) == Gdk.ModifierType.SHIFT_MASK) == False):
-            # Next click will reset collector list to single selection mode
-            # Next click because if we just reset to single selection now...
-            # ...any selected collectors would be unselected automatically
-            self.collectorList.connect("button-press-event",self.enable_single_selection)
-
-    # Revert back to single selection only for collectors
-    def enable_single_selection(self,lBox,event):
-        # Left click
-        if(event.button == Gdk.BUTTON_PRIMARY):
-            # Unselect all rows
-            self.collectorList.unselect_all()
-            # Reset selection mode to single
-            self.collectorList.set_selection_mode(Gtk.SelectionMode.SINGLE)
-            # Disable this handler so that multiple selection is possible again in the future.
-            self.collectorList.disconnect_by_func(self.enable_single_selection)
+    def set_play_stop_btns(self, startSensitive, stopSensitive):
+        self.startall_button.set_sensitive(startSensitive)
+        self.stopall_button.set_sensitive(stopSensitive)
 
     def create_toolbar(self):
         toolbar = Gtk.Toolbar()
@@ -187,9 +147,6 @@ class MainGUI(Gtk.Window):
         self.configWidget.add(self.currentConfigWindow)
         self.configWidget.set_sensitive(True)
 
-    def configure_collectors(self, event):
-        PluginConfigGUI(self, self.engine.collectors)
-
     def show_gui(self):
         self.present()
         self.show_all()
@@ -202,76 +159,6 @@ class MainGUI(Gtk.Window):
             remove_cmd = os.path.join(os.path.join(os.getcwd(), "scripts"), "cleanCollectorData.sh")
             subprocess.call(remove_cmd) #TODO: Change this to not call external script
 
-    # Create list box row for specific collector (left pane)
-    def create_collector_row(self,collector):
-
-        label = Gtk.Label()
-        label.set_label(collector.name)
-
-        row = Gtk.ListBoxRow()
-        row_height = definitions.MAIN_WINDOW_HEIGHT / self.numCollectors
-        row.set_size_request(definitions.COLLECTOR_WIDGET_WIDTH,row_height)
-        row.set_name(collector.name)
-
-        box = Gtk.EventBox()
-        box.add(label)
-        box.connect("button-press-event",self.collector_listbox_handler,collector.name)
-
-        row.add(box)
-        row.get_style_context().add_class("listBoxRow")
-        row.get_style_context().add_class("inactive-color")
-
-        return row
-
-    # Show options over collector row on right click
-    def collector_listbox_handler(self, eventBox, event, collectorName):
-
-        collector = self.engine.get_collector(collectorName)
-
-        # Left click AND selection mode == SINGLE
-        if(event.button == Gdk.BUTTON_PRIMARY and (self.collectorList.get_selection_mode() == Gtk.SelectionMode.SINGLE)):
-            self.create_config_window(event,collector)
-
-        if(event.button == Gdk.BUTTON_SECONDARY): # right click
-            self.show_collector_popup_menu(event,collector)
-
-    def show_collector_popup_menu(self, event, collector):
-        menu = Gtk.Menu()
-
-        runItem = Gtk.MenuItem("Run " + collector.name)
-        runItem.connect("activate", self.startIndividualCollector, collector)
-
-        stopItem = Gtk.MenuItem("Stop " + collector.name)
-        stopItem.connect("activate", self.stopIndividualCollector, collector)
-
-        parseItem = Gtk.MenuItem("Parse " + collector.name + " data")
-        parseItem.connect("activate", self.parser, collector)
-
-        # manual collector should only be run by icon
-        if (isinstance(collector, engine.collector.AutomaticCollector)):
-            menu.append(runItem)
-            menu.append(stopItem)
-
-        menu.append(parseItem)
-
-        menu.show_all()
-        menu.popup(None, None, None, None, event.button, event.time)
-        return True
-
-    # Update background colors of collector rows based on isSelected()
-    def update_row_colors(self, event, lboxRow):
-        self.startall_button.set_sensitive(True)
-        self.collectorList.foreach(self.update_row_color)
-
-    # Helper for update_row_colors
-    def update_row_color(self,row):
-        if(row.is_selected()):
-            row.get_style_context().add_class("active-color")
-            row.get_style_context().remove_class("inactive-color")
-        if(row.is_selected() == False):
-            row.get_style_context().remove_class("active-color")
-            row.get_style_context().add_class("inactive-color")
-
     # Perform the designated action (run,stop,parse) for all selected collectors
     def process_active_collectors(self,event,action):
 
@@ -283,19 +170,16 @@ class MainGUI(Gtk.Window):
         for i, c in enumerate(selected_collectors):
             collector = self.engine.get_collector(c.get_name())
             if(self.currentConfigWindow != None and self.currentConfigWindow.get_name() == collector.name):
-                self.currentConfigWindow.set_sensitive(collector.is_running())
+                self.currentConfigWindow.set_sensitive(collector.is_running() == False)
                 # Config window should NOT be editable IF collector is running
             if collector.is_enabled() and isinstance(collector, engine.collector.AutomaticCollector):
                 if(action == Action.RUN):
-                    self.startall_button.set_sensitive(False)
-                    self.stopall_button.set_sensitive(True)
                     collector.run()
                 if(action == Action.STOP):
-                    self.startall_button.set_sensitive(True)
-                    self.stopall_button.set_sensitive(False)
                     collector.terminate()
             if(action == Action.PARSE):
                 collector.parser.parse()
+        self.set_play_stop_btns(True,self.engine.has_collectors_running())
 
     def create_collector_bbox(self, collector):
         frame = Gtk.Frame()
@@ -331,8 +215,7 @@ class MainGUI(Gtk.Window):
 
     def startall_collectors(self, button):
         self.collectorList.set_selection_mode(Gtk.SelectionMode.MULTIPLE)
-        self.stopall_button.set_sensitive(True)
-        self.startall_button.set_sensitive(False)
+        self.set_play_stop_btns(False,True)
         self.status_context_menu.tray_ind.set_icon(Gtk.STOCK_MEDIA_RECORD)
         self.status_context_menu.stopall_menu_item.set_sensitive(True)
         self.status_context_menu.startall_menu_item.set_sensitive(False)
@@ -344,7 +227,7 @@ class MainGUI(Gtk.Window):
         for collector in self.engine.collectors:
             if collector.is_enabled() and isinstance(collector, engine.collector.AutomaticCollector):
                 collector.run()
-                self.update_collector_status(Action.RUN,collector.name)
+                self.collectorList.update_collector_status(Action.RUN,collector.name)
                 if(self.currentConfigWindow != None):
                     self.currentConfigWindow.set_sensitive(False)
             pb.setValue(i / len(self.engine.collectors))
@@ -359,20 +242,9 @@ class MainGUI(Gtk.Window):
         #if not pb.emit("delete-event", Gdk.Event(Gdk.DELETE)):
             #pb.destroy()
 
-    def update_collector_status(self,action,collectorName):
-        row = filter(lambda r: r.get_name() == collectorName, self.collectorList.get_children())
-        if(row.__len__() > 0):
-            collectorRow = row.pop()
-            if(action == Action.RUN):
-                self.collectorList.select_row(collectorRow)
-            if(action == Action.STOP):
-                self.collectorList.unselect_row(collectorRow)
-            self.update_row_color(collectorRow)
-
     def stopall_collectors(self, button):
         self.collectorList.set_selection_mode(Gtk.SelectionMode.SINGLE)
-        self.stopall_button.set_sensitive(False)
-        self.startall_button.set_sensitive(True)
+        self.set_play_stop_btns(False,False)
         self.status_context_menu.tray_ind.set_icon(Gtk.STOCK_NO)
         self.status_context_menu.stopall_menu_item.set_sensitive(False)
         self.status_context_menu.startall_menu_item.set_sensitive(True)
@@ -384,7 +256,7 @@ class MainGUI(Gtk.Window):
         for collector in self.engine.collectors:
             if collector.is_enabled() and isinstance(collector, engine.collector.AutomaticCollector):
                 collector.terminate()
-                self.update_collector_status(Action.STOP,collector.name)
+                self.collectorList.update_collector_status(Action.STOP,collector.name)
                 if(self.currentConfigWindow != None):
                     self.currentConfigWindow.set_sensitive(True)
             pb.setValue(i / len(self.engine.collectors))
@@ -432,15 +304,15 @@ class MainGUI(Gtk.Window):
         if (self.currentConfigWindow != None and self.currentConfigWindow.get_name() == collector.name):
             self.currentConfigWindow.set_sensitive(collector.is_running())
         collector.terminate()
-        self.startall_button.set_sensitive(False)
-        self.stopall_button.set_sensitive(True)
+        self.startall_button.set_sensitive(True)
+        self.stopall_button.set_sensitive(False)
 
     def startIndividualCollector(self, event, collector):
         if (self.currentConfigWindow != None and self.currentConfigWindow.get_name() == collector.name):
             self.currentConfigWindow.set_sensitive(collector.is_running())
         collector.run()
-        self.startall_button.set_sensitive(True)
-        self.stopall_button.set_sensitive(False)
+        self.collectorList.update_collector_status(Action.RUN,collector.name)
+        self.set_play_stop_btns(True,self.engine.has_collectors_running())
 
     def show_confirmation_dialog(self, msg):
         dialog = Gtk.MessageDialog(self, Gtk.DialogFlags.DESTROY_WITH_PARENT, Gtk.MessageType.INFO,

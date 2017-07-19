@@ -38,3 +38,9 @@ class Engine(object):
 
     def get_collector_length(self):
         return self.collectors.__len__()
+
+    def has_collectors_running(self):
+        for collector in self.collectors:
+            if(collector.is_running()):
+                return True
+        return False
