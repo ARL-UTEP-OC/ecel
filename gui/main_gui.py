@@ -143,9 +143,8 @@ class MainGUI(Gtk.Window):
         self.currentConfigWindow.unparent()
         self.currentConfigWindow.show_all()
         self.currentConfigWindow.set_size_request(definitions.CONFIG_WINDOW_WIDTH,definitions.CONFIG_WINDOW_HEIGHT)
-        self.currentConfigWindow.set_sensitive(not collector.is_running())
         self.configWidget.add(self.currentConfigWindow)
-        self.configWidget.set_sensitive(True)
+        self.currentConfigWindow.set_sensitive(collector.is_running() == False)
 
     def show_gui(self):
         self.present()
@@ -161,17 +160,11 @@ class MainGUI(Gtk.Window):
 
     # Perform the designated action (run,stop,parse) for all selected collectors
     def process_active_collectors(self,event,action):
-
         selected_collectors = self.collectorList.get_selected_rows()
-
         if(selected_collectors.__len__() == 0):
             print("No collectors selected...")
-
         for i, c in enumerate(selected_collectors):
             collector = self.engine.get_collector(c.get_name())
-            if(self.currentConfigWindow != None and self.currentConfigWindow.get_name() == collector.name):
-                self.currentConfigWindow.set_sensitive(collector.is_running() == False)
-                # Config window should NOT be editable IF collector is running
             if collector.is_enabled() and isinstance(collector, engine.collector.AutomaticCollector):
                 if(action == Action.RUN):
                     collector.run()
@@ -180,6 +173,13 @@ class MainGUI(Gtk.Window):
             if(action == Action.PARSE):
                 collector.parser.parse()
         self.set_play_stop_btns(True,self.engine.has_collectors_running())
+        self.set_config_widget_sensitivity()
+
+    def set_config_widget_sensitivity(self):
+        if (self.currentConfigWindow != None):
+            collector = self.engine.get_collector(self.currentConfigWindow.get_name())
+            if(self.currentConfigWindow.get_name() == collector.name):
+                self.currentConfigWindow.set_sensitive(collector.is_running() == False)
 
     def create_collector_bbox(self, collector):
         frame = Gtk.Frame()
@@ -301,18 +301,15 @@ class MainGUI(Gtk.Window):
         collector.parser.parse()
 
     def stopIndividualCollector(self, event, collector):
-        if (self.currentConfigWindow != None and self.currentConfigWindow.get_name() == collector.name):
-            self.currentConfigWindow.set_sensitive(collector.is_running())
         collector.terminate()
-        self.startall_button.set_sensitive(True)
-        self.stopall_button.set_sensitive(False)
+        self.set_play_stop_btns(True,False)
+        self.set_config_widget_sensitivity()
 
     def startIndividualCollector(self, event, collector):
-        if (self.currentConfigWindow != None and self.currentConfigWindow.get_name() == collector.name):
-            self.currentConfigWindow.set_sensitive(collector.is_running())
         collector.run()
         self.collectorList.update_collector_status(Action.RUN,collector.name)
         self.set_play_stop_btns(True,self.engine.has_collectors_running())
+        self.set_config_widget_sensitivity()
 
     def show_confirmation_dialog(self, msg):
         dialog = Gtk.MessageDialog(self, Gtk.DialogFlags.DESTROY_WITH_PARENT, Gtk.MessageType.INFO,
