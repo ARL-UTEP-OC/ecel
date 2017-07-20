@@ -81,8 +81,8 @@ class CollectorListBox(Gtk.ListBox):
     def collector_listbox_handler(self, eventBox, event, collectorName):
         collector = self.engine.get_collector(collectorName)
         if(event.button == Gdk.BUTTON_PRIMARY):
-            self.attached_gui.set_play_stop_btns(True, self.engine.has_collectors_running())
-            self.attached_gui.create_config_window(event,collector)
+            if(self.get_selection_mode() == Gtk.SelectionMode.SINGLE):
+                self.attached_gui.create_config_window(event,collector)
         if(event.button == Gdk.BUTTON_SECONDARY): # right click
             self.show_collector_popup_menu(event,collector)
 
@@ -119,7 +119,6 @@ class CollectorListBox(Gtk.ListBox):
         if(row.is_selected()):
             row.get_style_context().add_class("active-color")
             row.get_style_context().remove_class("inactive-color")
-            self.attached_gui.set_play_stop_btns(True,self.engine.has_collectors_running())
         if(row.is_selected() == False):
             row.get_style_context().remove_class("active-color")
             row.get_style_context().add_class("inactive-color")
@@ -133,3 +132,4 @@ class CollectorListBox(Gtk.ListBox):
             if (action == Action.STOP):
                 self.unselect_row(collectorRow)
             self.update_row_color(collectorRow)
+

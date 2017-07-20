@@ -137,14 +137,15 @@ class MainGUI(Gtk.Window):
 
     # Pull the collectors configuration from plugin_configure_gui.py and place in config window.
     def create_config_window(self,event,collector):
-        self.clear_config_window()
         self.currentConfigWindow = PluginConfigGUI(self, collector).get_plugin_frame()
         self.currentConfigWindow.set_name(collector.name)
         self.currentConfigWindow.unparent()
         self.currentConfigWindow.show_all()
         self.currentConfigWindow.set_size_request(definitions.CONFIG_WINDOW_WIDTH,definitions.CONFIG_WINDOW_HEIGHT)
-        self.configWidget.add(self.currentConfigWindow)
         self.currentConfigWindow.set_sensitive(collector.is_running() == False)
+        self.set_play_stop_btns(collector.is_running() == False, collector.is_running())
+        self.clear_config_window()
+        self.configWidget.add(self.currentConfigWindow)
 
     def show_gui(self):
         self.present()
@@ -170,16 +171,17 @@ class MainGUI(Gtk.Window):
                     collector.run()
                 if(action == Action.STOP):
                     collector.terminate()
+                self.set_config_widget_sensitivity()
             if(action == Action.PARSE):
                 collector.parser.parse()
-        self.set_play_stop_btns(True,self.engine.has_collectors_running())
-        self.set_config_widget_sensitivity()
+        self.status_context_menu.startall_menu_item.set_sensitive(self.engine.has_collectors_running() == False)
 
     def set_config_widget_sensitivity(self):
         if (self.currentConfigWindow != None):
             collector = self.engine.get_collector(self.currentConfigWindow.get_name())
             if(self.currentConfigWindow.get_name() == collector.name):
                 self.currentConfigWindow.set_sensitive(collector.is_running() == False)
+            self.set_play_stop_btns(collector.is_running() == False, collector.is_running())
 
     def create_collector_bbox(self, collector):
         frame = Gtk.Frame()
