@@ -106,14 +106,19 @@ Exec=$ECEL_DIR/ecel-gui
 Terminal=false
 Type=Application
 X-GNOME-Autostart-enabled=true
-
 EOF
 	AUTOSTART_DIR=~/.config/autostart/
     if [ ! -d "$AUTOSTART_DIR" ]; then
 		mkdir "$AUTOSTART_DIR"
 	fi
     cp "$ECEL_DIR"/scripts/ecel.desktop "$AUTOSTART_DIR"
-    chmod +x "$AUTOSTART_DIR"/ecel.desktop 
+    chmod +x "$AUTOSTART_DIR"/ecel.desktop
+
+else
+    AUTOSTART_DIR=~/.config/autostart
+    if [ -d "$AUTOSTART_DIR" ]; then
+		rm "$AUTOSTART_DIR"/ecel.desktop
+	fi
 fi
 
 echo "$OUTPUT_PREFIX Installation Complete"
