@@ -143,7 +143,8 @@ class MainGUI(Gtk.Window):
         self.currentConfigWindow.show_all()
         self.currentConfigWindow.set_size_request(definitions.CONFIG_WINDOW_WIDTH,definitions.CONFIG_WINDOW_HEIGHT)
         self.currentConfigWindow.set_sensitive(collector.is_running() == False)
-        self.set_play_stop_btns(collector.is_running() == False, collector.is_running())
+        setStartSensitive= collector.is_running() == False and not isinstance(collector,engine.collector.ManualCollector)
+        self.set_play_stop_btns(setStartSensitive, collector.is_running())
         self.clear_config_window()
         self.configWidget.add(self.currentConfigWindow)
 
@@ -311,7 +312,7 @@ class MainGUI(Gtk.Window):
         collector.run()
         self.collectorList.update_collector_status(Action.RUN,collector.name)
         self.set_play_stop_btns(False,True)
-        self.create_config_window(event,collector)
+        self.create_config_window(event, collector)
         self.set_config_widget_sensitivity()
 
     def show_confirmation_dialog(self, msg):

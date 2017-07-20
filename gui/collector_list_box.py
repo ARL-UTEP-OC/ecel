@@ -30,6 +30,7 @@ class CollectorListBox(Gtk.ListBox):
         modifiers = Gtk.accelerator_get_default_mod_mask()
         shift_ctrl_pressed = ((event.state & modifiers) == Gdk.ModifierType.CONTROL_MASK) | (event.state & modifiers) == Gdk.ModifierType.SHIFT_MASK
         ctrl_shift_pressed = ((event.state & modifiers) == Gdk.ModifierType.SHIFT_MASK) | (event.state & modifiers) == Gdk.ModifierType.CONTROL_MASK
+
         # Shift ctrl pressed
         if(shift_ctrl_pressed | ctrl_shift_pressed): # Can now handle simultaneous (CTRL + SHIFT) presses
             self.set_selection_mode(Gtk.SelectionMode.MULTIPLE)
@@ -43,6 +44,12 @@ class CollectorListBox(Gtk.ListBox):
             # Next click because if we just reset to single selection now...
             # ...any selected collectors would be unselected automatically
             self.connect("button-press-event", self.enable_single_selection)
+
+        # Up arrow/down arrow pressed, update config window if selection mode is single
+        if (event.keyval == Gdk.KEY_Up or event.keyval == Gdk.KEY_Down):
+            if (self.get_selection_mode() == Gtk.SelectionMode.SINGLE):
+                collector = self.engine.get_collector(self.get_selected_row().get_name())
+                self.attached_gui.create_config_window(event,collector)
 
     def enable_single_selection(self, lBox, event):
         # Left click
