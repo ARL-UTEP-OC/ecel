@@ -17,35 +17,32 @@ class CollectorListBox(Gtk.ListBox):
         self.attached_gui = main_gui
         self.css = CssProvider("widget_styles.css")
 
-        self.connect("row-activated",self.update_row_colors)
+        self.connect("row-selected",self.update_row_colors)
         # Enable multiple collector selection when (SHIFT + CTRL) occurs (selection mode == MULTIPLE)
-        self.connect("key-press-event",self.ctrl_shift_enable_multiple_collector_selection)
+        self.connect("key-press-event",self.key_pressed_handler)
         # Makes the next click revert back to single selection mode when (SHIFT + CTRL) released
-        self.connect("key-release-event",self.ctrl_shift_disable_multiple_collector_selection)
+        self.connect("key-release-event",self.key_release_handler)
 
         for i, collector in enumerate(self.engine.collectors):
             self.add(self.create_collector_row(collector))
 
-    def ctrl_shift_enable_multiple_collector_selection(self, listBox, event):
+    def key_pressed_handler(self, listBox, event):
         modifiers = Gtk.accelerator_get_default_mod_mask()
         shift_ctrl_pressed = ((event.state & modifiers) == Gdk.ModifierType.CONTROL_MASK) | (event.state & modifiers) == Gdk.ModifierType.SHIFT_MASK
         ctrl_shift_pressed = ((event.state & modifiers) == Gdk.ModifierType.SHIFT_MASK) | (event.state & modifiers) == Gdk.ModifierType.CONTROL_MASK
-
+        # Shift ctrl pressed
         if(shift_ctrl_pressed | ctrl_shift_pressed): # Can now handle simultaneous (CTRL + SHIFT) presses
             self.set_selection_mode(Gtk.SelectionMode.MULTIPLE)
 
-            # When (SHIFT + CTRL) keys are released, revert back to single selection on next click
-
-    def ctrl_shift_disable_multiple_collector_selection(self, listBox, event):
+    def key_release_handler(self, listBox, event):
         modifiers = Gtk.accelerator_get_default_mod_mask()
+        # Shift + Ctrl released
         if (((event.state & modifiers) == Gdk.ModifierType.CONTROL_MASK) == False
             | ((event.state & modifiers) == Gdk.ModifierType.SHIFT_MASK) == False):
             # Next click will reset collector list to single selection mode
             # Next click because if we just reset to single selection now...
             # ...any selected collectors would be unselected automatically
             self.connect("button-press-event", self.enable_single_selection)
-
-            # Revert back to single selection only for collectors
 
     def enable_single_selection(self, lBox, event):
         # Left click
@@ -119,7 +116,7 @@ class CollectorListBox(Gtk.ListBox):
         if(row.is_selected()):
             row.get_style_context().add_class("active-color")
             row.get_style_context().remove_class("inactive-color")
-        if(row.is_selected() == False):
+        else:
             row.get_style_context().remove_class("active-color")
             row.get_style_context().add_class("inactive-color")
 

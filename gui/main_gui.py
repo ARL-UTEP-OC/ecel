@@ -310,7 +310,8 @@ class MainGUI(Gtk.Window):
     def startIndividualCollector(self, event, collector):
         collector.run()
         self.collectorList.update_collector_status(Action.RUN,collector.name)
-        self.set_play_stop_btns(True,self.engine.has_collectors_running())
+        self.set_play_stop_btns(False,True)
+        self.create_config_window(event,collector)
         self.set_config_widget_sensitivity()
 
     def show_confirmation_dialog(self, msg):
