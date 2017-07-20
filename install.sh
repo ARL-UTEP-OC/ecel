@@ -96,7 +96,17 @@ chmod +x "$ECEL_DIR"/ecel-gui
 
 ### Configure to run on boot
 #
+
+AUTOSTART_DIR=~/.config/autostart/
+AUTOSTART_ENABLED_VAL=false
+
 if prompt_accepted_Yn "Would you like to run ECEL automatically on login (only works on Kali 2016.2+)?"; then
+    AUTOSTART_ENABLED_VAL=true
+fi
+
+if [ ! -d "$AUTOSTART_DIR" ]; then
+		mkdir "$AUTOSTART_DIR"
+fi
 cat > "$ECEL_DIR"/scripts/ecel.desktop << EOF
 [Desktop Entry]
 Name=ECEL
@@ -105,21 +115,10 @@ Comment=Evaluator Centric and Extensible Logger
 Exec=$ECEL_DIR/ecel-gui
 Terminal=false
 Type=Application
-X-GNOME-Autostart-enabled=true
+X-GNOME-Autostart-enabled=${AUTOSTART_ENABLED_VAL}
 EOF
-	AUTOSTART_DIR=~/.config/autostart/
-    if [ ! -d "$AUTOSTART_DIR" ]; then
-		mkdir "$AUTOSTART_DIR"
-	fi
-    cp "$ECEL_DIR"/scripts/ecel.desktop "$AUTOSTART_DIR"
-    chmod +x "$AUTOSTART_DIR"/ecel.desktop
-
-else
-    AUTOSTART_DIR=~/.config/autostart
-    if [ -d "$AUTOSTART_DIR" ]; then
-		rm "$AUTOSTART_DIR"/ecel.desktop
-	fi
-fi
+cp "$ECEL_DIR"/scripts/ecel.desktop "$AUTOSTART_DIR"
+chmod +x "$AUTOSTART_DIR"/ecel.desktop
 
 echo "$OUTPUT_PREFIX Installation Complete"
 
