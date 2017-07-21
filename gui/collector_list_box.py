@@ -46,7 +46,7 @@ class CollectorListBox(Gtk.ListBox):
             self.connect("button-press-event", self.enable_single_selection)
 
         # Up arrow/down arrow pressed, update config window if selection mode is single
-        if (event.keyval == Gdk.KEY_Up or event.keyval == Gdk.KEY_Down):
+        if (event.keyval == Gdk.KEY_Up or event.keyval == Gdk.KEY_Down or Gdk.KEY_Tab):
             if (self.get_selection_mode() == Gtk.SelectionMode.SINGLE):
                 collector = self.engine.get_collector(self.get_selected_row().get_name())
                 self.attached_gui.create_config_window(event,collector)
