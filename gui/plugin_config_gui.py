@@ -59,7 +59,7 @@ class PluginConfigGUI(Gtk.Frame):
         self.set_sensitive(True)
         self.button_save.set_sensitive(False)
 
-    def enable_save_button(self,widget,event):
+    def enable_save_button(self, widget = None, event = None):
         self.button_save.set_sensitive(True)
 
     def get_plugin_frame(self):
@@ -195,7 +195,6 @@ class PluginConfigGUI(Gtk.Frame):
         return hbox_main
 
     def enabled_checkbox_toggled(self, widget, sensitivity_group):
-        self.enable_save_button(None,None)
         for item in sensitivity_group:
             if item is not widget:
                 item.set_sensitive(widget.get_active())
@@ -275,6 +274,7 @@ class PluginConfigGUI(Gtk.Frame):
             checkbuttons.append(new_button)
         hbox_main.pack_start(label_text, True, True, 0)
         for checkbutton in checkbuttons:
+            checkbutton.connect("clicked",self.enable_save_button)
             hbox_main.pack_start(checkbutton, True, True, 0)
 
         self.plugin_config_widgets.append(checkbuttons)
