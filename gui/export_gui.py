@@ -187,7 +187,7 @@ class ExportGUI(Gtk.Window):
             while Gtk.events_pending():
                 Gtk.main_iteration()
             shutil.rmtree(export_dir)
-        if not pb.emit("delete-event", Gdk.Event(Gdk.EventType.DELETE)):
+        if not pb.emit("delete-event", Gdk.Event()):
             pb.destroy()
 
         utils.gui.show_alert_message(self, "Export complete")

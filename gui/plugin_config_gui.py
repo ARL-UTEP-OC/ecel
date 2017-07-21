@@ -414,8 +414,9 @@ class PluginConfigGUI(Gtk.Frame):
 
     def select_file(self, event, entry_filepath):
         dialog_select_folder = Gtk.FileChooserDialog()
+        dialog_select_folder.connect("response",self.enable_save_button)
         dialog_select_folder.set_title("Select File")
-        dialog_select_folder.set_transient_for(self)
+        dialog_select_folder.set_transient_for(self.main_gui)
         dialog_select_folder.add_buttons(Gtk.STOCK_CANCEL, Gtk.ResponseType.CANCEL, Gtk.STOCK_OPEN, Gtk.ResponseType.OK)
         dialog_select_folder.set_filename(entry_filepath.get_text())
 
@@ -427,8 +428,9 @@ class PluginConfigGUI(Gtk.Frame):
 
     def select_folder(self, event, entry_filepath):
         dialog_select_folder = Gtk.FileChooserDialog()
+        dialog_select_folder.connect("response",self.enable_save_button)
         dialog_select_folder.set_title("Select Folder")
-        dialog_select_folder.set_transient_for(self)
+        dialog_select_folder.set_transient_for(self.main_gui)
         dialog_select_folder.set_action(Gtk.FileChooserAction.SELECT_FOLDER)
         dialog_select_folder.add_buttons(Gtk.STOCK_CANCEL, Gtk.ResponseType.CANCEL, Gtk.STOCK_OPEN, Gtk.ResponseType.OK)
         dialog_select_folder.set_current_folder(entry_filepath.get_text())
