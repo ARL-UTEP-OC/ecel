@@ -18,6 +18,7 @@ class CollectorListBox(Gtk.ListBox):
         self.css = CssProvider("widget_styles.css")
 
         self.connect("row-selected",self.update_row_colors)
+        self.connect("row-activated",self.row_activated_handler)
         # Enable multiple collector selection when (SHIFT + CTRL) occurs (selection mode == MULTIPLE)
         self.connect("key-press-event",self.key_pressed_handler)
         # Makes the next click revert back to single selection mode when (SHIFT + CTRL) released
@@ -117,6 +118,12 @@ class CollectorListBox(Gtk.ListBox):
     # Update background colors of collector rows based on isSelected()
     def update_row_colors(self, event, lboxRow):
         self.foreach(self.update_row_color)
+
+    def row_activated_handler(self,lBox,lBoxRow):
+        if(self.get_selection_mode() == Gtk.SelectionMode.SINGLE):
+            self.select_row(lBoxRow)
+            collector = self.engine.get_collector(lBoxRow.get_name())
+            self.attached_gui.create_config_window(Gdk.Event(),collector)
 
     # Helper for update_row_colors
     def update_row_color(self,row):
