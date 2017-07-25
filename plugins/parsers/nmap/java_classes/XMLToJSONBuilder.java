@@ -1,13 +1,6 @@
-package parsers;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-import org.json.JSONTokener;
-import org.json.XML;
-
 public class XMLToJSONBuilder
 {
 	private static final String PRIMARY_KEY = "nmaprun", ITERABLE_KEY = "host", START_TIME_KEY = "startstr";

@@ -1,6 +1,3 @@
-package parsers;
-
-import utils.FileOutput;
 
 /*
  	* Uses https://github.com/stleary/JSON-java repository to convert xml nmap output file to its JSON representation.
@@ -36,7 +33,7 @@ public class NmapDataParser {
 		if(args.length != 2)
 		{
 			System.out.println("Argument error.");
-			System.out.println("Usage: java -jar xmlFilePath outputFilePath");
+			System.out.println("Usage: java -cp ${java_class_directory} NmapDataParser ${xmlFile} $outputFile");
 			return;
 		}
 

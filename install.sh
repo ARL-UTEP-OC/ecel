@@ -72,6 +72,8 @@ for plugin in "$ECEL_DIR"/plugins/parsers/*; do
     fi
 done
 
+javac -cp $ECEL_DIR/plugins/parsers/nmap/java_classes/*.java
+
 ### Set file permissions
 #
 echo "$OUTPUT_PREFIX Setting file permissions"

@@ -1,4 +1,3 @@
-package org.json;
 
 import java.util.Map.Entry;
 
