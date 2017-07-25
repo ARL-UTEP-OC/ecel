@@ -24,19 +24,21 @@ for /D %%d in (.\plugins\parsers\*) do if exist %%d\*.java (javac %%d\*.java)
 :prompt
 ::Clear the value of answer ready for use.
 SET answer=
-SET /P answer=Would you like to run ECEL automatically on login? (y/n) (q to quit):
+SET /P answer=Would you like to run ECEL automatically on login? (y/n):
 
 IF %answer% == y (
     echo Adding ecel to start up...
+    cd %ProgramData%\Microsoft\Windows\Start Menu\Programs\Startup
+    echo TODO: Add batch script to execute ecel to the start up folder
 )
 
 IF %answer% == n (
     echo Remove ecel from start up...
+    cd %ProgramData%\Microsoft\Windows\Start Menu\Programs\
+    echo TODO: Remove ecel batch script from start up folder
 )
 
-pip install virtualenv
-virtualenv ecel-installer
-ecel-installer\Scripts\activate & pip install flask & pip install pyvbox & pip install gevent & pip install pypiwin32 & pip install gobject & pip install psutil & pip install python-xlib & pip install dpkt & pip install schedule & pip install netifaces
+cd %ECEL_DIR%
 
 echo %OUTPUT_PREFIX% Installation Complete.
 
