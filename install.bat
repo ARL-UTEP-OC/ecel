@@ -5,6 +5,7 @@ net session >nul 2>&1
         echo Installing ECEL for windows...
     ) else (
         echo Please run cmd as an admin
+        quit
     )
 
 SET "ECEL_DIR=%cd%"
@@ -20,6 +21,7 @@ echo %OUTPUT_PREFIX% Compiling parsers
 set path="%path%;%JAVAC_DIR%;"
 for /D %%d in (.\plugins\parsers\*) do if exist %%d\*.java (javac %%d\*.java)
 
+javac -cp .\plugins\parsers\nmap\java_classes\*.java
 
 :prompt
 ::Clear the value of answer ready for use.
@@ -46,7 +48,4 @@ ecel-installer\Scripts\activate & pip install flask & pip install pyvbox & pip i
 
 echo %OUTPUT_PREFIX% Installation Complete.
 
-
-
-echo %OUTPUT_PREFIX% Installation Complete.
 
