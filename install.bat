@@ -11,7 +11,7 @@ SET "ECEL_DIR=%cd%"
 SET JAVAC_DIR=C:\Program Files\Java\jdk1.8.0_91\bin
 SET OUTPUT_PREFIX=ECEL INSTALLER:
 SET OUTPUT_ERROR_PREFIX=%OUTPUT_PREFIX% ERROR:
-
+SET path="%path%;%JAVAC_DIR%;"
 
 echo Creating Plugin Configs
 for /D %%d in (.\plugins\collectors\*) do copy %%d\config.json.template %%d\config.json & copy %%d\config_schema.json.template %%d\config_schema.json
@@ -19,6 +19,20 @@ for /D %%d in (.\plugins\collectors\*) do copy %%d\config.json.template %%d\conf
 echo %OUTPUT_PREFIX% Compiling parsers
 set path="%path%;%JAVAC_DIR%;"
 for /D %%d in (.\plugins\parsers\*) do if exist %%d\*.java (javac %%d\*.java)
+
+
+:prompt
+::Clear the value of answer ready for use.
+SET answer=
+SET /P answer=Would you like to run ECEL automatically on login? (y/n) (q to quit):
+
+IF %answer% == y (
+    echo Adding ecel to start up...
+)
+
+IF %answer% == n (
+    echo Remove ecel from start up...
+)
 
 pip install virtualenv
 virtualenv ecel-installer
