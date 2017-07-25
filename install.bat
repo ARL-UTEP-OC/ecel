@@ -20,8 +20,9 @@ echo %OUTPUT_PREFIX% Compiling parsers
 set path="%path%;%JAVAC_DIR%;"
 for /D %%d in (.\plugins\parsers\*) do if exist %%d\*.java (javac %%d\*.java)
 
-
-
+pip install virtualenv
+virtualenv ecel-installer
+ecel-installer\Scripts\activate & pip install flask & pip install pyvbox & pip install gevent & pip install pypiwin32 & pip install gobject & pip install psutil & pip install python-xlib & pip install dpkt & pip install schedule & pip install netifaces
 
 echo %OUTPUT_PREFIX% Installation Complete.
 
