@@ -5,8 +5,8 @@
     "configurations": {
       "general": {
         "auto restart": {
-          "enabled": false, 
-          "time interval": 30
+          "enabled": true, 
+          "time interval": 60
         }
       }, 
       "archiving": {
@@ -19,8 +19,9 @@
       }, 
       "custom": {
         "interfaces": {
-          "mode": "exclusive", 
+          "mode": "inclusive", 
           "interfaces": [
+            "lo", 
             "eth0"
           ]
         }
