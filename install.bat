@@ -10,24 +10,30 @@ SET "ECEL_DIR=%cd%"
 SET OUTPUT_PREFIX=ECEL INSTALLER:
 SET OUTPUT_ERROR_PREFIX=%OUTPUT_PREFIX% ERROR:
 
+rem donwloand chocolatey (windows package manager)
 IF NOT EXIST %ProgramData%\chocolatey ( @"%SystemRoot%\System32\WindowsPowerShell\v1.0\powershell.exe" -NoProfile -ExecutionPolicy Bypass -Command "iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))" && SET "PATH=%PATH%;%ALLUSERSPROFILE%\chocolatey\bin")
 
 set REQUIRED_PLUGINS=nmap,wireshark
 
-echo Installing dependencies
+echo Installing dependencies (Snoopy will not be installed-Linux only)
 for %%p in ("%REQUIRED_PLUGINS:,=" "%") do choco install %%p
 
+rem these may need to be changed depending on your version of windows.
+rem Wireshark installs by default in C:\Program Files (64 bit directory), while Nmap installs in C:\Program Files x86 (32 bit directory)
 set path=%path%;%ProgramFiles%\Wireshark
 set path=%path%;%ProgramFiles(x86)%\Nmap
 
-echo Snoopy will not be installed-Linux only
+echo Installing python dependencies
+
+set PYTHON_DEPENDENCIES=virtualenv,enum34,psutil,netifaces,autopy
+for %%p in ("%PYTHON_DEPENDENCIES:,=" "%") do pip install %%p
 
 echo Creating Plugin Configs
 for /D %%d in (.\plugins\collectors\*) do copy %%d\config.json.template %%d\config.json & copy %%d\config_schema.json.template %%d\config_schema.json
 
 echo %OUTPUT_PREFIX% Compiling parsers
 
-rem make sure path to javac command is up to date
+rem make sure path to javac command is up to date.
 set path=%path%;%ProgramFiles%\Java\jdk1.8.0_91\bin
 
 for /D %%d in (.\plugins\parsers\*) do if exist %%d\*.java (javac %%d\*.java)
@@ -53,11 +59,9 @@ IF %answer% == n (
 
 cd %ECEL_DIR%
 
-pip install virtualenv
-virtualenv ecel-installer
-ecel-installer\Scripts\activate & pip install flask & pip install pyvbox & pip install gevent & pip install pypiwin32 & pip install gobject & pip install psutil & pip install python-xlib & pip install dpkt & pip install schedule & pip install netifaces
+echo For windows execution, the following must be installed manually: PyGobject, Gtk+ runtime, appindicator3
+echo %OUTPUT_PREFIX% Installation Complete. Type "python ecel_gui.py" to start ECEL
 
-echo %OUTPUT_PREFIX% Installation Complete.
 
 
 
