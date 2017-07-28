@@ -53,7 +53,7 @@ IF %answer% == y (
 )
 
 IF %answer% == n (
-    del %START_UP_FILE%
+    del "%START_UP_FILE%"
 )
 
 echo For windows execution, the following must be installed manually: PyGobject, Gtk+ runtime, appindicator3
