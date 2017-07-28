@@ -22,16 +22,21 @@ echo Installing python dependencies
 
 rem it may be necessary to download some of these packages manually if pip install does not work.
 rem ensure these packages are installed in your site-packages folder for your current versoin of python.
-set PYTHON_DEPENDENCIES=virtualenv,enum34,psutil,netifaces,autopy
+set PYTHON_DEPENDENCIES=virtualenv,enum34,psutil,netifaces
 for %%p in ("%PYTHON_DEPENDENCIES:,=" "%") do pip install %%p
 
 echo Creating Plugin Configs
 for /D %%d in (.\plugins\collectors\*) do copy %%d\config.json.template %%d\config.json & copy %%d\config_schema.json.template %%d\config_schema.json
 
+:prompt
+::Clear the value of answer ready for use.
+SET JAVAC_DIR=
+SET /P JAVAC_DIR=Please enter the location of a 'javac' executable. (i.e. C:\Program Files\Java\jdk1.x.x_xx\bin)
+rem make sure path to javac command is up to date. This is needed to compile parser code.
+
 echo %OUTPUT_PREFIX% Compiling parsers
 
-rem make sure path to javac command is up to date. This is needed to compile parser code.
-set path=%path%;%ProgramFiles%\Java\jdk1.8.0_91\bin
+set path=%path%;%JAVAC_DIR%
 
 for /D %%d in (.\plugins\parsers\*) do if exist %%d\*.java (javac %%d\*.java)
 
@@ -42,7 +47,7 @@ javac -cp .\plugins\parsers\nmap\java_classes\*.java
 SET answer=
 SET /P answer=Would you like to run ECEL automatically on login? (y/n):
 
-IF %answer% == y (
+IF %answer% == y (c
     echo Adding ecel to start up...
     cd %ProgramData%\Microsoft\Windows\Start Menu\Programs\Startup
     echo TODO: Add batch script that executes ecel in the start up folder
