@@ -25,8 +25,6 @@ class TSharkParser(Parser):
     def parse(self):
         if os.name == 'nt':
             subprocess.Popen(
-                [self.script_file, self.file_or_dir, self.parsed_folder],
-                cwd=os.path.dirname(os.path.realpath(__file__)),
-                stdout=subprocess.PIPE, shell=True, stderr=subprocess.PIPE)
+                [self.script_file, self.file_or_dir, self.parsed_folder],cwd=os.path.dirname(os.path.realpath(__file__)))
         else:
             subprocess.call([self.script_file, self.file_or_dir, self.parsed_folder], shell=False)
