@@ -18,4 +18,7 @@ class ManualScreenShotParser(Parser):
         self.click_dir = os.path.join(self.file_or_dir, "")
 
     def parse(self):
-        subprocess.Popen([self.script_file, self.click_dir, self.parsed_folder],shell=False)
+        if(os.name == "nt"):
+            subprocess.Popen([self.script_file, self.click_dir, self.parsed_folder], cwd=os.path.dirname(os.path.realpath(__file__)))
+        else:
+            subprocess.Popen([self.script_file, self.click_dir, self.parsed_folder],shell=False)
