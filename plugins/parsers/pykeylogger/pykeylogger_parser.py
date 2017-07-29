@@ -18,8 +18,6 @@ class PyKeyloggerParser(Parser):
 
     def parse(self):
         if os.name == 'nt':
-            subprocess.Popen(
-                [self.script_file, self.file_or_dir, self.parsed_folder, self.click_dir, self.timed_dir], cwd=os.path.dirname(os.path.realpath(__file__)),
-                stdout=subprocess.PIPE, shell=True, stderr=subprocess.PIPE)
+            subprocess.Popen([self.script_file, self.file_or_dir, self.parsed_folder, self.click_dir, self.timed_dir], cwd=os.path.dirname(os.path.realpath(__file__)))
         else:
             subprocess.Popen([self.script_file, self.file_or_dir, self.parsed_folder, self.click_dir, self.timed_dir], shell=False)
