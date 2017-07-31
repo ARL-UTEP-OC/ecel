@@ -27,8 +27,8 @@ When you download python, ensure that pip is going to be installed, and that pyt
 Run `./ecel_gui` to execute ECEL. This will invoke the main GUI and a clickable status icon will appear in the task bar.
 
 ## Windows Excecution
+Caveat: Before running the above command, all code referencing 'AppIndicator3' and the status icon must be commented out. A windows version of 'AppIndicator3' is being researched.
 Run 'python ecel_gui.py' to execute ECEL on windows. This will invoke the main GUI.
-*Caveat: Before running the above command, all code referencing 'AppIndicator3' and the status icon must be commented out. A windows version of 'AppIndicator3' is being researched.
 
 ## Plugins
 
@@ -57,7 +57,7 @@ The parser plugin will extract various protocol fields from network packtes incl
 https://github.com/a2o/snoopy
 
 The collector plugin will gather all system calls on the system by leveraging the snoopy tool. The plugin reads the auth.log file produced by snoopy and will periodically copy it into the ECEL raw data folder.
-The parser plugin will read the snoopy log and generate a set of timestamp/system call pairs formatted in a JSON file.
+The parser plugin will read the snoopy log and generate a set of timestamp/system call pairs formatted in a JSON file. This plugin will not work on windows.
 
 ### Manual Screenshot
 
