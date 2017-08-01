@@ -8,7 +8,6 @@ import status_icon
 import definitions
 import engine.collector
 from collector_list_box import CollectorListBox
-from utils.css_provider import CssProvider
 from gui.export_gui import ExportGUI
 from gui.progress_bar import ProgressBar
 from gui.plugin_config_gui import PluginConfigGUI
