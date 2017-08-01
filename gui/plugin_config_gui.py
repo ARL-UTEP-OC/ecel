@@ -44,7 +44,7 @@ class PluginConfigGUI(Gtk.Frame):
             self.vbox_plugin_main = None
 
             self.button_save= Gtk.Button("Save")
-            self.button_save.connect("clicked", self.close_plugin_config_dialog)
+            self.button_save.connect("clicked", self.save_current_plugin_configs)
 
             self.vbox_main.pack_start(headerBox, True, True, 0)
             self.vbox_main.pack_start(frame_plugin_confs, True, True, 0)
@@ -464,7 +464,7 @@ class PluginConfigGUI(Gtk.Frame):
 
         dialog_select_folder.destroy()
 
-    def save_current_plugin_configs(self):
+    def save_current_plugin_configs(self, btn):
         if not self.current_plugin_config:
             return
 
@@ -492,7 +492,7 @@ class PluginConfigGUI(Gtk.Frame):
             else:
                 raise TypeError("Invalid widget type")
             self.current_plugin_config.set_configs_data_field(trace, value)
-
+        btn.set_sensitive(False)
         self.current_plugin_config.save_data()
 
     def close_plugin_config_dialog(self, event):
