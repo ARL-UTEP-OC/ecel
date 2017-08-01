@@ -67,7 +67,7 @@ class MainGUI(Gtk.Window):
         self.collectorWidget.set_size_request(definitions.COLLECTOR_WIDGET_WIDTH,definitions.MAIN_WINDOW_HEIGHT - definitions.TOOL_BAR_HEIGHT)
         self.collectorWidget.add(self.collectorList)
 
-        self.currentConfigWindow = None
+        self.currentConfigWindow = PluginConfigGUI(self,None)
 
         # Area of grid where configuration window appears.
         self.configWidget = Gtk.Box()
@@ -138,13 +138,13 @@ class MainGUI(Gtk.Window):
 
     # Pull the collectors configuration from plugin_configure_gui.py and place in config window.
     def create_config_window(self,event,collector):
-        self.currentConfigWindow = PluginConfigGUI(self, collector).get_plugin_frame()
+        self.currentConfigWindow = PluginConfigGUI(self, collector)
         self.currentConfigWindow.set_name(collector.name)
         self.currentConfigWindow.unparent()
         self.currentConfigWindow.show_all()
         self.currentConfigWindow.set_size_request(definitions.CONFIG_WINDOW_WIDTH,definitions.CONFIG_WINDOW_HEIGHT)
-        self.currentConfigWindow.set_sensitive(collector.is_running() == False)
-        setStartSensitive= collector.is_running() == False and not isinstance(collector,engine.collector.ManualCollector)
+        self.configWidget.set_sensitive(collector.is_running() == False)
+        setStartSensitive = collector.is_running() == False and not isinstance(collector,engine.collector.ManualCollector)
         self.set_play_stop_btns(setStartSensitive, collector.is_running())
         self.clear_config_window()
         self.configWidget.add(self.currentConfigWindow)
@@ -183,11 +183,9 @@ class MainGUI(Gtk.Window):
         self.status_context_menu.startall_menu_item.set_sensitive(self.engine.has_collectors_running() == False)
 
     def set_config_widget_sensitivity(self):
-        if (self.currentConfigWindow != None):
-            collector = self.engine.get_collector(self.currentConfigWindow.get_name())
-            if(self.currentConfigWindow.get_name() == collector.name):
-                self.currentConfigWindow.set_sensitive(collector.is_running() == False)
-            self.set_play_stop_btns(collector.is_running() == False, collector.is_running())
+        collector = self.engine.get_collector(self.currentConfigWindow.get_name())
+        self.configWidget.set_sensitive(collector.is_running() == False)
+        self.set_play_stop_btns(collector.is_running() == False, collector.is_running())
 
     def create_collector_bbox(self, collector):
         frame = Gtk.Frame()
