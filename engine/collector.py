@@ -255,9 +255,10 @@ class AutomaticCollector(Collector):
         self.processes = []
         self.pid_commands.clear()
 
-    def is_running(self): #TODO: Is this best way to test this?
-        if self.processes:
-            return True
+    def is_running(self):
+        for p in self.processes:
+            if(psutil.pid_exists(p.pid)):
+                return True
         return False
 
     class AutoRestart(Thread): #TODO: Review this

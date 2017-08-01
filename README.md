@@ -18,7 +18,7 @@ When you download python, ensure that pip is going to be installed, and that pyt
 2. Download the windows GTK3 runtime installer here: https://sourceforge.net/projects/gtk3win/
 3. Download the windows PyGObject installer (GTK3 packages) here: https://sourceforge.net/projects/pygobjectwin32/files/?source=navbar
 4. Download autopy (python package that fails to install using pip) here: https://pypi.python.org/pypi/autopy/  (Install into C:\Python27\Lib\site-packages directory)
-5. Edit the following line in your  install batch (install.bat) file: 'SET JAVAC_DIR=C:\Program Files\Java\jdk1.8.0_144\bin'
+5. Edit the following line in your  install batch (install.bat) file: 'SET JAVAC_DIR=*INSERT JAVAC DIRECTORY HERE*'
 *Make sure that the path specified is a path to a javac executable. This is needed so that the java parsing code gets compiled. (This step may not be necessary if javac is permanently added to your %path% variable, but if not it will be necessary to make this edit depending on your version of java)
 6. Open the windows command prompt (as an administrator), and navigate to your home ecel directory.
 7. Run the install file by typing 'install.bat' and hitting 'Enter'.
@@ -27,8 +27,9 @@ When you download python, ensure that pip is going to be installed, and that pyt
 Run `./ecel_gui` to execute ECEL. This will invoke the main GUI and a clickable status icon will appear in the task bar.
 
 ## Windows Excecution
-Caveat: Before running the above command, all code referencing 'AppIndicator3' and the status icon must be commented out. A windows version of 'AppIndicator3' is being researched.
-Run 'python ecel_gui.py' to execute ECEL on windows. This will invoke the main GUI.
+Caveat: Before executing ECEL on windows, currently all code referencing 'AppIndicator3' and the status icon must be commented out.
+A windows version of 'AppIndicator3' is being researched.
+Run 'ecel_gui.bat' to execute ECEL on windows. This will invoke the main GUI.
 
 ## Plugins
 
