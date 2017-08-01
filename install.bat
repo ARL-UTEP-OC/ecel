@@ -27,7 +27,7 @@ echo Installing python dependencies
 
 rem it may be necessary to download some of these packages manually if pip install does not work.
 rem ensure these packages are installed in your site-packages folder for your current versoin of python.
-set PYTHON_DEPENDENCIES=virtualenv,enum34,psutil,netifaces
+set PYTHON_DEPENDENCIES=virtualenv,enum34,psutil,netifaces,python-registry
 for %%p in ("%PYTHON_DEPENDENCIES:,=" "%") do pip install %%p
 
 echo Creating Plugin Configs

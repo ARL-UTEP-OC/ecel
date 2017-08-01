@@ -6,6 +6,8 @@ import sys
 import netifaces
 import traceback
 import definitions
+if(os.name == "nt"):
+    import _winreg as wr
 
 class PluginConfigGUI(Gtk.Frame):
     def __init__(self, parent, collector):
@@ -405,12 +407,33 @@ class PluginConfigGUI(Gtk.Frame):
         return time
 
     def create_netiface_hbox(self, label, value, trace, sensitivity_group, constraints=None):
-        return self.create_option_hbox(
-            label, value, trace, sensitivity_group, netifaces.interfaces())
+        net_interfaces = netifaces.interfaces()
+        if (os.name == "nt"):
+            net_interfaces = self.get_connection_name_from_guid(netifaces.interfaces())
+        return self.create_options_hbox(
+            label, value, trace, sensitivity_group, net_interfaces)
 
     def create_netifaces_hbox(self, label, value, trace, sensitivity_group, constraints=None):
+        net_interfaces = netifaces.interfaces()
+        if(os.name == "nt"):
+            net_interfaces = self.get_connection_name_from_guid(netifaces.interfaces())
         return self.create_options_hbox(
-            label, value, trace, sensitivity_group, netifaces.interfaces())
+            label, value, trace, sensitivity_group, net_interfaces)
+
+    # Netifaces on windows forces the developer to extract the connection name manually.
+    # This function helps extract 'friendly' network interface names on windows.
+    # Detailed explanation here: https://stackoverflow.com/questions/29913516/how-to-get-meaningful-network-interface-names-instead-of-guids-with-netifaces-un?noredirect=1&lq=1
+    def get_connection_name_from_guid(self,iface_guids):
+        iface_names = ['(unknown)' for i in range(len(iface_guids))]
+        reg = wr.ConnectRegistry(None, wr.HKEY_LOCAL_MACHINE)
+        reg_key = wr.OpenKey(reg, r'SYSTEM\CurrentControlSet\Control\Network\{4d36e972-e325-11ce-bfc1-08002be10318}')
+        for i in range(len(iface_guids)):
+            try:
+                reg_subkey = wr.OpenKey(reg_key, iface_guids[i] + r'\Connection')
+                iface_names[i] = wr.QueryValueEx(reg_subkey, 'Name')[0]
+            except Exception as e:
+                print(e.message)
+        return iface_names
 
     def select_file(self, event, entry_filepath):
         dialog_select_folder = Gtk.FileChooserDialog()

@@ -70,7 +70,7 @@ class MainGUI(Gtk.Window):
         self.currentConfigWindow = PluginConfigGUI(self,None)
 
         # Area of grid where configuration window appears.
-        self.configWidget = Gtk.Box()
+        self.configWidget = Gtk.ScrolledWindow()
         self.configWidget.set_size_request(definitions.CONFIG_WINDOW_WIDTH,definitions.CONFIG_WINDOW_HEIGHT)
 
         # contains collector widget AND config Widget
