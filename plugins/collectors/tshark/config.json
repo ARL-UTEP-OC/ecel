@@ -6,7 +6,7 @@
       "general": {
         "auto restart": {
           "enabled": true, 
-          "time interval": 60
+          "time interval": 30
         }
       }, 
       "archiving": {
@@ -19,9 +19,8 @@
       }, 
       "custom": {
         "interfaces": {
-          "mode": "inclusive", 
+          "mode": "exclusive", 
           "interfaces": [
-            "lo", 
             "eth0"
           ]
         }

@@ -13,6 +13,7 @@ from gui.export_gui import ExportGUI
 from gui.progress_bar import ProgressBar
 from gui.plugin_config_gui import PluginConfigGUI
 from _version import __version__
+from psutil import NoSuchProcess
 
 class MainGUI(Gtk.Window):
 
@@ -171,7 +172,11 @@ class MainGUI(Gtk.Window):
                 if(action == Action.RUN):
                     collector.run()
                 if(action == Action.STOP):
-                    collector.terminate()
+                    try:
+                        collector.terminate()
+                    except NoSuchProcess:
+                        print(collector.name + " process has already terminated.")
+                        self.set_config_widget_sensitivity()
                 self.set_config_widget_sensitivity()
             if(action == Action.PARSE):
                 collector.parser.parse()
@@ -327,8 +332,8 @@ class MainGUI(Gtk.Window):
         return False
 
     # Manual override on widget.hide_on_delete()
-    # Without this, app window termninates when gui is closed.
-    def hide_on_delete(self, main_gui, event):
-        main_gui.hide()
+    # Without this, app window terminates when gui is closed.
+    def hide_on_delete(self, this, event):
+        this.hide()
         return True
 
