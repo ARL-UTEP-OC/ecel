@@ -149,9 +149,11 @@ class Collector(object):
         self.processes = []
         self.pid_commands.clear()
 
-    def is_running(self): #TODO: Is this best way to test this?
-        if self.processes:
-            return True
+    # Tests if a collector has an active process
+    def is_running(self):
+        for p in self.processes:
+            if(psutil.pid_exists(p.pid)):
+                return True
         return False
 
     def enable(self):
