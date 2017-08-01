@@ -28,7 +28,7 @@ Run `./ecel_gui` to execute ECEL. This will invoke the main GUI and a clickable 
 
 ## Windows Excecution
 Caveat: Before running the above command, all code referencing 'AppIndicator3' and the status icon must be commented out. A windows version of 'AppIndicator3' is being researched.
-Run 'python ecel_gui.py' to execute ECEL on windows. This will invoke the main GUI.
+Run 'ecel_gui.bat' to execute ECEL on windows. This will invoke the main GUI.
 
 ## Plugins
 

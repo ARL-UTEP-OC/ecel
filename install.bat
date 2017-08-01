@@ -1,10 +1,11 @@
 REM Make sure path to pip is set correctly and CMD.exe is running with administrative privileges.
 
 SET "ECEL_DIR=%cd%"
+SET ECEL_EXECUTABLE=ecel_gui.bat
 SET OUTPUT_PREFIX=ECEL INSTALLER:
 SET OUTPUT_ERROR_PREFIX=%OUTPUT_PREFIX% ERROR:
 SET START_UP_DIR=%ProgramData%\Microsoft\Windows\Start Menu\Programs\Startup
-SET START_UP_FILE=%START_UP_DIR%\ecel_startup.bat
+SET START_UP_FILE=%START_UP_DIR%\%ECEL_EXECUTABLE%
 
 rem Download chocolatey (windows package manager. "apt-get")
 rem After initial download, ensure that chocolatey is installed in C:\ProgramData (or change to whatever directory it becomes installed in.
@@ -33,7 +34,7 @@ echo Creating Plugin Configs
 for /D %%d in (.\plugins\collectors\*) do copy %%d\config.json.template %%d\config.json & copy %%d\config_schema.json.template %%d\config_schema.json
 
 rem Enter the location of a javac executable below. This is needed to compile parser code.
-SET JAVAC_DIR=C:\Program Files\Java\jdk1.8.0_91\bin
+SET JAVAC_DIR=*INSERT JAVAC DIRECTORY HERE*
 
 echo %OUTPUT_PREFIX% Compiling parsers
 
@@ -43,13 +44,17 @@ for /D %%d in (.\plugins\parsers\*) do if exist %%d\*.java (javac %%d\*.java)
 
 javac -cp .\plugins\parsers\nmap\java_classes\*.java
 
+rem Creating executables
+IF NOT EXIST %ECEL_EXECUTABLE% (echo python %ECEL_DIR%\ecel_gui.py  > "%ECEL_DIR%\%ECEL_EXECUTABLE%")
+
+rem Configure to run on boot.
 :prompt
 ::Clear the value of answer ready for use.
 SET answer=
 SET /P answer=Would you like to run ECEL automatically on login? (y/n):
 
 IF %answer% == y (
-    echo python %ECEL_DIR%\ecel_gui.py > "%START_UP_FILE%"
+    copy "%ECEL_EXECUTABLE%" "%START_UP_DIR%"
 )
 
 IF %answer% == n (
@@ -57,7 +62,7 @@ IF %answer% == n (
 )
 
 echo For windows execution, the following must be installed manually: PyGobject, Gtk+ runtime, appindicator3
-echo %OUTPUT_PREFIX% Installation Complete. Type "python ecel_gui.py" to start ECEL
+echo %OUTPUT_PREFIX% Installation Complete. Type "ecel_gui.bat" to start ECEL
 
 
 
