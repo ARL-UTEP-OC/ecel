@@ -20,9 +20,7 @@
       "custom": {
         "interfaces": {
           "mode": "exclusive", 
-          "interfaces": [
-            "eth0"
-          ]
+          "interfaces": []
         }
       }
     }
