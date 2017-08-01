@@ -171,13 +171,16 @@ class MainGUI(Gtk.Window):
             if collector.is_enabled() and isinstance(collector, engine.collector.AutomaticCollector):
                 if(action == Action.RUN):
                     collector.run()
+                    self.set_config_widget_sensitivity()
                 if(action == Action.STOP):
                     try:
                         collector.terminate()
+                        self.set_config_widget_sensitivity()
                     except NoSuchProcess:
                         print(collector.name + " process has already terminated.")
-                        self.set_config_widget_sensitivity()
-                self.set_config_widget_sensitivity()
+                        self.configWidget.set_sensitive(True)
+                        self.startall_button.set_sensitive(True)
+                        self.stopall_button.set_sensitive(False)
             if(action == Action.PARSE):
                 collector.parser.parse()
         self.status_context_menu.startall_menu_item.set_sensitive(self.engine.has_collectors_running() == False)
