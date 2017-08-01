@@ -27,7 +27,8 @@ When you download python, ensure that pip is going to be installed, and that pyt
 Run `./ecel_gui` to execute ECEL. This will invoke the main GUI and a clickable status icon will appear in the task bar.
 
 ## Windows Excecution
-Caveat: Before running the above command, all code referencing 'AppIndicator3' and the status icon must be commented out. A windows version of 'AppIndicator3' is being researched.
+Caveat: Before executing ECEL on windows, currently all code referencing 'AppIndicator3' and the status icon must be commented out.
+A windows version of 'AppIndicator3' is being researched.
 Run 'ecel_gui.bat' to execute ECEL on windows. This will invoke the main GUI.
 
 ## Plugins
