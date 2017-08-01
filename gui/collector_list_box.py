@@ -17,6 +17,8 @@ class CollectorListBox(Gtk.ListBox):
         self.attached_gui = main_gui
         self.css = CssProvider("widget_styles.css")
 
+        self.collectorStatus = {}
+
         self.connect("row-selected",self.update_row_colors)
         self.connect("row-activated",self.row_activated_handler)
         # Enable multiple collector selection when (SHIFT + CTRL) occurs (selection mode == MULTIPLE)
@@ -26,6 +28,7 @@ class CollectorListBox(Gtk.ListBox):
 
         for i, collector in enumerate(self.engine.collectors):
             self.add(self.create_collector_row(collector))
+            self.collectorStatus[collector.name] = False
 
     def key_pressed_handler(self, listBox, event):
         modifiers = Gtk.accelerator_get_default_mod_mask()
@@ -82,7 +85,7 @@ class CollectorListBox(Gtk.ListBox):
 
         return row
 
-    # Show options over collector row on right click
+    # Show options over collector row on right click, select collector and create config window on left click
     def collector_listbox_handler(self, eventBox, event, collectorName):
         collector = self.engine.get_collector(collectorName)
         if(event.button == Gdk.BUTTON_PRIMARY):
@@ -90,6 +93,21 @@ class CollectorListBox(Gtk.ListBox):
                 self.attached_gui.create_config_window(event,collector)
         if(event.button == Gdk.BUTTON_SECONDARY): # right click
             self.show_collector_popup_menu(event,collector)
+
+    def toggle_clicked_row(self, row):
+        activate = not self.collectorStatus[row.get_name()]
+
+        if(activate == True):
+            self.select_row(row)
+        if(activate == False):
+            self.unselect_row(row)
+
+        self.collectorStatus[row.get_name()] = activate
+
+
+    def get_row(self, name):
+        row = filter(lambda r: r.get_name() == name, self.get_children())
+        return row.pop()
 
     def show_collector_popup_menu(self, event, collector):
         menu = Gtk.Menu()
@@ -116,7 +134,7 @@ class CollectorListBox(Gtk.ListBox):
         return True
 
     # Update background colors of collector rows based on isSelected()
-    def update_row_colors(self, event, lboxRow):
+    def update_row_colors(self, event, lBoxRow):
         self.foreach(self.update_row_color)
 
     def row_activated_handler(self,lBox,lBoxRow):
@@ -124,6 +142,9 @@ class CollectorListBox(Gtk.ListBox):
             self.select_row(lBoxRow)
             collector = self.engine.get_collector(lBoxRow.get_name())
             self.attached_gui.create_config_window(Gdk.Event(),collector)
+        if(self.get_selection_mode() == Gtk.SelectionMode.MULTIPLE):
+            self.toggle_clicked_row(lBoxRow)
+        self.update_row_colors(Gdk.Event(),lBoxRow)
 
     # Helper for update_row_colors
     def update_row_color(self,row):

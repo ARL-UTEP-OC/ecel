@@ -5,7 +5,7 @@
     "configurations": {
       "general": {
         "auto restart": {
-          "enabled": true, 
+          "enabled": false, 
           "time interval": 30
         }
       }, 
@@ -20,7 +20,9 @@
       "custom": {
         "interfaces": {
           "mode": "exclusive", 
-          "interfaces": []
+          "interfaces": [
+            "lo"
+          ]
         }
       }
     }
