@@ -178,8 +178,7 @@ class MainGUI(Gtk.Window):
                     except NoSuchProcess:
                         print(collector.name + " process has already terminated.")
                         self.configWidget.set_sensitive(True)
-                        self.startall_button.set_sensitive(True)
-                        self.stopall_button.set_sensitive(False)
+                        self.set_play_stop_btns(True,False)
             if(action == Action.PARSE):
                 collector.parser.parse()
         self.status_context_menu.startall_menu_item.set_sensitive(self.engine.has_collectors_running() == False)
