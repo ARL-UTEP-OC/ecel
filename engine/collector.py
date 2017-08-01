@@ -255,6 +255,7 @@ class AutomaticCollector(Collector):
         self.processes = []
         self.pid_commands.clear()
 
+    # Tests if a collector has an active process
     def is_running(self):
         for p in self.processes:
             if(psutil.pid_exists(p.pid)):
