@@ -21,50 +21,37 @@ class CollectorListBox(Gtk.ListBox):
 
         self.connect("row-selected",self.update_row_colors)
         self.connect("row-activated",self.row_activated_handler)
-        # Enable multiple collector selection when (SHIFT + CTRL) occurs (selection mode == MULTIPLE)
-        self.connect("key-press-event",self.key_pressed_handler)
-        # Makes the next click revert back to single selection mode when (SHIFT + CTRL) released
+        # Enable multiple collector selection when CTRL + left click occurs (selection mode == MULTIPLE)
+        self.connect("button-press-event",self.enable_multiple)
+        # Disable multiple when CTRL is released
+        self.connect("button-release-event",self.disable_multiple)
+        # List box updates collector rows on up/down arrow/tab key presses.
         self.connect("key-release-event",self.key_release_handler)
 
         for i, collector in enumerate(self.engine.collectors):
             self.add(self.create_collector_row(collector))
             self.collectorStatus[collector.name] = False
 
-    def key_pressed_handler(self, listBox, event):
+    # Collector List Box enables mutliple selection on CTRL + left click
+    def enable_multiple(self, lBox, event):
         modifiers = Gtk.accelerator_get_default_mod_mask()
-        shift_ctrl_pressed = ((event.state & modifiers) == Gdk.ModifierType.CONTROL_MASK) | (event.state & modifiers) == Gdk.ModifierType.SHIFT_MASK
-        ctrl_shift_pressed = ((event.state & modifiers) == Gdk.ModifierType.SHIFT_MASK) | (event.state & modifiers) == Gdk.ModifierType.CONTROL_MASK
-
-        # Shift ctrl pressed
-        if(shift_ctrl_pressed | ctrl_shift_pressed): # Can now handle simultaneous (CTRL + SHIFT) presses
+        if(event.button == Gdk.BUTTON_PRIMARY and  ((event.state & modifiers) == Gdk.ModifierType.CONTROL_MASK)):
             self.set_selection_mode(Gtk.SelectionMode.MULTIPLE)
 
-    def key_release_handler(self, listBox, event):
+    # Collector List box disables multiple selection when CTRL is released.
+    def disable_multiple(self, lBox, event):
         modifiers = Gtk.accelerator_get_default_mod_mask()
-        # Shift + Ctrl released
-        if (((event.state & modifiers) == Gdk.ModifierType.CONTROL_MASK) == False
-            | ((event.state & modifiers) == Gdk.ModifierType.SHIFT_MASK) == False):
-            # Next click will reset collector list to single selection mode
-            # Next click because if we just reset to single selection now...
-            # ...any selected collectors would be unselected automatically
-            self.connect("button-press-event", self.enable_single_selection)
+        if (event.button == Gdk.BUTTON_PRIMARY and ((event.state & modifiers) == Gdk.ModifierType.CONTROL_MASK) == False):
+            self.set_selection_mode(Gtk.SelectionMode.SINGLE)
 
-        # Up arrow/down arrow pressed, update config window if selection mode is single
+    # Left pane responds to up/down arrow and tab key presses
+    def key_release_handler(self, listBox, event):
         if (event.keyval == Gdk.KEY_Up or event.keyval == Gdk.KEY_Down or Gdk.KEY_Tab):
             if (self.get_selection_mode() == Gtk.SelectionMode.SINGLE):
                 collector = self.engine.get_collector(self.get_selected_row().get_name())
                 self.attached_gui.create_config_window(event,collector)
 
-    def enable_single_selection(self, lBox, event):
-        # Left click
-        if (event.button == Gdk.BUTTON_PRIMARY):
-            # Unselect all rows
-            self.unselect_all()
-            # Reset selection mode to single
-            self.set_selection_mode(Gtk.SelectionMode.SINGLE)
-            # Disable this handler so that multiple selection is possible again in the future.
-            self.disconnect_by_func(self.enable_single_selection)
-
+    # Create Gtk.ListBoxRow() with collector information
     def create_collector_row(self,collector):
 
         label = Gtk.Label()
@@ -88,12 +75,10 @@ class CollectorListBox(Gtk.ListBox):
     # Show options over collector row on right click, select collector and create config window on left click
     def collector_listbox_handler(self, eventBox, event, collectorName):
         collector = self.engine.get_collector(collectorName)
-        if(event.button == Gdk.BUTTON_PRIMARY):
-            if(self.get_selection_mode() == Gtk.SelectionMode.SINGLE):
-                self.attached_gui.create_config_window(event,collector)
         if(event.button == Gdk.BUTTON_SECONDARY): # right click
             self.show_collector_popup_menu(event,collector)
 
+    # Toggle the clicked row if the selection mode is multiple
     def toggle_clicked_row(self, row):
         activate = not self.collectorStatus[row.get_name()]
 
@@ -104,11 +89,12 @@ class CollectorListBox(Gtk.ListBox):
 
         self.collectorStatus[row.get_name()] = activate
 
-
+    # Return the Gtk.ListBoxRow() based on the its name (string)
     def get_row(self, name):
         row = filter(lambda r: r.get_name() == name, self.get_children())
         return row.pop()
 
+    # Show the popup menu on right click
     def show_collector_popup_menu(self, event, collector):
         menu = Gtk.Menu()
 
@@ -137,6 +123,16 @@ class CollectorListBox(Gtk.ListBox):
     def update_row_colors(self, event, lBoxRow):
         self.foreach(self.update_row_color)
 
+    # Helper for update_row_colors
+    def update_row_color(self, row):
+        if (row.is_selected()):
+            row.get_style_context().add_class("active-color")
+            row.get_style_context().remove_class("inactive-color")
+        else:
+            row.get_style_context().remove_class("active-color")
+            row.get_style_context().add_class("inactive-color")
+
+    # Runs when a Gtk.ListBoxRow() is activated
     def row_activated_handler(self,lBox,lBoxRow):
         if(self.get_selection_mode() == Gtk.SelectionMode.SINGLE):
             self.select_row(lBoxRow)
@@ -146,15 +142,7 @@ class CollectorListBox(Gtk.ListBox):
             self.toggle_clicked_row(lBoxRow)
         self.update_row_colors(Gdk.Event(),lBoxRow)
 
-    # Helper for update_row_colors
-    def update_row_color(self,row):
-        if(row.is_selected()):
-            row.get_style_context().add_class("active-color")
-            row.get_style_context().remove_class("inactive-color")
-        else:
-            row.get_style_context().remove_class("active-color")
-            row.get_style_context().add_class("inactive-color")
-
+    # Called by the start/stop all collector menu option in the staus icon menu. Updates the status of the collector rows when they are pressed.
     def update_collector_status(self, action, collectorName):
         row = filter(lambda r: r.get_name() == collectorName, self.get_children())
         if (row.__len__() > 0):
