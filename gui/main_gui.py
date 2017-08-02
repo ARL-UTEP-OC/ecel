@@ -156,9 +156,10 @@ class MainGUI(Gtk.Window):
         ExportGUI(self)
 
     def delete_all(self, event):
+        delete_script = "cleanCollectorData.bat" if os.name == "nt" else "cleanCollectorData.sh"
         if self.show_confirmation_dialog("Are you sure you want to delete all collector data (this cannot be undone)?"):
-            remove_cmd = os.path.join(os.path.join(os.getcwd(), "scripts"), "cleanCollectorData.sh")
-            subprocess.call(remove_cmd) #TODO: Change this to not call external script
+            remove_cmd = os.path.join(os.path.join(os.getcwd(), "scripts"), delete_script)
+            subprocess.call(remove_cmd)  # TODO: Change this to not call external script
 
     # Perform the designated action (run,stop,parse) for all selected collectors
     def process_active_collectors(self,event,action):
