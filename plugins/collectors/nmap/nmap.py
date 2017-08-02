@@ -14,6 +14,9 @@ class nmap(AutomaticCollector):
         out_file_path = os.path.join(self.output_dir, out_file_name + ".xml")
         # build commands
         cmd = self.name + option + " " + network + " -oX " + out_file_path
+        if (os.name == "nt"):
+            cmd = cmd.replace("\\", "/")  # Needed in windows to ensure output file is placed in correct directory.
         self.commands.append(cmd)
+
 
 
