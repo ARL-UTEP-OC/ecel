@@ -178,6 +178,9 @@ class MainGUI(Gtk.Window):
                         collector.terminate()
                         self.set_config_widget_sensitivity()
                     except NoSuchProcess:
+                        # On windows, when a process finishes running a command, it terminates. This is needed to ensure
+                        # ...ECEL doesnt crash on Windows if the stop button is pressed for a collector whose process...
+                        # has already finished executing its command.
                         print(collector.name + " process has already terminated.")
                         collector.clean()
                         self.configWidget.set_sensitive(True)
