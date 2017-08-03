@@ -1,4 +1,7 @@
 echo on
-set pcapfilename=%1
+set pcapfilepath=%1
 set outputpath=%2
-java NetworkDataParser %pcapfilename% %outputpath%
+
+mergecap %pcapfilepath%\*.*cap* -w %pcapfilepath%\merged.pcap
+java NetworkDataParser %pcapfilepath%\merged.pcap %outputpath%
+del "%pcapfilepath%\merged.pcap"

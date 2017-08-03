@@ -21,6 +21,7 @@ class MainGUI(Gtk.Window):
 
         self.set_title("Evaluator-Centric and Extensible Logger v%s" % (__version__))
         self.set_size_request(definitions.MAIN_WINDOW_WIDTH, definitions.MAIN_WINDOW_HEIGHT)
+        self.set_resizable(False)
         self.set_position(Gtk.WindowPosition.CENTER)
         self.connect("delete-event", self.hide_on_delete)
 
@@ -92,7 +93,6 @@ class MainGUI(Gtk.Window):
 
         self.show_all()
         self.status_context_menu = status_icon.CustomSystemTrayIcon(app_engine, self)
-        self.set_resizable(False)
 
     def set_play_stop_btns(self, startSensitive, stopSensitive):
         self.startall_button.set_sensitive(startSensitive)
