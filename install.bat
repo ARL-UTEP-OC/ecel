@@ -31,7 +31,11 @@ set PYTHON_DEPENDENCIES=virtualenv,enum34,psutil,netifaces,python-registry
 for %%p in ("%PYTHON_DEPENDENCIES:,=" "%") do pip install %%p
 
 echo Creating Plugin Configs
-for /D %%d in (.\plugins\collectors\*) do copy %%d\config.json.template %%d\config.json & copy %%d\config_schema.json.template %%d\config_schema.json
+for /D %%d in (.\plugins\collectors\*) do (
+    IF NOT EXIST %%d\config.json (copy %%d\config.json.template %%d\config.json)
+
+    IF NOT EXIST %%d\config_schema.json (copy %%d\config_schema.json.template %%d\config_schema.json)
+)
 
 rem Enter the location of a javac executable below. This is needed to compile parser code.
 SET JAVAC_DIR=*INSERT JAVAC DIRECTORY HERE*
