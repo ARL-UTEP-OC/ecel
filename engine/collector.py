@@ -143,7 +143,10 @@ class Collector(object):
                 else:
                     tps.append(process.pid)
         print (" [x] Terminated: %s - pId(s): %s" % (self.name, ', '.join(str(p) for p in tps)))
+        self.clean()
 
+
+    def clean(self):
         self.commands = []
         self.output_filenames = []
         self.processes = []

@@ -8,6 +8,7 @@ class tshark(AutomaticCollector):
 
     #TODO: Use self.output_filepath?
     def build_commands(self):
+        self.clean()
         # get additional options from the config file
         mode = self.config.get_collector_custom_data()["interfaces"]["mode"]
         ifaces = self.config.get_collector_custom_data()["interfaces"]["interfaces"]

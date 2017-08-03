@@ -178,6 +178,7 @@ class MainGUI(Gtk.Window):
                         self.set_config_widget_sensitivity()
                     except NoSuchProcess:
                         print(collector.name + " process has already terminated.")
+                        collector.clean()
                         self.configWidget.set_sensitive(True)
                         self.set_play_stop_btns(True,False)
             if(action == Action.PARSE):
