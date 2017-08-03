@@ -7,13 +7,13 @@ ECEL has been tested on:
 * Windows 8/10 64-bit, but see caveat(s) below
 
 *ECEL must be run as root. In order for the task bar status icon to function properly, you must also be logged in as root.
-*ECEL must be run from an administrative command prompt on Windows.
+On Windows, ECEL must be run from an administrative command prompt.
 
 ## Installation
 To install ECEL, run `./install.sh`. A internet connection is required for installation.
 
 ## Windows Installation
-To install ECEL on windows, complete the following steps in the exact order they are listed:
+An internet connection is required for installation. To install ECEL on windows, complete the following steps in the exact order they are listed:
 1. Install python -V 2.7.13. It is important that this is the only version of python installed on your machine, and that it is stored directly on your C:\ drive (i.e. C:\Python27).
 When you download python, ensure that pip is going to be installed, and that python is added to your %path% variable.
 2. Download the windows GTK3 runtime installer here: https://sourceforge.net/projects/gtk3win/
@@ -28,7 +28,7 @@ When you download python, ensure that pip is going to be installed, and that pyt
 Run `./ecel_gui` to execute ECEL. This will invoke the main GUI and a clickable status icon will appear in the task bar.
 
 ## Windows Excecution
-Run `ecel_gui.bat` to execute ECEL. This will invoke the main GUI. Currently, the status icon is not functional for windows. Before the first invocation, run the install.bat script to ensure nmap/tshark are added to the %path%.
+Run `ecel_gui.bat` to execute ECEL. This will invoke the main GUI. Currently, the status icon is not functional for windows. Before the first invocation, run the install.bat script to ensure nmap/tshark are added to the %path% variable.
 
 ## Plugins
 
