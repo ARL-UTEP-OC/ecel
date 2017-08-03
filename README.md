@@ -11,7 +11,7 @@ ECEL has been tested on:
 ## Installation
 To install ECEL, run `./install.sh`. A internet connection is required for installation.
 
-## Windows Installation (Tested on Windows 8/10, 64 bit machines)
+## Windows Installation (Tested on Windows 10, 64 bit)
 To install ECEL on windows, complete the following steps in the exact order they are listed:
 1. Install python -V 2.7.13. It is important that this is the only version of python installed on your machine, and that it is stored directly on your C:\ drive. (i.e. C:\Python27)
 When you download python, ensure that pip is going to be installed, and that python is added to your %path% variable.
