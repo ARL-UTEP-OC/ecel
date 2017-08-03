@@ -34,7 +34,7 @@ echo Creating Plugin Configs
 for /D %%d in (.\plugins\collectors\*) do copy %%d\config.json.template %%d\config.json & copy %%d\config_schema.json.template %%d\config_schema.json
 
 rem Enter the location of a javac executable below. This is needed to compile parser code.
-SET JAVAC_DIR=C:\Program Files\Java\jdk1.8.0_91\bin
+SET JAVAC_DIR=*INSERT JAVAC DIRECTORY HERE*
 
 echo %OUTPUT_PREFIX% Compiling parsers
 
