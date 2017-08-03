@@ -62,8 +62,7 @@ class MainGUI(Gtk.Window):
         self.collectorList = CollectorListBox(self.engine, self)
 
         # Container for the list of collector plugins (the 'left pane')
-        self.collectorWidget = Gtk.Box()
-        self.collectorWidget.set_orientation(Gtk.Orientation.VERTICAL)
+        self.collectorWidget = Gtk.ScrolledWindow()
         self.collectorWidget.set_size_request(definitions.COLLECTOR_WIDGET_WIDTH,definitions.MAIN_WINDOW_HEIGHT - definitions.TOOL_BAR_HEIGHT)
         self.collectorWidget.add(self.collectorList)
 
