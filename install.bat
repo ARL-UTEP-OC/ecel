@@ -17,7 +17,7 @@ echo Installing dependencies (Snoopy will not be installed-Linux only)
 for %%p in ("%REQUIRED_PLUGINS:,=" "%") do choco install %%p
 
 rem Wireshark installs by default in C:\Program Files (64 bit directory), while Nmap installs in C:\Program Files x86 (32 bit directory)
-rem These may need to be changed depending on where chocolatey installs nmap/tshark on your machine. CHeck Program files/Program files x86.
+rem These may need to be changed depending on where chocolatey installs nmap/tshark on your machine. Check Program files/Program files x86.
 SET WIRESHARK_DIR=%ProgramFiles%\Wireshark
 SET NMAP_DIR=%ProgramFiles(x86)%\Nmap
 set path=%path%;%WIRESHARK_DIR%
@@ -26,7 +26,7 @@ set path=%path%;%NMAP_DIR%
 echo Installing python dependencies
 
 rem it may be necessary to download some of these packages manually if pip install does not work.
-rem ensure these packages are installed in your site-packages folder for your current versoin of python.
+rem ensure these packages are installed in your site-packages folder for your current version of python.
 set PYTHON_DEPENDENCIES=virtualenv,enum34,psutil,netifaces,python-registry
 for %%p in ("%PYTHON_DEPENDENCIES:,=" "%") do pip install %%p
 
@@ -61,7 +61,7 @@ IF %answer% == n (
     del "%START_UP_FILE%"
 )
 
-echo For windows execution, the following must be installed manually: PyGobject, Gtk+ runtime, appindicator3
+echo For windows execution, the following must be installed manually: PyGobject, Gtk+ runtime, autopy
 echo %OUTPUT_PREFIX% Installation Complete. Type "ecel_gui.bat" to start ECEL
 
 
