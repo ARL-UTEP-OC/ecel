@@ -69,6 +69,7 @@ class MainGUI(Gtk.Window):
         self.currentConfigWindow = PluginConfigGUI(self,None)
 
         # Area of grid where configuration window appears.
+        # Scrolled window allows the pane to be scrolled through should its width be exceeded by a child.
         self.configWidget = Gtk.ScrolledWindow()
         self.configWidget.set_size_request(definitions.CONFIG_WINDOW_WIDTH,definitions.CONFIG_WINDOW_HEIGHT)
 
@@ -91,6 +92,7 @@ class MainGUI(Gtk.Window):
 
         self.show_all()
         self.status_context_menu = status_icon.CustomSystemTrayIcon(app_engine, self)
+        self.set_resizable(False)
 
     def set_play_stop_btns(self, startSensitive, stopSensitive):
         self.startall_button.set_sensitive(startSensitive)
