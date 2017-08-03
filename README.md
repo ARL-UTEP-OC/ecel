@@ -7,6 +7,7 @@ ECEL has been tested on:
 * Windows 8/10 64-bit, but see caveat(s) below
 
 *ECEL must be run as root. In order for the task bar status icon to function properly, you must also be logged in as root.
+*ECEL must be run from an administrative command prompt on Windows.
 
 ## Installation
 To install ECEL, run `./install.sh`. A internet connection is required for installation.
