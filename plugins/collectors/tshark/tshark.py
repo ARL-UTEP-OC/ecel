@@ -24,5 +24,5 @@ class tshark(AutomaticCollector):
             out_file_path = os.path.join(self.output_dir, out_file_name + ".pcap")
             cmd = "dumpcap " \
                   + "-i " + str(iface) + " " \
-                  + "-w " + str(out_file_path)
+                  + "-w " + str(out_file_path).replace("\\", "/")
             self.commands.append(cmd)
