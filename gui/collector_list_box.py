@@ -47,9 +47,8 @@ class CollectorListBox(Gtk.ListBox):
     # Left pane responds to up/down arrow and tab key presses
     def key_release_handler(self, listBox, event):
         if (event.keyval == Gdk.KEY_Up or event.keyval == Gdk.KEY_Down or Gdk.KEY_Tab):
-            if (self.get_selection_mode() == Gtk.SelectionMode.SINGLE):
-                collector = self.engine.get_collector(self.get_selected_row().get_name())
-                self.attached_gui.create_config_window(event,collector)
+            collector = self.engine.get_collector(self.get_selected_row().get_name())
+            self.attached_gui.create_config_window(event,collector)
 
     # Create Gtk.ListBoxRow() with collector information
     def create_collector_row(self,collector):
