@@ -4,7 +4,7 @@
 ECEL has been tested on:
 * Kali Linux 2016.2, both 32 and 64-bit
 * Ubuntu 16.04 LTS 64-bit*, but see caveat below
-* Windows 8/10 64-bit, but see caveat(s) below
+* Windows 7 32-bit, 8/10 64-bit, but see caveat(s) below
 
 *ECEL must be run as root. In order for the task bar status icon to function properly, you must also be logged in as root.
 On Windows, ECEL must be run from an administrative command prompt.
@@ -17,7 +17,7 @@ An internet connection is required for installation. To install ECEL on windows,
 1. Install python -V 2.7.13. It is important that this is the only version of python installed on your machine, and that it is stored directly on your C:\ drive (i.e. C:\Python27).
 When you download python, ensure that pip is going to be installed, and that python is added to your %path% variable.
 2. Download the windows GTK3 runtime installer here: https://sourceforge.net/projects/gtk3win/
-3. Download the windows PyGObject installer (GTK3 packages) here: https://sourceforge.net/projects/pygobjectwin32/files/?source=navbar
+3. Download the windows PyGObject installer (GTK3 packages) here: https://sourceforge.net/projects/pygobjectwin32/files/?source=navbar. Make sure to install the 'Glade' package when going through the installer.
 4. Download autopy here: https://pypi.python.org/pypi/autopy/  (Install into C:\Python27\Lib\site-packages directory)
 5. Edit the following line in your  install batch (install.bat) file: `'SET JAVAC_DIR=*INSERT JAVAC DIRECTORY HERE*`
 6. Make sure that the path specified is a path to a javac executable. This is needed so that the java parsing code gets compiled. (This step may not be necessary if javac is permanently added to your %path% variable, but if not it will be necessary to make this edit depending on your version of java)
