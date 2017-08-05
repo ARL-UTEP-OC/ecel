@@ -58,8 +58,12 @@ fi
 # #TODO: do this every time it's necessary
 for plugin in "$ECEL_DIR"/plugins/collectors/*; do
     if [ -d "$plugin" ]; then
-        scp "$plugin"/config.json.template "$plugin"/config.json
-        scp "$plugin"/config_schema.json.template "$plugin"/config_schema.json
+        if [ ! -f "$plugin"/config.json ]; then
+            scp "$plugin"/config.json.template "$plugin"/config.json
+        fi
+         if [ ! -f "$plugin"/config_schema.json ]; then
+            scp "$plugin"/config_schema.json.template "$plugin"/config_schema.json
+        fi
     fi
 done
 
