@@ -168,7 +168,7 @@ class PluginConfigGUI(Gtk.Frame):
         label_text = Gtk.Label(label=label.title())
         adjustment = Gtk.Adjustment(value, 0, sys.maxint, 1)
         spinbutton_value = Gtk.SpinButton(adjustment)
-        spinbutton_value.connect("event",self.enable_save_button,None)
+        spinbutton_value.connect("value-changed",self.enable_save_button,None)
         spinbutton_value.set_value(value)
         hbox_main.pack_start(label_text, True, True, 0)
         hbox_main.pack_start(spinbutton_value, True, True, 0)
@@ -197,6 +197,7 @@ class PluginConfigGUI(Gtk.Frame):
         return hbox_main
 
     def enabled_checkbox_toggled(self, widget, sensitivity_group):
+        self.enable_save_button()
         for item in sensitivity_group:
             if item is not widget:
                 item.set_sensitive(widget.get_active())
