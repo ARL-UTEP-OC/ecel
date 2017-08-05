@@ -5,6 +5,7 @@ from utils.css_provider import CssProvider
 from utils.collector_action import Action
 import engine.collector
 import definitions
+import os
 
 class CollectorListBox(Gtk.ListBox):
 
@@ -39,11 +40,14 @@ class CollectorListBox(Gtk.ListBox):
     # Left pane responds to up/down arrow and tab key presses
     def key_release_handler(self, listBox, event):
         modifiers = Gtk.accelerator_get_default_mod_mask()
+        reactivate_single = (event.state & modifiers) != Gdk.ModifierType.CONTROL_MASK if os.name == "nt" else (event.state & modifiers) == Gdk.ModifierType.CONTROL_MASK
+
         if (event.keyval == Gdk.KEY_Up or event.keyval == Gdk.KEY_Down or Gdk.KEY_Tab):
             collector = self.engine.get_collector(self.get_selected_row().get_name())
             if(self.get_selection_mode() == Gtk.SelectionMode.SINGLE):
                 self.attached_gui.create_config_window(event,collector)
-        if((event.state & modifiers) == Gdk.ModifierType.CONTROL_MASK):
+
+        if(reactivate_single):
             # The next click will renable single selection
             self.connect("button-press-event",self.re_enable_single)
 
