@@ -28,9 +28,11 @@ class PluginConfigGUI(Gtk.Frame):
             "filepath": self.create_filepath_hbox,
             "path": self.create_path_hbox
         }
-
+        self.active = False
         self.vbox_main = Gtk.VBox()
+
         if(collector != None):
+            self.active = True
             headerBox = Gtk.Box()
             headerLabel = Gtk.Label()
             headerLabel.set_label(collector.name + " Plugin Configurations")

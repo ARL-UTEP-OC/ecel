@@ -184,7 +184,14 @@ class MainGUI(Gtk.Window):
                         print(collector.name + " process has already terminated.")
                         collector.clean()
                         self.configWidget.set_sensitive(True)
-                        self.set_play_stop_btns(True,False)
+                    except StopIteration:
+                        # Catch this exception to smoothly handle this action sequence:
+                        # ... ** 1. Select 'Start all' from status icon 2. hit' stop' button from main application window instead of 'stop all' from status icon
+                        # ... For this action sequence, this exception is needed because if not,
+                        self.collectorList.set_selection_mode(Gtk.SelectionMode.SINGLE)
+                        self.set_play_stop_btns(False,False)
+                        self.status_context_menu.stopall_menu_item.set_sensitive(False)
+
             if(action == Action.PARSE):
                 collector.parser.parse()
         self.status_context_menu.startall_menu_item.set_sensitive(self.engine.has_collectors_running() == False)
@@ -193,6 +200,12 @@ class MainGUI(Gtk.Window):
         collector = self.engine.get_collector(self.currentConfigWindow.get_name())
         self.configWidget.set_sensitive(collector.is_running() == False)
         self.set_play_stop_btns(collector.is_running() == False, collector.is_running())
+
+    def get_current_config_window_name(self):
+        return self.currentConfigWindow.get_name()
+
+    def is_config_window_active(self):
+        return self.currentConfigWindow.active
 
     def create_collector_bbox(self, collector):
         frame = Gtk.Frame()
