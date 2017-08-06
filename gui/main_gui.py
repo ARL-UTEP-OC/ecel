@@ -330,6 +330,7 @@ class MainGUI(Gtk.Window):
         collector.terminate()
         self.set_play_stop_btns(True,False)
         self.set_config_widget_sensitivity()
+        self.status_context_menu.startall_menu_item.set_sensitive(self.engine.has_collectors_running() == False)
 
     def startIndividualCollector(self, event, collector):
         collector.run()
@@ -337,6 +338,7 @@ class MainGUI(Gtk.Window):
         self.set_play_stop_btns(False,True)
         self.create_config_window(event, collector)
         self.set_config_widget_sensitivity()
+        self.status_context_menu.startall_menu_item.set_sensitive(False)
 
     def show_confirmation_dialog(self, msg):
         dialog = Gtk.MessageDialog(self, Gtk.DialogFlags.DESTROY_WITH_PARENT, Gtk.MessageType.INFO,
