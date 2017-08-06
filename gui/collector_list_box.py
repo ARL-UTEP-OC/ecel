@@ -95,6 +95,7 @@ class CollectorListBox(Gtk.ListBox):
             self.unselect_row(row)
 
         self.collectorStatus[row.get_name()] = activate
+        self.update_row_colors(Gdk.Event(), row)
 
     # Return the Gtk.ListBoxRow() based on the its name (string)
     def get_row(self, name):
