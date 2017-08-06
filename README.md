@@ -28,7 +28,7 @@ When you download python, ensure that pip is going to be installed, and that pyt
 Run `./ecel_gui` to execute ECEL. This will invoke the main GUI and a clickable status icon will appear in the task bar.
 
 ## Windows Excecution
-Run `ecel_gui.bat` to execute ECEL. This will invoke the main GUI. Currently, the status icon is not functional for windows. Before the first invocation, run the install.bat script to ensure nmap/tshark are added to the %path% variable.
+Run `ecel_gui.bat` to execute ECEL. This will invoke the main GUI. Currently, the status icon is not functional for windows. Before the first invocation, run the install.bat script to ensure nmap/tshark are added to the %path% variable. On system start up, not all of ECEL's plugins may be functional, since the install script is what actually adds them to %path%. It is recommended that you run the install script before your first invocation of ECEL.
 
 ## Plugins
 
