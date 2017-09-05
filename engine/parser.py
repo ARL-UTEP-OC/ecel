@@ -28,6 +28,12 @@ class Parser(object):
         else:
             self.__parse_file(self.file_or_dir)
 
+    def parse(self, progress_bar_details):
+        if (os.path.isdir(self.file_or_dir)):
+            self.__parse_directory(self.file_or_dir)
+        else:
+            self.__parse_file(self.file_or_dir)
+
     def do_file(self, file_path):
         print ""
 
