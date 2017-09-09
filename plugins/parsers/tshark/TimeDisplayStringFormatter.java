@@ -6,6 +6,7 @@ public class TimeDisplayStringFormatter {
 	static HashSet<String> uniqueElementsPerWindow = new HashSet<String>();
     static long numXYItems = 0;
     static long numProtoItems = 0;
+    static int updatePeriod = 500;
 
 		public static void writeJSONFiles(String buffer, double windowSize, String outputDirectory) {
 		String protocolJSON = "[";
@@ -29,7 +30,8 @@ public class TimeDisplayStringFormatter {
 
 			for (int i=0; i<lines.length; i++)
 			{
-				//System.out.println("line: " + lines[i]);
+				if (i%updatePeriod == 0 || i == lines.length-1)
+				    System.out.println("STAGE II: Writing data item: " + i + "/" + (lines.length-1));
 				parsedPacket = lines[i].split(" ",-1);
 				currPacketTime = Double.parseDouble(parsedPacket[PacketData.Fields.FRAME_TIMEEPOCH.ordinal()]);;
 				

@@ -203,28 +203,19 @@ class MainGUI(gtk.Window):
             pb.destroy()
 
     def parse_all(self, event):
-        i = 0.0
-        pb = ProgressBar()
-        pb.setValue(0.0)
-
-        while gtk.events_pending():
-            gtk.main_iteration()
-
         for collector in self.engine.collectors:
-            collector.parser.parse()
-            pb.setValue(i/len(self.engine.collectors))
-            pb.pbar.set_text("Parsing " + collector.name)
-            while gtk.events_pending():
-                gtk.main_iteration()
-            i += 1
-        pb.setValue(1.0)
-        if not pb.emit("delete-event", gtk.gdk.Event(gtk.gdk.DELETE)):
-            pb.destroy()
-
-        alert = gtk.MessageDialog(self, gtk.DIALOG_DESTROY_WITH_PARENT, gtk.MESSAGE_INFO,
-                                      gtk.BUTTONS_CLOSE, "Parsing complete")
-        alert.run()
-        alert.destroy()
+            pb = ProgressBarDetails()
+            pb.set_title(collector.name + " parser")
+            pb.appendText("Starting parser for " + collector.name + "...\n")
+            collector.parser.parse(pb.text_buffer)
+        # pb.setValue(1.0)
+        # if not pb.emit("delete-event", gtk.gdk.Event(gtk.gdk.DELETE)):
+        #     pb.destroy()
+        #
+        # alert = gtk.MessageDialog(self, gtk.DIALOG_DESTROY_WITH_PARENT, gtk.MESSAGE_INFO,
+        #                               gtk.BUTTONS_CLOSE, "Parsing complete")
+        # alert.run()
+        # alert.destroy()
 
     def close_all(self, event):
         for collector in self.engine.collectors:
