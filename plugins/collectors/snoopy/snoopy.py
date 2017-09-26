@@ -33,15 +33,15 @@ class snoopy(AutomaticCollector):
 
         self.commands.append(cmd)
 
-    def run(self):
+#    def run(self):
         # additional logic to enable the snoopy library
-        self.snoopy_config_cmd("snoopy-enable")
+#        self.snoopy_config_cmd("snoopy-enable")
         #now start the collector
-        super(snoopy, self).run()
+#        super(snoopy, self).run()
 
-    def terminate(self):
-        #additional logic to disable the snoopy library
-        self.snoopy_config_cmd("snoopy-disable")
+#    def terminate(self):
+#        #additional logic to disable the snoopy library
+#        self.snoopy_config_cmd("snoopy-disable")
         #Now stop the collector
-        super(snoopy, self).terminate()
+#        super(snoopy, self).terminate()
 

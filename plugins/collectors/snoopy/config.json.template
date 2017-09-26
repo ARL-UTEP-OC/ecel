@@ -18,7 +18,7 @@
         "parser": "plugins.parsers.snoopy.snoopy_parser,SnoopyParser"
       },
       "custom": {
-        "log path": "/var/log/auth.log"
+        "log path": "/tmp/snoopy.log"
       }
     }
   }
