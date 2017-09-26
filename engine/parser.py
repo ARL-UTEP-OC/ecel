@@ -65,7 +65,7 @@ class Parser(object):
             self.status = "complete"
             self.text_buffer.insert_at_cursor("Finished. Please close this window.")
             if not self.pb.emit("delete-event", gtk.gdk.Event(gtk.gdk.DELETE)):
-                self.pb.destroy()
+               self.pb.destroy()
         return res
 ####
 

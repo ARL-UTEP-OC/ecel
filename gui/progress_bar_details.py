@@ -72,19 +72,3 @@ class ProgressBarDetails(gtk.Window):
         """The actual scrolling method"""
         adj = self.scrolled_window.get_vadjustment()
         adj.set_value(adj.get_upper() - adj.get_page_size())
-
-    # def non_block_read(self, output):
-    #     ''' even in a thread, a normal read with block until the buffer is full '''
-    #     fd = output.fileno()
-    #     fl = fcntl.fcntl(fd, fcntl.F_GETFL)
-    #     fcntl.fcntl(fd, fcntl.F_SETFL, fl | os.O_NONBLOCK)
-    #     try:
-    #         return output.read()
-    #     except:
-    #         return ''
-
-    # def update_terminal(self):
-    #     self.label.set_text(self.label.get_text() + non_block_read(sub_proc.stdout))
-    #     return sub_proc.poll() is None
-
-    #gobject.timeout_add(100, update_terminal)
