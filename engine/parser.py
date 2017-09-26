@@ -3,6 +3,8 @@ import subprocess
 import re
 import gobject
 import fcntl
+import gtk
+from gui.progress_bar_details import ProgressBarDetails
 
 class MetadataPostCondition(object):
     def assert_true(self):
@@ -28,13 +30,11 @@ class Parser(object):
         self.status = "pending"
 
     def parse(self):
-        if (os.path.isdir(self.file_or_dir)):
-            self.__parse_directory(self.file_or_dir)
-        else:
-            self.__parse_file(self.file_or_dir)
-
-    def parse(self, text_buffer):
-        self.text_buffer = text_buffer
+        self.pb = ProgressBarDetails()
+        self.pb.set_title(self.collector.name + " Parser Output")
+        self.pb.appendText("Starting parser for " + self.collector.name + "...\n")
+        
+        self.text_buffer = self.pb.text_buffer
         if os.name == 'nt':
             subprocess.Popen(
                 self.parserInputs,
@@ -45,6 +45,8 @@ class Parser(object):
             self.sub_proc = subprocess.Popen(self.parserInputs, stdout=subprocess.PIPE, shell=False)
             self.status = "running"
             gobject.timeout_add(100, self.update_textbuffer)
+            
+            
 
     def non_block_read(self, output):
         ''' even in a thread, a normal read with block until the buffer is full '''
@@ -62,6 +64,8 @@ class Parser(object):
         if res == False:
             self.status = "complete"
             self.text_buffer.insert_at_cursor("Finished. Please close this window.")
+            if not self.pb.emit("delete-event", gtk.gdk.Event(gtk.gdk.DELETE)):
+                self.pb.destroy()
         return res
 ####
 
