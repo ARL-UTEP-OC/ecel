@@ -32,7 +32,7 @@ ECEL is able to be ran as a root service curently tested only on:
 * Kali
 
 Modifications will need to be made to line 14 to specify where the ECEL folder is located at. Ensure that the ecelservice.py is executable (use `chmod 755 ecel_service.py`).
-The shell script given would need to be moved to the `/ect/init.d` folder this can be done by using the command `sudo cp ECELservice.sh /etc/init.d`. After ECLservice.sh has been copies into `/etc/init.d`, we would need to run `usudo pdate-rc.d ECLservice.sh defaults`, this command adds symbolic links to the `/ect/rc?.d` directories, use `ls -l /etc/rc?.d/*ECELservice.sh` to view the symbolic links.
+The shell script given would need to be moved to the `/ect/init.d` folder this can be done by using the command `sudo cp ECELservice.sh /etc/init.d`. After ECLservice.sh has been copies into `/etc/init.d`, we would need to run `sudo update-rc.d ECELservice.sh defaults`, this command adds symbolic links to the `/ect/rc?.d` directories, use `ls -l /etc/rc?.d/*ECELservice.sh` to view the symbolic links.
 
 You can start the service by using `sudo /etc/init.d/ECELservice.sh start`, check the status by using `sudo /etc/init.d/ECELservice.sh status` and stop using `sudo /etc/init.d/ECELservice.sh stop`.
 
