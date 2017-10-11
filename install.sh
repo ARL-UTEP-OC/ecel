@@ -17,8 +17,10 @@ prompt_accepted_Yn() {
 }
 
 # Updates
+echo "Running apt-get update"
 apt-get -y update
-apt-get -y upgrade
+echo "Running apt-get upgrade"
+apt-get upgrade
 
 ### Check if running as root
 #
