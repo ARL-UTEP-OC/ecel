@@ -27,8 +27,8 @@ When you download python, ensure that pip is going to be installed, and that pyt
 ## Execution
 Run `./ecel_gui` to execute ECEL. This will invoke the main GUI and a clickable status icon will appear in the task bar.
 
-## Running ECEL as a service
-ECEL is able to be ran as a root service curently tested only on:
+## Running a service
+Currently can run a python scripts as a root service (to be extended using scripts for shor run) curently tested only on:
 * Kali
 
 Modifications will need to be made to line 14 to specify where the ECEL folder is located at. Ensure that the ecelservice.py is executable (use `chmod 755 ecel_service.py`).
