@@ -27,14 +27,15 @@ When you download python, ensure that pip is going to be installed, and that pyt
 ## Execution
 Run `./ecel_gui` to execute ECEL. This will invoke the main GUI and a clickable status icon will appear in the task bar.
 
-## Running ECEL as a service
-ECEL is able to be ran as a root service curently tested only on:
+## Running a service
+Currently can run a python scripts as a root service (to be extended using scripts for shor run) curently tested only on:
 * Kali
 
-Modifications will need to be made to line 14 in the ECELservices.sh file to specify where the ECEL folder is located at. Ensure that the ECELservice.py is executable (use 'chmod 755 ECELservice.py') this scrpt will invoke ECEL's gui.
-The shell script given would need to be moved to the '/ect/init.d' folder this can be done by using the command 'sudo cp ECELservice.sh /etc/init.d'. After ECLservice.sh has been copies into '/etc/init.d', we would need to run 'usudo pdate-rc.d ECLservice.sh defaults', this command adds symbolic links to the '/ect/rc?.d' directories, use 'ls -l /etc/rc?.d/*ECELservice.sh' to view the symbolic links.
+Modifications will need to be made to line 14 to specify where the ECEL folder is located at. Ensure that the ecelservice.py is executable (use `chmod 755 ecel_service.py`).
+The shell script given would need to be moved to the `/ect/init.d` folder this can be done by using the command `sudo cp ECELservice.sh /etc/init.d`. After ECLservice.sh has been copies into `/etc/init.d`, we would need to run `sudo update-rc.d ECELservice.sh defaults`, this command adds symbolic links to the `/ect/rc?.d` directories, use `ls -l /etc/rc?.d/*ECELservice.sh` to view the symbolic links.
 
-You can start the service by using 'sudo /etc/init.d/ECELservice.sh start', check the status by using 'sudo /etc/init.d/ECELservice.sh status' and stop using 'sudo /etc/init.d/ECELservice.sh stop'
+You can start the service by using `sudo /etc/init.d/ECELservice.sh start`, check the status by using `sudo /etc/init.d/ECELservice.sh status` and stop using `sudo /etc/init.d/ECELservice.sh stop`.
+
 ## Windows Excecution
 Run `ecel_gui.bat` to execute ECEL. This will invoke the main GUI. Currently, the status icon is not functional for windows. Before the first invocation, run the install.bat script to ensure nmap/tshark are added to the %path% variable. On system start up, not all of ECEL's plugins may be functional, since the install script is what actually adds them to %path%. It is recommended that you run the install script before your first invocation of ECEL.
 
