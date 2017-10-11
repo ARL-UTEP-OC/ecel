@@ -4,22 +4,14 @@ import logging
 import logging.handlers
 import argparse
 import sys
-import time
-import gi
-gi.require_version('Gtk', '3.0')
-from gi.repository import Gtk, Gdk
-import signal
-from engine.engine import Engine
-from gui.main_gui import MainGUI
-
-engine = Engine()
+import time  # this is only being used as part of the example
 
 # Deafults
-LOG_FILENAME = "/root/Documents/ecel/ecelsrvice.log"
+LOG_FILENAME = "/root/Documents/myservice.log"
 LOG_LEVEL = logging.INFO  # Could be e.g. "DEBUG" or "WARNING"
 
 # Define and parse command line arguments
-parser = argparse.ArgumentParser(description="Service that runs ECEL GUI")
+parser = argparse.ArgumentParser(description="My simple Python service")
 parser.add_argument("-l", "--log", help="file to write log to (default '" + LOG_FILENAME + "')")
 
 # If the log file is specified on the command line then override the default
@@ -33,7 +25,7 @@ logger = logging.getLogger(__name__)
 # Set the log level to LOG_LEVEL
 logger.setLevel(LOG_LEVEL)
 # Make a handler that writes to a file, making a new file at midnight and keeping 3 backups
-handler = logging.handlers.TimedRotatingFileHandler(LOG_FILENAME, backupCount=3)
+handler = logging.handlers.TimedRotatingFileHandler(LOG_FILENAME, when="midnight", backupCount=3)
 # Format each log message like this
 formatter = logging.Formatter('%(asctime)s %(levelname)-8s %(message)s')
 # Attach the formatter to the handler
@@ -58,9 +50,13 @@ sys.stdout = MyLogger(logger, logging.INFO)
 # Replace stderr with logging to file at ERROR level
 sys.stderr = MyLogger(logger, logging.ERROR)
 
-engine = Engine()
+i = 0
 
-Gdk.threads_init()
-signal.signal(signal.SIGINT, signal.SIG_DFL)
-MainGUI(engine)
-Gtk.main()
+# Loop forever, doing something useful hopefully:
+while True:
+        logger.info("The counter is now " + str(i))
+        print "This is a print"
+        i += 1
+        time.sleep(5)
+        if i == 3:
+                j = 1/0  # cause an exception to be thrown and the program to exit

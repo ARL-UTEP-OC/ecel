@@ -2,8 +2,8 @@
 
 ### BEGIN INIT INFO
 # Provides:          ECELService
-# Required-Start:    $remote_fs $syslog
-# Required-Stop:     $remote_fs $syslog
+# Required-Start:    $local_fs $syslog
+# Required-Stop:     $local_fs $syslog
 # Default-Start:     2 3 4 5
 # Default-Stop:      0 1 6
 # Short-Description: Service for ECEL 
@@ -20,7 +20,8 @@ DAEMON_OPTS=""
 
 # This next line determines what user the script runs as.
 # Root generally not recommended but necessary if you are using the Raspberry Pi GPIO from Python.
-DAEMON_USER=root
+DAEMON_USER='root'
+
 
 # The process ID of the script when it runs is stored here:
 PIDFILE=/var/run/$DAEMON_NAME.pid
@@ -29,7 +30,7 @@ PIDFILE=/var/run/$DAEMON_NAME.pid
 
 do_start () {
     log_daemon_msg "Starting system $DAEMON_NAME daemon"
-    start-stop-daemon --start --background --pidfile $PIDFILE --make-pidfile --user $DAEMON_USER --chuid $DAEMON_USER --startas $DAEMON -- $DAEMON_OPTS
+    start-stop-daemon --start --pidfile $PIDFILE --make-pidfile --background --user $DAEMON_USER --chuid $DAEMON_USER --startas $DAEMON -- $DAEMON_OPTS
     log_end_msg $?
 }
 do_stop () {
