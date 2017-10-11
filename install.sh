@@ -16,6 +16,10 @@ prompt_accepted_Yn() {
     esac
 }
 
+# Updates
+apt-get -y update
+apt-get -y upgrade
+
 ### Check if running as root
 #
 if [ "$EUID" -ne 0 ]; then
