@@ -7,8 +7,11 @@ import status_icon
 import engine.collector
 from gui.export_gui import ExportGUI
 from gui.progress_bar import ProgressBar
+from gui.progress_bar_details import ProgressBarDetails
 from gui.plugin_config_gui import PluginConfigGUI
 from _version import __version__
+
+import time
 
 class MainGUI(gtk.Window):
     def __init__(self, app_engine):
@@ -152,7 +155,9 @@ class MainGUI(gtk.Window):
         self.startall_button.set_sensitive(False)
         self.stopall_button.set_sensitive(True)
         i = 0.0
-        pb = ProgressBar()
+        pb = ProgressBarDetails()
+        pb.setValue(0.0)
+
         while gtk.events_pending():
             gtk.main_iteration()
 
@@ -160,10 +165,14 @@ class MainGUI(gtk.Window):
             if collector.is_enabled() and isinstance(collector, engine.collector.AutomaticCollector):
                 collector.run()
             pb.setValue(i / len(self.engine.collectors))
+            pb.appendText("processing "+collector.name)
+
             pb.pbar.set_text("Starting " + collector.name)
             while gtk.events_pending():
                 gtk.main_iteration()
             i += 1
+        pb.setValue(1.0)
+
         if not pb.emit("delete-event", gtk.gdk.Event(gtk.gdk.DELETE)):
             pb.destroy()
 
@@ -174,7 +183,9 @@ class MainGUI(gtk.Window):
         self.stopall_button.set_sensitive(False)
         self.startall_button.set_sensitive(True)
         i = 0.0
-        pb = ProgressBar()
+        pb = ProgressBarDetails()
+        pb.setValue(0.0)
+
         while gtk.events_pending():
             gtk.main_iteration()
 
@@ -182,33 +193,23 @@ class MainGUI(gtk.Window):
             if collector.is_enabled() and isinstance(collector, engine.collector.AutomaticCollector):
                collector.terminate()
             pb.setValue(i/len(self.engine.collectors))
-            pb.pbar.set_text("Stopping " + collector.name)
+            pb.appendText("stopping "+collector.name)
             while gtk.events_pending():
                 gtk.main_iteration()
             i += 1
+        pb.setValue(1.0)
+
         if not pb.emit("delete-event", gtk.gdk.Event(gtk.gdk.DELETE)):
             pb.destroy()
 
     def parse_all(self, event):
-        i = 0.0
-        pb = ProgressBar()
-        while gtk.events_pending():
-            gtk.main_iteration()
-
         for collector in self.engine.collectors:
             collector.parser.parse()
-            pb.setValue(i/len(self.engine.collectors))
-            pb.pbar.set_text("Parsing " + collector.name)
-            while gtk.events_pending():
-                gtk.main_iteration()
-            i += 1
-        if not pb.emit("delete-event", gtk.gdk.Event(gtk.gdk.DELETE)):
-            pb.destroy()
+#        alert = gtk.MessageDialog(self, gtk.DIALOG_DESTROY_WITH_PARENT, gtk.MESSAGE_INFO,
+#                                       gtk.BUTTONS_CLOSE, "Parsing complete")
+#        alert.run()
+#        alert.destroy()
 
-        alert = gtk.MessageDialog(self, gtk.DIALOG_DESTROY_WITH_PARENT, gtk.MESSAGE_INFO,
-                                      gtk.BUTTONS_CLOSE, "Parsing complete")
-        alert.run()
-        alert.destroy()
 
     def close_all(self, event):
         for collector in self.engine.collectors:

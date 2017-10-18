@@ -19,10 +19,11 @@ public class SnoopyToJSON{
    //sample: {\"content\" :\"<2 p/s\", \"className\" :\"traffic\", \"title\" : \"eth:ipv6:udp:dhcpv6\" \n', \"start\" : \"Wed Oct 08 10:56:33 EDT 2014\"},
 
    FileReader fr = new FileReader(filename);
-   //System.out.println("RUNNING with " + filename);
+   System.out.println("Reading snoopy log file: " + filename);
    BufferedReader br = new BufferedReader(fr);
    String line;
    String parsedLine[];
+   long iter = 0;
 
    String timestamp;
    String sid;
@@ -34,32 +35,23 @@ public class SnoopyToJSON{
 //check if we have another line to read
    line = br.readLine();
    while (line != null) {
-	 //System.out.println("Processing line: " + line);
+	 if ((++iter%100) == 0)
+		System.out.println("Processing log line #" + iter + " content: " + line);
 	 parsedLine = line.split(" +");
-	 if(parsedLine.length < 12)
+	 if(parsedLine.length < 7)
 	 {
 		//System.out.println("CONTINUING BECAUSE LINE IS TOO SHORT");
 		line = br.readLine();
 		continue;
 	 }
-
-     loggerType = parsedLine[4];
-     //System.out.println("LOGGER TYPE: " + loggerType);
-     //System.out.println("LOGGER "+loggerType);
-     if (!loggerType.contains("snoopy"))
-     {
-		 //System.out.println("CONTINUING BECAUSE LINE DOES NOT HAVE SNOOPY");
-		 line = br.readLine();
-		 continue;
-     }
-     
-     timestamp = parsedLine[5].split("datetime:")[1];
-     timestamp = removeOffsetTime(parsedLine[5].split("datetime:")[1]);
-     sid = parsedLine[7];
-     tty = parsedLine[8];
+    
+     timestamp = parsedLine[0].split("datetime:")[1];
+     timestamp = removeOffsetTime(parsedLine[0].split("datetime:")[1]);
+     sid = parsedLine[2];
+     tty = parsedLine[3];
      //read the rest of the line as the command
      command = "";
-     for(int i=11;i<parsedLine.length;i++)
+     for(int i=6;i<parsedLine.length;i++)
 		command += parsedLine[i] + " ";
 
      //System.out.println("timestamp " + timestamp + " sid " + sid + " tty " + tty + " command " + command);
