@@ -34,13 +34,26 @@ class CollectorListBox(Gtk.ListBox):
     # Collector List Box enables mutliple selection on CTRL + left click
     def enable_multiple(self, lBox, event):
         modifiers = Gtk.accelerator_get_default_mod_mask()
-        if(event.button == Gdk.BUTTON_PRIMARY and  ((event.state & modifiers) == Gdk.ModifierType.CONTROL_MASK)):
-            self.set_selection_mode(Gtk.SelectionMode.MULTIPLE)
+        print "Entering Enable multiple"
+
+        print "Event state and modifiers", event.state & modifiers
+        ###Was not working for control###
+        '''if(event.button == Gdk.BUTTON_PRIMARY and  ((event.state & modifiers) == Gdk.ModifierType.CONTROL_MASK)):
+            print "CTRL was pressed"
+            self.set_selection_mode(Gtk.SelectionMode.MULTIPLE)'''
+        
+        if(event.button == Gdk.BUTTON_PRIMARY and ((event.state & modifiers) == Gdk.ModifierType.SHIFT_MASK)): 
+        	print "Shift was pressed"
+        	self.set_selection_mode(Gtk.SelectionMode.MULTIPLE)
 
     # Left pane responds to up/down arrow and tab key presses
     def key_release_handler(self, listBox, event):
         modifiers = Gtk.accelerator_get_default_mod_mask()
-        reactivate_single = (event.state & modifiers) != Gdk.ModifierType.CONTROL_MASK if os.name == "nt" else (event.state & modifiers) == Gdk.ModifierType.CONTROL_MASK
+        reactivate_single = (event.state & modifiers) != Gdk.ModifierType.SHIFT_MASK if os.name == "nt" else (event.state & modifiers) == Gdk.ModifierType.SHIFT_MASK
+       	print "event state:", event.state
+       	print "modifiers:", modifiers
+
+        print "Reactivate single:", reactivate_single
 
         if (event.keyval == Gdk.KEY_Up or event.keyval == Gdk.KEY_Down or Gdk.KEY_Tab):
             collector = self.engine.get_collector(self.get_selected_row().get_name())
@@ -49,14 +62,15 @@ class CollectorListBox(Gtk.ListBox):
 
         if(reactivate_single):
             # The next click will renable single selection
+            print "activating single!!!!"
             self.connect("button-press-event",self.re_enable_single)
 
     # When CTRL is released, the next left click resets the list box to single selection mode.
     def re_enable_single(self, lBox, event):
         if(event.button == Gdk.BUTTON_PRIMARY):
-            self.unselect_all()
-            self.set_selection_mode(Gtk.SelectionMode.SINGLE)
-            self.disconnect_by_func(self.re_enable_single)
+        	self.disconnect_by_func(self.re_enable_single)
+        	self.unselect_all()
+        	self.set_selection_mode(Gtk.SelectionMode.SINGLE)
 
     # Create Gtk.ListBoxRow() with collector information
     def create_collector_row(self,collector):
