@@ -1,20 +1,25 @@
-import definitions
 import os
+import time
+import shutil
 import traceback
 import subprocess
+import definitions
+
 from threading import Event
 from threading import Thread
 from _version import __version__
-
+from archiver.zip_format import zip
+from archiver.tar_format import tar
 from archiver.archiver import Archiver
 from collector import CollectorConfig, Collector
 
 #TODO: Remove these todos?
-# TODO: get rid of all the print statements, provide result objects if required back to the client
-# TODO: Handle sigterm correctly, background running thread gets stuck.  Need to use terminate() before quit() or CRTL-C
+#TODO: get rid of all the print statements, provide result objects if required back to the client
+#TODO: Handle sigterm correctly, background running thread gets stuck.  Need to use terminate() before quit() or CRTL-C
 class Engine(object):
     def __init__(self):
         self.collectors = []
+        self.collectors_dir = definitions.PLUGIN_COLLECTORS_DIR
 
         collector_dirnames = [directory for directory in os.listdir(definitions.PLUGIN_COLLECTORS_DIR) if
                              os.path.isdir(os.path.join(definitions.PLUGIN_COLLECTORS_DIR, directory))]
@@ -68,12 +73,12 @@ class Engine(object):
 
     #TODO: Remove GUI dependencies, and test
     def export(self):
-        export_base_dir = '/root/Documents/ecel/export'
+        export_base_dir = '/root/Documents/ecel/'
         export_raw = True
         export_compressed = True
         export_parsed = True
         compress_export = True
-        compress_export_format
+        compress_export_format = 'zip'
 
         if export_base_dir == '':
             print "Please select a directory to export to."
@@ -120,11 +125,15 @@ class Engine(object):
 
             if compress_export_format == 'zip':
                 zip(export_dir, export_dir_notime)
+                print "Cleaning up " + export_dir
+                print "Export complete"
             elif compress_export_format == 'tar':
                 tar(export_dir, export_dir_notime)
-            print "Cleaning up " + export_dir
-
-        print "Export complete"
+                print "Cleaning up " + export_dir
+                print "Export complete"
+            else:
+                print "Incorrect Compression type"
+                print "Export complete"
 
     def get_collector(self, name):
         return next(p for p in self.collectors if p.name == name)
