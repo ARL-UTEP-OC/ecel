@@ -1,8 +1,10 @@
 import definitions
 import os
 import traceback
+import subprocess
 from threading import Event
 from threading import Thread
+from _version import __version__
 
 from archiver.archiver import Archiver
 from collector import CollectorConfig, Collector
@@ -25,13 +27,122 @@ class Engine(object):
             else:
                 collector = Collector.factory(collector_config)
                 self.collectors.append(collector)
+        #Printing available collectors
+        for i, collector in enumerate(self.collectors):
+            print "%d) %s" % (i, collector.name)
 
-        #TODO: What's the point of this code? Remove?
-        # TODO: this for sure is no way to implement async stuff need to look into this
-        # self.wait_event = Event()
-        # self.stop_event = Event()
-        # self.thread = Thread(target=self.__update, args=(self.wait_event, self.stop_event,))
-        # self.thread.start()
+    #TODO: TEST, method from main_gui.py
+    def close_all(self):
+        for collector in self.collectors:
+            if collector.is_enabled:
+               collector.terminate()
+        os._exit(0)
+
+    #TODO: TEST, method from main_gui.py
+    def delete_all(self):
+        delete_script = "cleanCollectorData.bat" if os.name == "nt" else "cleanCollectorData.sh"
+        print "Deleting all collector data...."
+        remove_cmd = os.path.join(os.path.join(os.getcwd(), "scripts"), delete_script)
+        subprocess.call(remove_cmd)  # TODO: Change this to not call external script
+        os._exit(0)
+
+    #TODO: TEST, method from main_gui.py
+    def stopall_collectors(self):
+        for collector in self.collectors:
+            if collector.is_enabled():
+                collector.terminate()
+            # if not pb.emit("delete-event", Gdk.Event(Gdk.DELETE)):
+            # pb.destroy()
+
+    #TODO: TEST, method from main_gui.py
+    def parse_all(self):
+        for collector in self.collectors:
+            collector.parser.parse()
+            pb.setValue(i/len(self.collectors))
+            pb.pbar.set_text("Parsing " + collector.name)
+
+    #TODO: TEST, method from main_gui.py
+    def parser(self, collector):
+        collector.parser.parse()
+
+    #TODO: TEST, method from main_gui.py
+    def startIndividualCollector(self, collector):
+        collector.run()
+
+    #TODO: Remove GUI dependencies, and test
+    def export(self):
+        export_base_dir = self.entry_selected_folder.get_text()
+        export_raw = self.checkbutton_export_raw.get_active()
+        export_compressed = self.checkbutton_export_compressed.get_active()
+        export_parsed = self.checkbutton_export_parsed.get_active()
+
+        if not export_base_dir:
+            utils.gui.show_error_message(self, "Please select a directory to export to.")
+            return
+        if not os.path.isdir(export_base_dir):
+            utils.gui.show_error_message(self, "Please select a valid directory to export to.")
+            return
+        if not export_raw and not export_compressed and not export_parsed:
+            utils.gui.show_error_message(self, "Please select at least one data type to export.")
+            return
+
+        export_dir = os.path.join(export_base_dir, definitions.PLUGIN_COLLECTORS_EXPORT_DIRNAME.replace(
+            definitions.TIMESTAMP_PLACEHOLDER, "_" + str(int(time.time()))))
+        export_raw_dir = os.path.join(export_dir, definitions.PLUGIN_COLLECTORS_OUTPUT_DIRNAME)
+        export_compressed_dir = os.path.join(export_dir, definitions.PLUGIN_COLLECTORS_COMPRESSED_DIRNAME)
+        export_parsed_dir = os.path.join(export_dir, definitions.PLUGIN_COLLECTORS_PARSED_DIRNAME)
+        os.makedirs(export_raw_dir)
+        os.makedirs(export_compressed_dir)
+        os.makedirs(export_parsed_dir)
+
+        progress = 0
+        pb = ProgressBar()
+        while Gtk.events_pending():
+            Gtk.main_iteration()
+
+        for plugin in next(os.walk(self.collectors_dir))[1]:
+            plugin_export_raw_dir = os.path.join(export_raw_dir, plugin)
+            plugin_export_compressed_dir = os.path.join(export_compressed_dir, plugin)
+            plugin_export_parsed_dir = os.path.join(export_parsed_dir, plugin)
+            plugin_collector_dir = os.path.join(self.collectors_dir, plugin)
+            plugin_collector_raw_dir = os.path.join(plugin_collector_dir, definitions.PLUGIN_COLLECTORS_OUTPUT_DIRNAME)
+            plugin_collector_compressed_dir = os.path.join(plugin_collector_dir, definitions.PLUGIN_COLLECTORS_COMPRESSED_DIRNAME)
+            plugin_collector_parsed_dir = os.path.join(plugin_collector_dir, definitions.PLUGIN_COLLECTORS_PARSED_DIRNAME)
+
+            if export_raw and os.path.exists(plugin_collector_raw_dir) and os.listdir(plugin_collector_raw_dir):
+                shutil.copytree(plugin_collector_raw_dir, plugin_export_raw_dir)
+            if export_compressed and os.path.exists(plugin_collector_compressed_dir) and os.listdir(plugin_collector_compressed_dir):
+                shutil.copytree(plugin_collector_compressed_dir, plugin_export_compressed_dir)
+            if export_parsed and os.path.exists(plugin_collector_parsed_dir) and os.listdir(plugin_collector_parsed_dir):
+                shutil.copytree(plugin_collector_parsed_dir, plugin_export_parsed_dir)
+            pb.setValue((progress / len(next(os.walk(self.collectors_dir))[1]))*.8)
+            pb.pbar.set_text("Copying files " + plugin)
+            while Gtk.events_pending():
+                Gtk.main_iteration()
+            progress += 1
+
+        if self.checkbutton_compress_export.get_active():
+            export_dir_notime = os.path.join(export_base_dir, definitions.PLUGIN_COLLECTORS_EXPORT_DIRNAME.replace(
+                definitions.TIMESTAMP_PLACEHOLDER, ""))
+            pb.pbar.set_text("Compressing data to " + export_dir)
+            pb.setValue(.85)
+            while Gtk.events_pending():
+                Gtk.main_iteration()
+            if self.radiobutton_compress_export_format_zip.get_active():
+                zip(export_dir, export_dir_notime)
+            elif self.radiobutton_compress_export_format_tar.get_active():
+                tar(export_dir, export_dir_notime)
+            pb.pbar.set_text("Cleaning up " + export_dir)
+            pb.setValue(.9)
+            while Gtk.events_pending():
+                Gtk.main_iteration()
+            shutil.rmtree(export_dir)
+        if not pb.emit("delete-event", Gdk.Event()):
+            pb.destroy()
+
+        utils.gui.show_alert_message(self, "Export complete")
+        self.hide()
+
 
     def get_collector(self, name):
         return next(p for p in self.collectors if p.name == name)
