@@ -51,7 +51,6 @@ class Engine(object):
         subprocess.call(remove_cmd)  # TODO: Change this to not call external script
         os._exit(0)
 
-
     def stopall_collectors(self):
         for collector in self.collectors:
             if collector.is_enabled():
@@ -71,7 +70,17 @@ class Engine(object):
     def startIndividualCollector(self, collector):
         collector.run()
 
-    #TODO: Remove GUI dependencies, and test
+    #TODO: TEST, mehtod from main_gui.py
+    def startall_collectors(self):
+        for collector in self.collectors:
+            if collector.is_enabled() and isinstance(collector, collector.AutomaticCollector):
+                print "Starting: ", collector
+                collector.run()
+
+    def stopIndividualCollector(self, collector):
+        collector.terminate()
+
+    #TODO: TEST
     def export(self):
         export_base_dir = '/root/Documents/ecel/'
         export_raw = True
@@ -146,3 +155,7 @@ class Engine(object):
             if(collector.is_running()):
                 return True
         return False
+
+    def list_collectors(self):
+        for i, collector in enumerate(self.collectors):
+            print "%d) %s" % (i, collector.name)
