@@ -1,6 +1,7 @@
 import os
 import time
 import shutil
+import logging
 import traceback
 import subprocess
 import definitions
@@ -47,6 +48,7 @@ class Engine(object):
     def delete_all(self):
         delete_script = "cleanCollectorData.bat" if os.name == "nt" else "cleanCollectorData.sh"
         print "Deleting all collector data...."
+        self.logger.info("Deleting all collector data....")
         remove_cmd = os.path.join(os.path.join(os.getcwd(), "scripts"), delete_script)
         subprocess.call(remove_cmd)  # TODO: Change this to not call external script
         os._exit(0)
@@ -61,6 +63,7 @@ class Engine(object):
         for collector in self.collectors:
             collector.parser.parse()
             print "Parsing " + collector.name
+            self.logger.info("Parsing " + collector.name)
 
     #TODO: TEST, method from main_gui.py
     def parser(self, collector):
@@ -75,6 +78,7 @@ class Engine(object):
         for collector in self.collectors:
             if collector.is_enabled() and isinstance(collector, collector.AutomaticCollector):
                 print "Starting: ", collector
+                self.logger.info("Starting: ", collector)
                 collector.run()
 
     def stopIndividualCollector(self, collector):
@@ -91,12 +95,15 @@ class Engine(object):
 
         if export_base_dir == '':
             print "Please select a directory to export to."
+            self.logger.info("Please select a directory to export to.")
             return
         if not os.path.isdir(export_base_dir):
             print "Please select a valid directory to export to."
+            self.logger.info("Please select a valid directory to export to.")
             return
         if not export_raw and not export_compressed and not export_parsed:
             print "Please select at least one data type to export."
+            self.logger.info("Please select at least one data type to export.")
             return
 
         export_dir = os.path.join(export_base_dir, definitions.PLUGIN_COLLECTORS_EXPORT_DIRNAME.replace(
@@ -124,6 +131,7 @@ class Engine(object):
             if export_parsed and os.path.exists(plugin_collector_parsed_dir) and os.listdir(plugin_collector_parsed_dir):
                 shutil.copytree(plugin_collector_parsed_dir, plugin_export_parsed_dir)
             print "Copying files " + plugin
+            self.logger.info("Copying files " + plugin)
 
         #Compress export just checks what way to export zip or tar
         if compress_export:
@@ -131,18 +139,25 @@ class Engine(object):
                 definitions.TIMESTAMP_PLACEHOLDER, ""))
 
             print "Compressing data to " + export_dir
+            self.logger.info("Compressing data to " + export_dir)
 
             if compress_export_format == 'zip':
                 zip(export_dir, export_dir_notime)
                 print "Cleaning up " + export_dir
+                self.logger.info("Cleaning up " + export_dir)
                 print "Export complete"
+                self.logger.info("Export complete")
             elif compress_export_format == 'tar':
                 tar(export_dir, export_dir_notime)
                 print "Cleaning up " + export_dir
+                self.logger.info("Cleaning up " + export_dir)
                 print "Export complete"
+                self.logger.info("Export complete")
             else:
                 print "Incorrect Compression type"
+                self.logger.info("Incorrect Compression type")
                 print "Export complete"
+                self.logger.info("Export complete")
 
     def get_collector(self, name):
         return next(p for p in self.collectors if p.name == name)
@@ -159,3 +174,4 @@ class Engine(object):
     def list_collectors(self):
         for i, collector in enumerate(self.collectors):
             print "%d) %s" % (i, collector.name)
+            self.logger.info("%d) %s" % (i, collector.name))
