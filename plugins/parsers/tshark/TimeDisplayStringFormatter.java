@@ -21,7 +21,7 @@ public class TimeDisplayStringFormatter {
 		long packetsInWindow = 1;
 		SimpleDateFormat toFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
 		toFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
-		try {						
+		try {
 			//first grab the time_epoch from the line:
 			if(lines.length > 1)
 			{
@@ -32,7 +32,7 @@ public class TimeDisplayStringFormatter {
 				//System.out.println("line: " + lines[i]);
 				parsedPacket = lines[i].split(" ",-1);
 				currPacketTime = Double.parseDouble(parsedPacket[PacketData.Fields.FRAME_TIMEEPOCH.ordinal()]);;
-				
+
 				//This is the case when the data is still within the window size threshold, and there are still data left
 				if((currPacketTime - currWindowStartTime) < windowSize && i != lines.length-1)
 				{
@@ -59,10 +59,10 @@ public class TimeDisplayStringFormatter {
 						protocolJSON+=quote("<1 p/s");
 					else protocolJSON+=quote(packetsPerSecond+" p/s");
 					protocolJSON += "\", ";
-					
+
 					protocolJSON += "\"className\" : \"traffic";
 					protocolJSON += "\", ";
-					
+
 					protocolJSON += "\"title\" : \"";
 					for(String element : uniqueElementsPerWindow)
 					{
@@ -71,7 +71,7 @@ public class TimeDisplayStringFormatter {
 						protocolJSON += tempString;
 					}
 					protocolJSON += "\", ";
-										
+
 					protocolJSON += "\"start\" : \"" + timestamp;
 					if(i == lines.length-1){
 						protocolJSON += "\" }\n";
@@ -85,9 +85,9 @@ public class TimeDisplayStringFormatter {
 					throughputJSON += "{ \"traffic_xy_id\" : "+(numXYItems++)+", ";
 					throughputJSON += "\"className\" : \"trafficThroughput";
 					throughputJSON += "\", ";
-					throughputJSON += "\"x\":\"" + timestamp;
+					throughputJSON += "\"start\":\"" + timestamp;
 					throughputJSON += "\", ";
-					
+
 					throughputJSON += "\"y\" : ";
 					packetsPerSecond = (int)(packetsInWindow/windowSize);
 					throughputJSON+=packetsPerSecond;
@@ -103,13 +103,13 @@ public class TimeDisplayStringFormatter {
 					uniqueElementsPerWindow.clear();
 					packetsInWindow = 1;
 					//remove any unwanted elements from the array before storing in the map
-					
+
 					lines[i] = lines[i].replace(parsedPacket[PacketData.Fields.FRAME_TIMEEPOCH.ordinal()], "");
 					//lines[i] = lines[i].replace(parsedPacket[PacketData.Fields.ETH_SRC.ordinal()], "");
 					//lines[i] = lines[i].replace(parsedPacket[PacketData.Fields.ETH_DST.ordinal()], "");
 					//System.out.println("removed: " + parsedPacket[PacketData.Fields.FRAME_TIMEEPOCH.ordinal()] + "\n");
 					uniqueElementsPerWindow.add(lines[i]+"\n");
-				} 
+				}
 			}
 			}
 		}catch (Exception e) {
@@ -117,7 +117,7 @@ public class TimeDisplayStringFormatter {
 		}
 		protocolJSON += "]";
 		throughputJSON += "]";
-		
+
 		//Write to the output folder
 		FileOutput.WriteToFile(outputDirectory+"/networkDataAll.JSON", protocolJSON);
 		FileOutput.WriteToFile(outputDirectory+"/networkDataXY.JSON", throughputJSON);
@@ -134,7 +134,7 @@ public class TimeDisplayStringFormatter {
 		int packetsPerSecond = 0;
 		String tempString;
 		String[] parsedPacket;
-		try {						
+		try {
 			//first grab the time_epoch from the line:
 			if(lines.length > 0)
 			{
@@ -177,13 +177,13 @@ public class TimeDisplayStringFormatter {
 					currWindowStartTime = currPacketTime;
 					uniqueElementsPerWindow.clear();
 					//remove any unwanted elements from the array before storing in the map
-					
+
 					lines[i] = lines[i].replace(parsedPacket[PacketData.Fields.FRAME_TIMEEPOCH.ordinal()], "");
 					lines[i] = lines[i].replace(parsedPacket[PacketData.Fields.ETH_SRC.ordinal()], "");
 					lines[i] = lines[i].replace(parsedPacket[PacketData.Fields.ETH_DST.ordinal()], "");
 					//System.out.println("removed: " + parsedPacket[PacketData.Fields.FRAME_TIMEEPOCH.ordinal()] + "\n");
 					uniqueElementsPerWindow.add(lines[i]+"\n");
-				} 
+				}
 			}
 			}
 		}catch (Exception e) {
@@ -192,7 +192,7 @@ public class TimeDisplayStringFormatter {
 		answer += "</data>";
 		return answer;
 	}
-	
+
 		public static String formatJSONString(String buffer, double windowSize) {
 		String answer = "[";
 		String[] lines = buffer.split(System.getProperty("line.separator"));
@@ -206,7 +206,7 @@ public class TimeDisplayStringFormatter {
 		long packetsInWindow = 1;
 		SimpleDateFormat toFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
 		toFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
-		try {						
+		try {
 			//first grab the time_epoch from the line:
 			if(lines.length > 1)
 			{
@@ -217,7 +217,7 @@ public class TimeDisplayStringFormatter {
 				//System.out.println("line: " + lines[i]);
 				parsedPacket = lines[i].split(" ",-1);
 				currPacketTime = Double.parseDouble(parsedPacket[PacketData.Fields.FRAME_TIMEEPOCH.ordinal()]);;
-				
+
 				//This is the case when the data is still within the window size threshold, and there are still data left
 				if((currPacketTime - currWindowStartTime) < windowSize && i != lines.length-1)
 				{
@@ -242,10 +242,10 @@ public class TimeDisplayStringFormatter {
 						answer+=quote("<1 p/s");
 					else answer+=quote(packetsPerSecond+" p/s");
 					answer += "\", ";
-					
+
 					answer += "\"className\" : \"traffic";
 					answer += "\", ";
-					
+
 					answer += "\"title\" : \"";
 					for(String element : uniqueElementsPerWindow)
 					{
@@ -254,7 +254,7 @@ public class TimeDisplayStringFormatter {
 						answer += tempString;
 					}
 					answer += "\", ";
-										
+
 					answer += "\"start\" : \"" + timestamp;
 					if(i == lines.length-1){
 						answer += "\" }\n";
@@ -267,13 +267,13 @@ public class TimeDisplayStringFormatter {
 					uniqueElementsPerWindow.clear();
 					packetsInWindow = 1;
 					//remove any unwanted elements from the array before storing in the map
-					
+
 					lines[i] = lines[i].replace(parsedPacket[PacketData.Fields.FRAME_TIMEEPOCH.ordinal()], "");
 					//lines[i] = lines[i].replace(parsedPacket[PacketData.Fields.ETH_SRC.ordinal()], "");
 					//lines[i] = lines[i].replace(parsedPacket[PacketData.Fields.ETH_DST.ordinal()], "");
 					//System.out.println("removed: " + parsedPacket[PacketData.Fields.FRAME_TIMEEPOCH.ordinal()] + "\n");
 					uniqueElementsPerWindow.add(lines[i]+"\n");
-				} 
+				}
 			}
 			}
 		}catch (Exception e) {
@@ -282,7 +282,7 @@ public class TimeDisplayStringFormatter {
 		answer += "]";
 		return answer;
 	}
-		
+
 	public static String formatJSONStringXY(String buffer, double windowSize) {
 		String answer = "[";
 		String[] lines = buffer.split(System.getProperty("line.separator"));
@@ -322,13 +322,13 @@ public class TimeDisplayStringFormatter {
 				{
 					//System.out.println("Starting new window");
 					timestamp = toFormat.format(new Date((long)(currWindowStartTime*1000)));
-					
+
 					answer += "{ \"traffic_xy_id\" : "+(numXYItems++)+", ";
 					answer += "\"className\" : \"trafficThroughput";
 					answer += "\", ";
 					answer += "\"x\":\"" + timestamp;
 					answer += "\", ";
-					
+
 					answer += "\"y\" : ";
 					packetsPerSecond = (int)(packetsInWindow/windowSize);
 					answer+=packetsPerSecond;
@@ -344,13 +344,13 @@ public class TimeDisplayStringFormatter {
 					uniqueElementsPerWindow.clear();
 					packetsInWindow = 1;
 					//remove any unwanted elements from the array before storing in the map
-					
+
 					lines[i] = lines[i].replace(parsedPacket[PacketData.Fields.FRAME_TIMEEPOCH.ordinal()], "");
 					//lines[i] = lines[i].replace(parsedPacket[PacketData.Fields.ETH_SRC.ordinal()], "");
 					//lines[i] = lines[i].replace(parsedPacket[PacketData.Fields.ETH_DST.ordinal()], "");
 					//System.out.println("removed: " + parsedPacket[PacketData.Fields.FRAME_TIMEEPOCH.ordinal()] + "\n");
 					uniqueElementsPerWindow.add(lines[i]+"\n");
-				} 
+				}
 			}
 			}
 		}catch (Exception e) {
