@@ -1,8 +1,15 @@
 import cmd
+import sys
 import signal
 from engine.engine import Engine
 
 engine = Engine()
+
+def sigint_handler(signum, frame):
+    engine.stopall_collectors()
+    sys.exit(0)
+
+signal.signal(signal.SIGINT, sigint_handler)
 
 class dssCmdLine(cmd.Cmd):
     """Command processor for ECEL"""

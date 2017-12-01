@@ -1,15 +1,17 @@
 import os
 import json
 import time
-import subprocess
 import shlex
 import psutil
+import subprocess
 import definitions
 import importlib
+import logging
 from abc import ABCMeta, abstractmethod
 from threading import Thread, Event
 from collections import OrderedDict
 from archiver.archiver import Archiver
+
 
 class Collector(object):
     __metaclass__ = ABCMeta
@@ -34,6 +36,7 @@ class Collector(object):
     factory = staticmethod(factory)
 
     def __init__(self, collector_config):
+
         self.config = collector_config
         self.name = self.config.get_collector_name()
 
@@ -73,6 +76,8 @@ class Collector(object):
             return
 
         print (" --> Running %s" % self.name)
+        self.logger.info(" --> Running %s" % self.name)
+
 
         self.build_commands()
         self.start_time = str(int(time.time()))
@@ -87,6 +92,7 @@ class Collector(object):
 
         if self.processes:
             print (" [x] Started: %s - pId(s): %s" % (self.name, ', '.join(str(p.pid) for p in self.processes)))
+            self.logger.info(" [x] Started: %s - pId(s): %s" % (self.name, ', '.join(str(p.pid) for p in self.processes)))
 
     def run_command(self, command):
         runcmds = shlex.split(command.replace(definitions.TIMESTAMP_PLACEHOLDER, self.start_time))
@@ -144,7 +150,6 @@ class Collector(object):
                     tps.append(process.pid)
         print (" [x] Terminated: %s - pId(s): %s" % (self.name, ', '.join(str(p) for p in tps)))
         self.clean()
-
 
     def clean(self):
         self.commands = []
@@ -307,7 +312,7 @@ class CollectorConfig():
             definitions.PLUGIN_COLLECTORS_DIR, foldername, definitions.PLUGIN_COLLECTORS_CONFIG_SCHEMA_FILENAME)
 
         self.refresh_data()
-        
+
     def refresh_data(self):
         #TODO: add try/catch to these
         with open(self.file_path) as data_file:
@@ -327,10 +332,10 @@ class CollectorConfig():
 
     def get_schema_data(self):
         return self.schema_data
-    
+
     def get_collector_name(self):
         return self.get_data()["collector"]["name"]
-    
+
     def get_collector_type(self):
         return self.get_data()["collector"]["type"]
 

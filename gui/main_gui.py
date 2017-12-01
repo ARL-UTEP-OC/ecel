@@ -87,9 +87,6 @@ class MainGUI(Gtk.Window):
 
         self.connect("destroy", self.close_all)
 
-        for i, collector in enumerate(self.engine.collectors):
-            print "%d) %s" % (i, collector.name)
-
         self.show_all()
         self.status_context_menu = status_icon.CustomSystemTrayIcon(app_engine, self)
 
@@ -356,4 +353,3 @@ class MainGUI(Gtk.Window):
     def hide_on_delete(self, this, event):
         this.hide()
         return True
-

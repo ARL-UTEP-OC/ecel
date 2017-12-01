@@ -19,6 +19,8 @@ from collector import CollectorConfig, Collector
 #TODO: Handle sigterm correctly, background running thread gets stuck.  Need to use terminate() before quit() or CRTL-C
 class Engine(object):
     def __init__(self):
+        self.logger = logging.getLogger('ECEL.engine_logger')
+        self.logger.info("ENGINE Logger")
         self.collectors = []
         self.collectors_dir = definitions.PLUGIN_COLLECTORS_DIR
 
@@ -41,6 +43,7 @@ class Engine(object):
     def close_all(self):
         for collector in self.collectors:
             if collector.is_enabled:
+               self.logger.info("Closing: " + collector.name)
                collector.terminate()
         os._exit(0)
 
@@ -56,7 +59,9 @@ class Engine(object):
     def stopall_collectors(self):
         for collector in self.collectors:
             if collector.is_enabled():
+                self.logger.info("Stopping: " + collector.name)
                 collector.terminate()
+        os._exit(0)
 
     #TODO: TEST, method from main_gui.py
     def parse_all(self):
@@ -67,10 +72,12 @@ class Engine(object):
 
     #TODO: TEST, method from main_gui.py
     def parser(self, collector):
+        self.logger.info("Parsing " + collector.name)
         collector.parser.parse()
 
     #TODO: TEST, method from main_gui.py
     def startIndividualCollector(self, collector):
+        self.logger.info("Starting: " + collector.name)
         collector.run()
 
     #TODO: TEST, mehtod from main_gui.py
@@ -78,10 +85,11 @@ class Engine(object):
         for collector in self.collectors:
             if collector.is_enabled() and isinstance(collector, collector.AutomaticCollector):
                 print "Starting: ", collector
-                self.logger.info("Starting: ", collector)
+                self.logger.info("Starting: "+ collector.name)
                 collector.run()
 
     def stopIndividualCollector(self, collector):
+        self.logger.info("Stopping: " + collector.name)
         collector.terminate()
 
     #TODO: TEST

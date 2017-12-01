@@ -11,7 +11,7 @@ LOG_FILENAME = "/root/Documents/ECEL_Service.log"
 LOG_LEVEL = logging.INFO  # Could be e.g. "DEBUG" or "WARNING"
 
 # create logger with 'ECEL'
-logger = logging.getLogger(__name__)
+logger = logging.getLogger('ECEL')
 logger.setLevel(LOG_LEVEL)
 
 # create file handler which logs even debug messages
@@ -29,7 +29,7 @@ ch.setFormatter(formatter)
 
 # add the handlers to the logger
 logger.addHandler(fh)
-#logger.addHandler(ch)
+logger.addHandler(ch)
 
 logger.info('creating an instance of engine')
 engine = Engine()
@@ -38,6 +38,6 @@ logger.info('calling engine.startIndividualCollector for tshark')
 collector = engine.get_collector('tshark')
 engine.startIndividualCollector(collector)
 logger.info('finished starting engine.startIndividualCollector for tshark')
-logger.info('stoping all collectors')
+logger.info('stopping all collectors')
 engine.close_all()
 logger.info('done with engine')
