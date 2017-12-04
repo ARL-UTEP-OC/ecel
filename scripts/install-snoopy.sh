@@ -16,6 +16,3 @@ bash "$INSTALL_DIR"/snoopy-install.sh snoopy-2.4.6_mod.tar.gz
 ### Configure snoopy
 cp "$ECEL_DIR"/plugins/collectors/snoopy/config/snoopy.ini /etc/snoopy.ini
 
-#We only want snoopy to run when ecel says so
-echo SNOOPY: Disabling snoopy
-bash snoopy-disable
