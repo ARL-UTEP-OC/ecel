@@ -50,7 +50,7 @@ echo "$OUTPUT_PREFIX Installing python dependencies"
 python -m pip install pip --upgrade
 python -m pip install $REQUIRED_PYTHON_PACKAGES
 
-if prompt_accepted_Yn "Would you like to install snoopy? ECEL will still run without it, but the snoopy plugin will not work."; then
+if prompt_accepted_Yn "Snoopy logs all system calls. ECEL will still run without it, but the snoopy plugin will not work. Install? "; then
     bash "$ECEL_DIR"/scripts/install-snoopy.sh
 fi
 
@@ -93,6 +93,10 @@ cat > "$ECEL_DIR"/ecel-gui <<-'EOFecelgui'
 	python ecel_gui.py
 EOFecelgui
 chmod +x "$ECEL_DIR"/ecel-gui
+
+if prompt_accepted_Yn "The Top-Icons gnome extension will place the ECEL icon in your status bar. Install?"; then
+    bash "$ECEL_DIR"/scripts/gnome-shell-extensions-installer/gnome-shell-extension-installer 1031 --restart-shell --yes
+fi
 
 ### Configure to run on boot
 #
