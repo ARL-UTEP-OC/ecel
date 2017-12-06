@@ -95,13 +95,13 @@ EOFecelgui
 chmod +x "$ECEL_DIR"/ecel-gui
 
 if prompt_accepted_Yn "The Top-Icons gnome extension will place the ECEL icon in your status bar. Install?"; then
-    bash "$ECEL_DIR"/scripts/gnome-shell-extensions-installer/gnome-shell-extension-installer 1031 --restart-shell --yes
+    bash "$ECEL_DIR"/scripts/gnome-shell-extensions-installer/gnome-shell-extension-installer 495 --restart-shell --yes
 fi
 
 ### Configure to run on boot
 #
 if prompt_accepted_Yn "Would you like to run ECEL automatically on login (only works on Kali 2016.2+)?"; then
-cat > "$ECEL_DIR"/scripts/ecel.desktop << EOF
+Ycat > "$ECEL_DIR"/scripts/ecel.desktop << EOF
 [Desktop Entry]
 Name=ECEL
 GenericName=
