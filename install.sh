@@ -101,7 +101,7 @@ fi
 ### Configure to run on boot
 #
 if prompt_accepted_Yn "Would you like to run ECEL automatically on login (only works on Kali 2016.2+)?"; then
-Ycat > "$ECEL_DIR"/scripts/ecel.desktop << EOF
+cat > "$ECEL_DIR"/scripts/ecel.desktop << EOF
 [Desktop Entry]
 Name=ECEL
 GenericName=
