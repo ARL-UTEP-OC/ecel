@@ -6,8 +6,8 @@
 # Required-Stop:     $local_fs $syslog
 # Default-Start:     2 3 4 5
 # Default-Stop:      0 1 6
-# Short-Description: Service for ECEL 
-# Description:       Script to invoke ECEL upon start up as a root level service 
+# Short-Description: Service for ECEL
+# Description:       Script to invoke ECEL upon start up as a root level service
 ### END INIT INFO
 
 # Change the next 3 lines to suit where you install your script and what you want to call it
@@ -16,12 +16,10 @@ DAEMON=$DIR/ecel_service.py
 DAEMON_NAME=ECELService
 
 # Add any command line options for your daemon here
-DAEMON_OPTS=""
+DAEMON_OPTS="start"
 
 # This next line determines what user the script runs as.
-# Root generally not recommended but necessary if you are using the Raspberry Pi GPIO from Python.
 DAEMON_USER='root'
-
 
 # The process ID of the script when it runs is stored here:
 PIDFILE=/var/run/$DAEMON_NAME.pid

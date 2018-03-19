@@ -1,43 +1,43 @@
 #!/usr/bin/env python
 
-import sys
 import logging
-import logging.handlers
-
+from logging.handlers import SysLogHandler
+import time
+import sys
+import os
 from engine.engine import Engine
+from service import find_syslog, Service
 
-# Deafults
-LOG_FILENAME = "/root/Documents/ECEL_Service.log"
-LOG_LEVEL = logging.INFO  # Could be e.g. "DEBUG" or "WARNING"
+class ecel_Service(Service):
 
-# create logger with 'ECEL'
-logger = logging.getLogger('ECEL')
-logger.setLevel(LOG_LEVEL)
+    def __init__(self, *args, **kwargs):
+        self.collector = args[0].split('_', 3 )[-1:][0]
+        super(ecel_Service, self).__init__(*args, **kwargs)
+        self.logger.addHandler(SysLogHandler(address=find_syslog(),facility=SysLogHandler.LOG_DAEMON))
+        self.logger.setLevel(logging.INFO)
 
-# create file handler which logs even debug messages
-fh = logging.FileHandler(LOG_FILENAME)
-fh.setLevel(logging.DEBUG)
+    def run(self):
+        print self.logger.info(self.collector)
+        engine = Engine()
+        collector = engine.get_collector(self.collector)
+        print self.logger.info(collector)
+        engine.startIndividualCollector(collector)
+        while not self.got_sigterm():
+            print self.logger.info("Running Collector...")
 
-# create console handler with a higher log level
-ch = logging.StreamHandler()
-ch.setLevel(logging.ERROR)
+        if self.got_sigterm():
+            print self.logger.info("Stopping all collectors and Exiting Program..")
+            engine.stopIndividualCollector(collector)
+            
 
-# create formatter and add it to the handlers
-formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
-fh.setFormatter(formatter)
-ch.setFormatter(formatter)
+if __name__ == '__main__':
+    engine = Engine()
 
-# add the handlers to the logger
-logger.addHandler(fh)
-logger.addHandler(ch)
-
-logger.info('creating an instance of engine')
-engine = Engine()
-logger.info('created an instance of engine')
-logger.info('calling engine.startIndividualCollector for tshark')
-collector = engine.get_collector('tshark')
-engine.startIndividualCollector(collector)
-logger.info('finished starting engine.startIndividualCollector for tshark')
-logger.info('stopping all collectors')
-engine.close_all()
-logger.info('done with engine')
+    collectors = engine.get_all_collectors()
+    for i, collector in enumerate(collectors):
+        if collector.name != 'manualscreenshot':
+            service_name = "ecel_service_"+collector.name
+            print "%s" % (collector.name)
+            service = ecel_Service(service_name, pid_dir='/tmp')
+            service.start()
+    os._exit(0)

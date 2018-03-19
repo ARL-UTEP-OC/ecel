@@ -1,61 +1,46 @@
 import cmd
 import sys
+import os
 import signal
+import argparse
+import ecel_service
 from engine.engine import Engine
-
-engine = Engine()
-
-def sigint_handler(signum, frame):
-    engine.stopall_collectors()
-    sys.exit(0)
-
-signal.signal(signal.SIGINT, sigint_handler)
-
-class dssCmdLine(cmd.Cmd):
-    """Command processor for ECEL"""
-    prompt = '_$ '
-    use_rawinput = False
-
-    def do_startCollector(self, args):
-        params = args.split()
-        collector = engine.get_collector(params[0])
-        engine.startIndividualCollector(collector)
-
-    def do_stopCollector(self, args):
-        params = args.split()
-        collector = engine.get_collector(params[0])
-        engine.stopIndividualCollector(collector)
-
-    def do_startAll(self, args):
-        engine.startall_collectors()
-
-    def do_stop_all(self,args):
-        engine.stopall_collectors()
-
-    def do_parse(self, args):
-        params = args.split()
-        collector = engine.get_collector(params[0])
-        engine.parser(collector)
-
-    def do_parse_all(self, args):
-        engine.parse()
-
-    def do_export(self,args):
-        engine.export()
-
-    def do_delete_all(self, args):
-        engine.delete_all()
-
-    def do_close_All(self, args):
-        engine.close_all()
-
-    def do_list(self,args):
-        engine.list_collectors()
-
-    def do_EOF(self,args):
-        '"Handles exiting the system with end of file character"'
-        print '\n'
-        return True
+from logging.handlers import SysLogHandler
 
 if __name__ == '__main__':
-    dssCmdLine().cmdloop()
+    parser = argparse.ArgumentParser(description="Command line util for ECEL")
+
+    group = parser.add_mutually_exclusive_group()
+    group.add_argument("--start", action="store_true",
+                        help= "Start a specific collector")
+    group.add_argument("--stop", action="store_true",
+                        help= "Stop a specific collector")
+    group.add_argument("--status", action="store_true",
+                        help= "View the status a specific collector")
+    group.add_argument("--list", action="store_true",
+                        help= "List all available Collectors")
+
+    parser.add_argument("--collector","--c", type=str, help="ECEL collector")
+    args = parser.parse_args()
+
+    if args.list:
+        engine = Engine()
+        collectors = engine.get_all_collectors()
+        print "[+] Available collectors are: "
+        for i, collector in enumerate(collectors):
+            print "%d) %s" % (i, collector.name)
+    else:
+        service_name = "ecel_service_"+args.collector
+        service = ecel_service.ecel_Service(service_name, pid_dir='/tmp')
+        if args.start:
+                print "[+]Starting Collector"
+                service.start()
+        elif args.status:
+            if service.is_running():
+                print "[+] Service is running..."
+            else:
+                print "[-] Service is not running..."
+        elif args.stop:
+            print "[-] Stopping Service"
+            service.stop()
+    os._exit(0)
