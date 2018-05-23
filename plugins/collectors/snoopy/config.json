@@ -1,0 +1,25 @@
+{
+  "collector": {
+    "name": "snoopy",
+    "type": "automatic",
+    "configurations": {
+      "general": {
+        "auto restart": {
+          "enabled": false,
+          "time interval": 1800
+        }
+      },
+      "archiving": {
+        "enabled": true,
+        "time interval": 1800,
+        "file format": "zip"
+      },
+      "parsing": {
+        "parser": "plugins.parsers.snoopy.snoopy_parser,SnoopyParser"
+      },
+      "custom": {
+        "log path": "/tmp/snoopy.log"
+      }
+    }
+  }
+}

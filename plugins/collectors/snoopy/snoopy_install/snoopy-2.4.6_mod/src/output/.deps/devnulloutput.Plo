@@ -1,0 +1,8 @@
+devnulloutput.lo: devnulloutput.c /usr/include/stdc-predef.h \
+ devnulloutput.h ../../src/output/fileoutput.h
+
+/usr/include/stdc-predef.h:
+
+devnulloutput.h:
+
+../../src/output/fileoutput.h:

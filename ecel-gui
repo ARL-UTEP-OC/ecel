@@ -1,0 +1,10 @@
+#!/bin/bash
+
+ECEL_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+    
+if [ "$EUID" -ne 0 ]; then
+echo "ECEL must be run as root"
+exit 1
+fi
+    cd "$ECEL_DIR"
+python ecel_gui.py

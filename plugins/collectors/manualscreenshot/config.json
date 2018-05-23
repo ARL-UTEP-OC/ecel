@@ -1,0 +1,11 @@
+{
+  "collector": {
+    "name": "manualscreenshot",
+    "type": "manual",
+    "configurations": {
+      "parsing": {
+        "parser": "plugins.parsers.manualscreenshot.manualscreenshot_parser,ManualScreenShotParser"
+      }
+    }
+  }
+}

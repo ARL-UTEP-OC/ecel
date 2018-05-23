@@ -1,0 +1,42 @@
+20180523|1527104386.32|Navigator|.Window'>(|root|New Tab - Mozilla Firefox|y
+20180523|1527104386.44|Navigator|.Window'>(|root|New Tab - Mozilla Firefox|o
+20180523|1527104387.43|Navigator|.Window'>(|root|New Tab - Mozilla Firefox|[KeyName:Return]
+20180523|1527104394.07|Navigator|.Window'>(|root|New Tab - Mozilla Firefox|g
+20180523|1527104396.61|Navigator|.Window'>(|root|New Tab - Mozilla Firefox|o
+20180523|1527104397.81|Navigator|.Window'>(|root|New Tab - Mozilla Firefox|[KeyName:Return]
+20180523|1527104407.09|gnome-terminal-server|.Window'>(|root|root@kali: ~/Desktop/ecel/ecel-viz-master|i
+20180523|1527104407.34|gnome-terminal-server|.Window'>(|root|root@kali: ~/Desktop/ecel/ecel-viz-master|f
+20180523|1527104407.6|gnome-terminal-server|.Window'>(|root|root@kali: ~/Desktop/ecel/ecel-viz-master|c
+20180523|1527104407.71|gnome-terminal-server|.Window'>(|root|root@kali: ~/Desktop/ecel/ecel-viz-master|o
+20180523|1527104407.91|gnome-terminal-server|.Window'>(|root|root@kali: ~/Desktop/ecel/ecel-viz-master|n
+20180523|1527104408.52|gnome-terminal-server|.Window'>(|root|root@kali: ~/Desktop/ecel/ecel-viz-master|f
+20180523|1527104408.66|gnome-terminal-server|.Window'>(|root|root@kali: ~/Desktop/ecel/ecel-viz-master|i
+20180523|1527104408.81|gnome-terminal-server|.Window'>(|root|root@kali: ~/Desktop/ecel/ecel-viz-master|g
+20180523|1527104409.31|gnome-terminal-server|.Window'>(|root|root@kali: ~/Desktop/ecel/ecel-viz-master|[KeyName:Return]
+20180523|1527109087.35|gnome-terminal-server|.Window'>(|root|root@kali: ~/Desktop/ecel/ecel-viz-master|v
+20180523|1527109087.44|gnome-terminal-server|.Window'>(|root|root@kali: ~/Desktop/ecel/ecel-viz-master|sd
+20180523|1527109087.5|gnome-terminal-server|.Window'>(|root|root@kali: ~/Desktop/ecel/ecel-viz-master|n
+20180523|1527109087.56|gnome-terminal-server|.Window'>(|root|root@kali: ~/Desktop/ecel/ecel-viz-master|v
+20180523|1527109087.67|gnome-terminal-server|.Window'>(|root|root@kali: ~/Desktop/ecel/ecel-viz-master|k
+20180523|1527109087.68|gnome-terminal-server|.Window'>(|root|root@kali: ~/Desktop/ecel/ecel-viz-master|j
+20180523|1527109087.77|gnome-terminal-server|.Window'>(|root|root@kali: ~/Desktop/ecel/ecel-viz-master|n
+20180523|1527109087.81|gnome-terminal-server|.Window'>(|root|root@kali: ~/Desktop/ecel/ecel-viz-master|v
+20180523|1527109087.91|gnome-terminal-server|.Window'>(|root|root@kali: ~/Desktop/ecel/ecel-viz-master|rf
+20180523|1527109087.94|gnome-terminal-server|.Window'>(|root|root@kali: ~/Desktop/ecel/ecel-viz-master|j
+20180523|1527109088.99|gnome-terminal-server|.Window'>(|root|root@kali: ~/Desktop/ecel/ecel-viz-master|[KeyName:BackSpace]
+20180523|1527109089.51|gnome-terminal-server|.Window'>(|root|root@kali: ~/Desktop/ecel/ecel-viz-master|[KeyName:BackSpace][KeyName:BackSpace]
+20180523|1527109089.55|gnome-terminal-server|.Window'>(|root|root@kali: ~/Desktop/ecel/ecel-viz-master|[KeyName:BackSpace]
+20180523|1527109089.56|gnome-terminal-server|.Window'>(|root|root@kali: ~/Desktop/ecel/ecel-viz-master|[KeyName:BackSpace]
+20180523|1527109089.59|gnome-terminal-server|.Window'>(|root|root@kali: ~/Desktop/ecel/ecel-viz-master|[KeyName:BackSpace]
+20180523|1527109089.62|gnome-terminal-server|.Window'>(|root|root@kali: ~/Desktop/ecel/ecel-viz-master|[KeyName:BackSpace]
+20180523|1527109089.66|gnome-terminal-server|.Window'>(|root|root@kali: ~/Desktop/ecel/ecel-viz-master|[KeyName:BackSpace]
+20180523|1527109089.84|gnome-terminal-server|.Window'>(|root|root@kali: ~/Desktop/ecel/ecel-viz-master|[KeyName:BackSpace]
+20180523|1527109090.01|gnome-terminal-server|.Window'>(|root|root@kali: ~/Desktop/ecel/ecel-viz-master|[KeyName:BackSpace]
+20180523|1527109090.38|gnome-terminal-server|.Window'>(|root|root@kali: ~/Desktop/ecel/ecel-viz-master|[KeyName:BackSpace][KeyName:BackSpace]
+20180523|1527109091.05|gnome-terminal-server|.Window'>(|root|root@kali: ~/Desktop/ecel/ecel-viz-master|i
+20180523|1527109091.31|gnome-terminal-server|.Window'>(|root|root@kali: ~/Desktop/ecel/ecel-viz-master|f
+20180523|1527109091.7|gnome-terminal-server|.Window'>(|root|root@kali: ~/Desktop/ecel/ecel-viz-master|c
+20180523|1527109091.78|gnome-terminal-server|.Window'>(|root|root@kali: ~/Desktop/ecel/ecel-viz-master|o
+20180523|1527109091.98|gnome-terminal-server|.Window'>(|root|root@kali: ~/Desktop/ecel/ecel-viz-master|n
+20180523|1527109092.65|gnome-terminal-server|.Window'>(|root|root@kali: ~/Desktop/ecel/ecel-viz-master|[KeyName:Tab]
+20180523|1527109093.34|gnome-terminal-server|.Window'>(|root|root@kali: ~/Desktop/ecel/ecel-viz-master|[KeyName:Return]

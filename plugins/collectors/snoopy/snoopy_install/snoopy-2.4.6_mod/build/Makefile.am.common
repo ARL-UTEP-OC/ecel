@@ -1,0 +1,12 @@
+### Autoconf defaults
+#
+MAINTAINERCLEANFILES = Makefile.in
+
+
+
+### Automake defaults
+#
+# Note:
+# -I$(top_srcdir) is here for #include 'lib/iniparser/src/iniparser.h' to work
+#
+AM_CFLAGS = -Wall -Werror -Wextra -Wno-unused-parameter -std=c99 -pedantic -I$(top_srcdir)
