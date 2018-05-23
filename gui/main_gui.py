@@ -6,6 +6,7 @@ import status_icon
 
 import engine.collector
 from gui.export_gui import ExportGUI
+from gui.dss_gui import DssGUI
 from gui.progress_bar import ProgressBar
 from gui.progress_bar_details import ProgressBarDetails
 from gui.plugin_config_gui import PluginConfigGUI
@@ -58,7 +59,13 @@ class MainGUI(gtk.Window):
         self.collector_config_button = gtk.ToolButton(gtk.image_new_from_file(os.path.join(definitions.ICONS_DIR, "settings.png")))
         tooltips.set_tip(self.collector_config_button, "Collector Configurations")
         self.collector_config_button.connect("clicked", self.configure_collectors)
+        
+        separator4 = gtk.SeparatorToolItem()
 
+        self.dss_button = gtk.ToolButton(gtk.image_new_from_file(os.path.join(definitions.ICONS_DIR, "model.png")))
+        tooltips.set_tip(self.dss_button, "DSS")
+        self.dss_button.connect("clicked", self.call_dss_module, app_engine.collectors)
+        
         toolbar.insert(self.startall_button, 0)
         toolbar.insert(self.stopall_button, 1)
         toolbar.insert(separator1, 2)
@@ -68,6 +75,8 @@ class MainGUI(gtk.Window):
         toolbar.insert(self.remove_data_button, 6)
         toolbar.insert(separator3, 7)
         toolbar.insert(self.collector_config_button, 8)
+        toolbar.insert(separator4, 9)
+        toolbar.insert(self.dss_button, 10)
 
         vbox = gtk.VBox(False, 2)
         self.add(vbox)
@@ -96,6 +105,7 @@ class MainGUI(gtk.Window):
         # Load collectors in window
         for i, collector in enumerate(app_engine.collectors):
             print "%d) %s" % (i, collector.name)
+            #add collector to GUI
             vbox.pack_start(self.create_collector_bbox(collector), True, True, 5)
         #self.show_all()
 
@@ -202,6 +212,9 @@ class MainGUI(gtk.Window):
         if not pb.emit("delete-event", gtk.gdk.Event(gtk.gdk.DELETE)):
             pb.destroy()
 
+    def call_dss_module(self, event, collectors):
+        DssGUI(self, collectors)
+    
     def parse_all(self, event):
         for collector in self.engine.collectors:
             collector.parser.parse()
