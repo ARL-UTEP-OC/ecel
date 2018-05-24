@@ -97,6 +97,16 @@ public class KeysToJSON{
 		//System.out.println(answer + "\n]");
 		System.out.println("\tFinished processing keystroke data");
 		br.close();
+
+		//if there are no keystrokes
+		if(line == null){
+			answer += "\t{\"keypresses_id\" : 0, \"content\" : \"No detected keystrokes\", \"className\" : \"Keypresses\", \"start\" : \"";
+			timestamp = toFormat.format(new Date(((long)(prevKeyTime*1000))));
+			answer += timestamp.toString();
+			answer += "\"";
+			answer += "} \n";
+		}
+
 		answer += "]\n";
         FileOutput.WriteToFile(outputPath + "/keypressData.JSON", answer);
         //System.out.println(answer);
