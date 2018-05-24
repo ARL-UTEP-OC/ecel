@@ -102,7 +102,7 @@ public class KeysToJSON{
 		br.close();
 		//if there are no keystrokes
 		if(line == null && count == 0){
-			answer += "\t{\"keypresses_id\" : 0, \"content\" : \"No detected 	keystrokes\", \"className\" : \"Keypresses\", \"start\" : \"";
+			answer += "\t{\"keypresses_id\" : 0, \"content\" : \"Nodetectedkeystrokes\", \"className\" : \"Keypresses\", \"start\" : \"";
 			timestamp = toFormat.format(new Date(((long)(prevKeyTime*1000))));
 			answer += timestamp.toString();
 			answer += "\"";
