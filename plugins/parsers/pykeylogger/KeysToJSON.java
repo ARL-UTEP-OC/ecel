@@ -15,6 +15,7 @@ public class KeysToJSON{
 			String answer = "[\n";
 			String filename = args[0];
 			String outputPath = args[1];
+			int count = 0;
 
 			//sample: {\"content\" :\"<2 p/s\", \"className\" :\"traffic\", \"title\" : \"eth:ipv6:udp:dhcpv6\" \n', \"start\" : \"Wed Oct 08 10:56:33 EDT 2014\"},
 
@@ -36,17 +37,9 @@ public class KeysToJSON{
 			currWindowStartTime = Double.parseDouble(line.trim().split("\\|",-1)[1]);
 			prevKeyTime = currWindowStartTime;
 
-			//if there are no keystrokes
-			if(line == null){
-				answer += "\t{\"keypresses_id\" : 0, \"content\" : \"No detected 	keystrokes\", \"className\" : \"Keypresses\", \"start\" : \"";
-				timestamp = toFormat.format(new Date(((long)(prevKeyTime*1000))));
-				answer += timestamp.toString();
-				answer += "\"";
-				answer += "} \n";
-			}
-
 			//check if we have another line to read
 			while (line != null) {
+				count++;
 				//remove new line and split the line using | as the delimeter
 				//parsedLine = line.trim().split("\\|",-1);
 				parsedLine = line.split("\\|",-1);
@@ -107,6 +100,14 @@ public class KeysToJSON{
 		//System.out.println(answer + "\n]");
 		System.out.println("\tFinished processing keystroke data");
 		br.close();
+		//if there are no keystrokes
+		if(line == null && count == 0){
+			answer += "\t{\"keypresses_id\" : 0, \"content\" : \"No detected 	keystrokes\", \"className\" : \"Keypresses\", \"start\" : \"";
+			timestamp = toFormat.format(new Date(((long)(prevKeyTime*1000))));
+			answer += timestamp.toString();
+			answer += "\"";
+			answer += "} \n";
+		}
 		answer += "]\n";
         FileOutput.WriteToFile(outputPath + "/keypressData.JSON", answer);
         //System.out.println(answer);
