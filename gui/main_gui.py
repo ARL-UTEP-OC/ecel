@@ -7,6 +7,7 @@ import subprocess
 import status_icon
 import definitions
 import engine.collector
+import ecel_service
 from collector_list_box import CollectorListBox
 from gui.export_gui import ExportGUI
 from gui.progress_bar import ProgressBar
@@ -167,12 +168,25 @@ class MainGUI(Gtk.Window):
         for i, c in enumerate(selected_collectors):
             collector = self.engine.get_collector(c.get_name())
             if collector.is_enabled() and isinstance(collector, engine.collector.AutomaticCollector):
+                #TODO:Adjust the RUN to start a daemon
                 if(action == Action.RUN):
-                    collector.run()
+                    '''New Code for service'''
+                    service_name = "ecel_service_"+collector.name
+                    print service_name
+                    service = ecel_service.ecel_Service(service_name, pid_dir='/tmp')
+                    service.start()
+                    '''Old Code'''
+                    #collector.run()
                     self.set_config_widget_sensitivity()
+                #TODO:Adjust the STOP to start a daemon
                 if(action == Action.STOP):
                     try:
-                        collector.terminate()
+                        '''New Code for service'''
+                        service_name = "ecel_service_"+collector.name
+                        service = ecel_service.ecel_Service(service_name, pid_dir='/tmp')
+                        service.stop()
+                        '''Old Code'''
+                        #collector.terminate()
                         self.set_config_widget_sensitivity()
                     except NoSuchProcess:
                         # On windows, when a process finishes running a command, it terminates. This is needed to ensure
@@ -193,10 +207,15 @@ class MainGUI(Gtk.Window):
                 collector.parser.parse()
         self.status_context_menu.startall_menu_item.set_sensitive(self.engine.has_collectors_running() == False)
 
+    #Here is where the buttons for Play and Stop get Updated
+    #TODO: Adjust this method to check if the daemon exists as opposed to if collector is running
     def set_config_widget_sensitivity(self):
         collector = self.engine.get_collector(self.currentConfigWindow.get_name())
-        self.configWidget.set_sensitive(collector.is_running() == False)
-        self.set_play_stop_btns(collector.is_running() == False, collector.is_running())
+        service_name = "ecel_service_"+collector.name
+        service = ecel_service.ecel_Service(service_name, pid_dir='/tmp')
+        print service.is_running()
+        self.configWidget.set_sensitive(service.is_running() == False)
+        self.set_play_stop_btns(service.is_running() == False, service.is_running())
 
     def get_current_config_window_name(self):
         return self.currentConfigWindow.get_name()
@@ -330,6 +349,7 @@ class MainGUI(Gtk.Window):
         self.status_context_menu.startall_menu_item.set_sensitive(self.engine.has_collectors_running() == False)
 
     def startIndividualCollector(self, event, collector):
+        print "Collector running", event
         collector.run()
         self.collectorList.update_collector_status(Action.RUN,collector.name)
         self.set_play_stop_btns(False,True)

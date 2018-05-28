@@ -19,7 +19,6 @@ if __name__ == '__main__':
                         help= "View the status a specific collector")
     group.add_argument("--list", action="store_true",
                         help= "List all available Collectors")
-
     parser.add_argument("--collector","--c", type=str, help="ECEL collector")
     args = parser.parse_args()
 

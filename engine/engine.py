@@ -37,7 +37,7 @@ class Engine(object):
                 self.collectors.append(collector)
         #Printing available collectors
         #for i, collector in enumerate(self.collectors):
-            #print "%d) %s" % (i, collector.name)
+        #    print "%d) %s" % (i, collector.name)
 
     #TODO: TEST, method from main_gui.py
     def close_all(self):
