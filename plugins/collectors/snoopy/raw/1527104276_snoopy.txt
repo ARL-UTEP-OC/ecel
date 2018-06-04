@@ -1,0 +1,4 @@
+[datetime:2018-05-23T15:37:56-0400 uid:0 sid:32765 tty:/dev/pts/1 cwd:/root/Desktop/merge_ecel/ecel-master/plugins/collectors/snoopy filename:/usr/bin/touch]: touch /tmp/snoopy.log
+[datetime:2018-05-23T15:37:56-0400 uid:0 sid:32765 tty:/dev/pts/1 cwd:/root/Desktop/merge_ecel/ecel-master/plugins/collectors/pykeylogger filename:/sbin/ldconfig]: /sbin/ldconfig -p
+[datetime:2018-05-23T15:37:56-0400 uid:0 sid:32765 tty:/dev/pts/1 cwd:/root/Desktop/merge_ecel/ecel-master/plugins/collectors/snoopy filename:/usr/bin/tail]: tail -f /tmp/snoopy.log
+[datetime:2018-05-23T15:37:56-0400 uid:0 sid:32765 tty:/dev/pts/1 cwd:/root/Desktop/merge_ecel/ecel-master/plugins/collectors/pykeylogger/raw filename:/bin/uname]: uname -p

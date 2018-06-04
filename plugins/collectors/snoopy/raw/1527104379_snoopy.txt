@@ -1,0 +1,8 @@
+[datetime:2018-05-23T15:39:39-0400 uid:0 sid:32765 tty:/dev/pts/1 cwd:/root/Desktop/merge_ecel/ecel-master/plugins/collectors/snoopy filename:/usr/bin/touch]: touch /tmp/snoopy.log
+[datetime:2018-05-23T15:39:40-0400 uid:0 sid:32765 tty:/dev/pts/1 cwd:/root/Desktop/merge_ecel/ecel-master/plugins/collectors/snoopy filename:/usr/bin/tail]: tail -f /tmp/snoopy.log
+[datetime:2018-05-23T15:39:40-0400 uid:0 sid:32765 tty:/dev/pts/1 cwd:/root/Desktop/merge_ecel/ecel-master/plugins/collectors/pykeylogger filename:/sbin/ldconfig]: /sbin/ldconfig -p
+[datetime:2018-05-23T15:39:40-0400 uid:0 sid:32765 tty:/dev/pts/1 cwd:/root/Desktop/merge_ecel/ecel-master/plugins/collectors/pykeylogger/raw filename:/bin/uname]: uname -p
+[datetime:2018-05-23T15:40:05-0400 uid:0 sid:953 tty:/dev/pts/3 cwd:/root/Desktop/ecel/ecel-viz-master filename:/bin/bash]: bash
+[datetime:2018-05-23T15:40:05-0400 uid:0 sid:953 tty:/dev/pts/3 cwd:/root/Desktop/ecel/ecel-viz-master filename:/usr/bin/tput]: tput setaf 1
+[datetime:2018-05-23T15:40:05-0400 uid:0 sid:953 tty:/dev/pts/3 cwd:/root/Desktop/ecel/ecel-viz-master filename:/usr/bin/dircolors]: dircolors -b
+[datetime:2018-05-23T15:40:09-0400 uid:0 sid:953 tty:/dev/pts/3 cwd:/root/Desktop/ecel/ecel-viz-master filename:/sbin/ifconfig]: ifconfig

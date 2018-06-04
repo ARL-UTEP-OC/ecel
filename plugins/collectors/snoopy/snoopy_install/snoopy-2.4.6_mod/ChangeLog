@@ -1,0 +1,468 @@
+-------------------------------------------------------------------------------
+  Snoopy Logger ChangeLog
+-------------------------------------------------------------------------------
+
+
+2016-08-14 - Version 2.4.6
+--------------------------
+o Bugfix (#106 @ GitHub): fix segmentation faults of Network Manager on
+    CentOS 7 when using DHCP address configuration.
+    (thanks tkimball83, p64 @ GitHub for reporting it, and jmtysonjr @ GitHub
+    for verifying the bugfix)
+o Internal: replace ini parsing library iniparser with inih
+    (triggered by #106 @ Github)
+
+
+2016-03-05 - Version 2.4.5
+--------------------------
+o Bugfix (#102 @ GitHub): fix broken validation of --with-syslog-facility
+    configure argument for LOCALx values. Build test updated to prevent
+    regressions. (reported by lhmerino @ GitHub)
+o Bugfix: filter/only_tty: treat errors as if command does not have a tty
+    associated with it
+o Bugfix: filter/only_tty: treat errors as if command does not have a tty
+    associated with it
+o Tests: fix timestamp provider (ms) range test condition (bugfix found at user
+    alasdairdc @ GitHub).
+o Install (#90 @ GitHub): Add support for installing local Snoopy packages with
+    install script. (Suggested by PSKyne@Github)
+o Install (#90 @ GitHub): snoopy-install.sh now has a download-only mode.
+    (Suggested by PSKyne@github)
+o Install: Reenabled 'make check' in install-snoopy.sh. The test that was
+    was causing the most grief was datasource_domain test, which is disabled
+    now.
+o Install (#98 @ GitHub): Add support for bootstrapping git builds on older OS
+    releases (i.e. CentOS 6). Package builds are not affected by this.
+    This is now done automatically by bootstrap.sh script.
+o Infrastructure (#94 @ GitHub): Migrated Travis-CI to container-based builds.
+    Builds are not much faster, but their startup is indeed speedier.
+o Infrastructure: Added 16 builds to Travis-CI which use random selection of
+    ./configure flags. This should ensure valid builds with all possible
+    (valid) ./configure flag selections.
+o Refactoring: move src/libsnoopy.c/.h contents to more appropriate location:
+    src/eventsource/execve_wrapper.c/.h
+
+
+2015-08-28 - Version 2.4.4
+--------------------------
+o Thread safety: all remaining strtok() function calls were replaced with their
+    thread-safe counterparts - strtok_r().
+o Thread safety: all localtime() function calls were replaced with their
+    thread-safe counterparts - localtime_r().
+o Thread safety: all ttyname() functions were replaced with their thread-safe
+    counterparts - ttyname_r().
+o Thread safety info: the remaining non-thread-safe functions that are used
+    are:
+        - getenv()
+        - strerror()
+    getenv() does not have any thread-safe counterpart, so it was left as it
+    was. If anyone uses threaded programs that do lots of execv() calls,
+    then these programs should modify environment and execute programs in
+    mutexed manner.
+    strerror() is used in lib/liblcthw as define, therefore an easy fix is not
+    possible. This doubly linked list implementation needs a general overhaul
+    anyway.
+o RH packaging bugfix: do not fail the installation if directory already exists.
+    (Brendan Germain - bcg62@github)
+o Feature: added new filter only_tty. Logs only commands associated with a TTY.
+    (Jack DeLoach - urq@github)
+o Bugfix (#92 @ GitHub): fix false warning about open file descriptors when
+    running valgrind.
+
+
+2015-06-18 - Version 2.4.3
+--------------------------
+o Build bugfix: include forgotten files in distribution package (version
+    detection script, some test files, etc).
+
+
+2015-06-18 - Version 2.4.2
+--------------------------
+o Version skipped.
+
+
+2015-06-18 - Version 2.4.1
+--------------------------
+o Bugfix: tests/datasource/snoopy_version was failing because regex was untested
+    on full-release (non-development/preview) versions. Fixed.
+
+
+2015-06-18 - Version 2.4.0
+--------------------------
+o Change: configuration file (snoopy.ini) support is now enabled by default.
+o Change: filtering support is now enabled by default.
+o Change: Removal of deprecated feature: removed ./configure flag
+    --enable-root-only.
+    An error message will be emited by ./configure if this deprecated flag
+    is encountered. General filtering should be used instead, like this:
+        --enable-filtering --with-filter-chain="only_uid:0".
+
+o Enhancement: EXPERIMENTAL support for thread-safety added.
+o Feature: added new datasource snoopy_threads, that returns count of threads
+    that Snoopy is currently configured for.
+
+o Feature: added new dummy data source: snoopy_literal. Returns its own
+    argument.
+o Feature: added new data source: tid (Thread ID).
+o Feature: added new data source: tid_kernel (Thread ID, as retured by Linux
+    kernel).
+o Feature: syslog ident string is now configurable, via ./configure line
+    or via snoopy.ini.
+o Feature: added two new data sources: hostname and domain.
+o Feature: added a new output: devnull - writes to /dev/null black hole.
+o Feature: added a new output: devtty - writes to /dev/tty directly.
+o Feature: added two new outputs: stderr and stdout.
+o Feature: added new data source: snoopy_literal (dummy)
+o Feature: Full test suite is now implemented. It contains unit tests
+    for every datasource, filter and all outputs that can actually be
+    tested (testing syslog output provider is a bit inconvenient, for example).
+    Additionally there are combined tests that check Snoopy functionality as
+    a whole, as much as this can be done.
+    Config file parsing is tested too.
+    This test suite is now used at the following occasions:
+    - when installing Snoopy via snoopy-install.sh script,
+    - when submitting contribution pull request on GitHub,
+    - when creating release package.
+
+o Bugfixes: see git history for details.
+
+o Internal feature: created generic argument parser. It should be used by all
+    subcomponents that require CSV argument parsing.
+o Internal enhancement: iniparser upgraded to version 4.0. Also migrated to git
+    submodule.
+o Internal enhancement: iniparser migrated to nested autotools subpackage.
+o Internal refactoring: make all arguments (that are applicable to be changed)
+    to datasources, filters and outputs, constant string pointers.
+
+o Build bugfix: actually halt if some required header file, function or library
+    is missing. Before this fix it only displayed "checking for X... no" error
+    message and the process went on (not for all resources, but for many).
+o Build refactoring: do not build development tools by default
+o Build refactoring: now supports --enable-everything configuration flag.
+o Build refactoring: optimize configuration process, output relevant settings
+    for review.
+o Build refactoring: optimized configure.ac to use way less code than before.
+    This was achieved by abstracting common stuff into special macros stored
+    in build/snoopy.m4.
+o Build refactoring: switched to non-verbose build output by default. Use
+    'make V=1' to revert to the old (verbose) behaviour.
+o Build refactoring: enabled -std=c99 and -pedantic build flags, to catch even more
+    potential errors.
+o Release process: all release packages are now checked with CI
+    provided by Travis-CI.org.
+o Release process: all release packages are now checked with Coverity Scan.
+o Release process: all release packages are now checked with "make distcheck"
+    make target, to ensure proper builds.
+o Contribution process: all pull requests are automatically checked by
+    Travis-CI.
+
+
+2015-05-28 - Version 2.3.2
+--------------------------
+o Bugfix (#73 @ GitHub): fixed installation problem on systems that do not set
+    executable flag for shared library files.
+    (reported by Evgenii Terechkov - evgkrsk @ GitHub)
+
+
+2015-05-24 - Version 2.3.1
+--------------------------
+o Bugfix (#68 @ GitHub): fixed build failure on SLES - mismatching prototype
+    in error.c/.h (reported by GitHub user @tparkercbn).
+
+
+2015-05-11 - Version 2.3.0
+--------------------------
+o Feature: new data source: datetime (returns current date and time in
+    ISO8601 format).
+o Feature (#54 @ GitHub): new data sources: timestamp, timestamp_ms and timestamp_us
+o Feature (#55 @ GitHub): file output is now configurable with ./configure flag
+    --with-default-output=OUTPUT_SPEC.
+o Feature (#53 @ GitHub): file output provider implemented. Snoopy is now capable of logging
+    directly to file, if filesystem permissions do not prevent it.
+o Bugfixes: resolved all nine Coverity bugs (#80899-#80909), covering various
+    resource leaks, unchecked string writes etc.
+o Bugfixes: resolved six additional coverity bugs (82437-82442)
+o Refactoring build process: config file comments now reflect which data
+    sources, filters and outputs are available in given Snoopy installation/
+    package/build.
+o Refactoring build process: all data sources, filters and outputs can now be
+    enabled/disabled individually by ./configure flags. This should make Snoopy
+    less vulnerable if securing installation by reducing attack surface is
+    desired. Each group (data sources, filters and outputs) can also be
+    disabled with a single --enable-all-* ./configure flag.
+o Refactoring build process: removed all stale files which are copied/symlinked
+    by autoreconf; updated makefiles to enable building outside of source tree;
+    renamed some outputs to maintain naming consistency; reduced complexity and
+    size of configure.ac by abstracting certain functionality into dedicated
+    macros; moved as many build-time files as possible from root into
+    build/aux/ directory;
+o Enhancement: specify in debian build recipe that libsnoopy package is to
+    supersed old 'snoopy' package.
+    (Contributed by Frederic Mora)
+o Refactoring: do not include filtering code if filtering is not enabled on
+    ./configure line.
+o Refactoring #50 (GitHub): change ./configure flag --enable-filter to
+    --enable-filtering, to prepare Snoopy for future changes (per-datasource,
+    per-filter and per-output configure flags).
+o Bug #49 (GitHub): reset configuration values back to their corresponding
+    defaults when running final cleanup. This prevents buffer overflows on
+    next Snoopy invocations when config file is not found anymore.
+o Enhancement #48: do not include code for config file in the final library
+    when config file is not enabled at all (via ./configure argument).
+o Feature #45: new filter that excludes Snoopy log entries from certain
+    processes.
+    (Code contributed by Frederic Mora)
+o Bug #44 / Enhancement #42: upgraded iniparser compotent to latest git
+    version, the one that was included before was causing problems in
+    threaded environments (java).
+o Refactoring #41: change term "input provider" to "data source", to more
+    accurately reflect what is actually going on in that part of code.
+o Enhancement #42: upgraded included iniparser component to latest git version.
+    This hopefully resolves issues with threaded processes.
+o Repository refactoring: removed all files that are created/copied by
+    autotools suite, and added them to gitignore.
+o Include documentation in release packages from now on.
+
+
+2015-04-27 - Version  2.2.8
+---------------------------
+o Bugfix #39: prevent double freeing of message_format and filter_chain
+    variables when snoopy.ini suddenly disappears from filesystem.
+    (reported by Ariel Zach)
+o Bugfix #39-2: Fix invalid parsing in rpname input provider - check the line
+    that is read from /proc/PID/status and verify that it is non-empty and that
+    it actually contains colon character before attempting to parse it.
+    (reported and initial fix authored by Ariel Zach)
+o Bugfix #46: prevent bufffer overflow in cmdline input provider
+    (reported by Ariel Zach)
+o Bugfix and refactoring: rpname input provider was leaking some memory, and
+    it was made more logically structured (variables and if conditions were
+    changed to more logical and coherent naming, to align it better with the
+    rest of Snoopy code).
+o Bugfix #47: Bugfix #39 inadvertently introduced a doublefree bug when
+    filter chain was specified in snoopy.ini.
+    (reported by Ariel Zach)
+
+
+2015-03-26 - Version  2.2.7
+---------------------------
+o Feature: added new input provider %{rpname} - gets root process name
+    (submitted by Ariel Zach)
+
+
+2015-03-06 - Version  2.2.6
+---------------------------
+o Feature: added new input provider %{env_all} - logs whole environment
+o Feature: added new input provider %{pid} - provides process id
+o Feature: added new input provider %{ppid} - provides parent process id
+o Bugfix: Fixed improper return value checking in all input providers that
+    work with literal usernames and groups. This was causing shutdown hangs on
+    RH/CentOS 7 systems that use systemd, with additional special conitions:
+    - compiled-in message_format must have included these input providers,
+    - when only configured in snoopy.ini, they did not trigger this bug.
+
+
+2015-03-04 - Version  2.2.5
+---------------------------
+o Bugfix: devlog output provider was not resetting configuration to original
+    values after it called socket output provider as its subroutine.
+o Bugfix: added support for 'make install DESTDIR=...' in etc/Makefile.am
+o Bugfix: fixed installation of snoopy.ini in nonexistent directory
+
+
+2015-01-27 - Version  2.2.4
+---------------------------
+o Bugfix: devlog output was not implemented properly, it was missing log
+    facility and log level specification. This resulted in Snoopy output
+    appearing on user's console, as everything was treated with EMERG
+    severity. On CentOS/RH messages of this severity are forwarded to console
+    by default.
+o Bugfix: Install configuration file with .NEW suffix, and warn the user.
+
+
+2015-01-27 - Version  2.2.3
+---------------------------
+o Bugfix: fixed compilation issues on pre 2.09 glibc platforms
+    (SOCK_NONBLOCK, SOCK_CLOEXEC missing)
+
+
+2015-01-20 - Version  2.2.2
+---------------------------
+o Bugfix: fixed compilation issues on pre 2.12 glibc platforms (getsid)
+
+
+2015-01-11 - Version  2.2.1
+---------------------------
+o Feature: added support for configurable output selection
+o Feature: added dummy input provider: snoopy_version
+o Bugfix: changed default output provider from syslog to devlog (non-blocking
+    socket as workaround for systemd's buffered/blocking /dev/log socket)
+
+
+2015-01-11 - Version  2.2.0
+---------------------------
+o Never released.
+
+
+2014-11-08 - Version  2.1.0
+---------------------------
+o Enhancement: strict checking of ./configure --with-syslog-* values
+o Enhancement: enabled configuration of syslog facility and level from
+    configuration file
+
+
+2014-11-07 - Version  2.0.1
+---------------------------
+o Bugfix: fixed uninitialized pointer in filter/exclude_uid.c and only_uid.c
+o Enhancement: prefix all iniparser errors with "SNOOPY " prefix, so it is
+    evident where errors are coming from
+o Bugfix: changed --with-config-file to --enable-config-file. Having two ways
+    to specify where configuration file exists is redundant and confusing.
+
+
+2014-11-05 - Version  2.0.0
+---------------------------
+o Feature: Added support for custom message format specification at
+    configuration time
+o Feature: New input providers:
+    - egroup       (thanks Sébastien Gross)
+    - env          (thanks Taylor Kimball)
+    - eusername    (thanks Sébastien Gross)
+    - group        (thanks Sébastien Gross)
+    - login        (thanks Sébastien Gross)
+    - username     (thanks Sébastien Gross)
+    - tty_uid      (thanks Tony Malkowski)
+    - tty_username
+o Feature: Implemented internal filtering, with the following filters available:
+    - exclude_uid
+    - only_root
+    - only_uid
+o Feature: Added optional support for INI configuration file
+o Feature: Added envp data to intputdatastorage if execve() is used. Prepared
+    for future inputs to consume it.
+o Feature: Created snoopy-enable and snoopy-disable system scripts.
+
+o Distro packaging: added debian/ubuntu packaging data (by Sebastien Gross)
+o Distro packaging: added rhel/centos package spec file (by Jeremy Brown)
+
+o Refactoring: Separated data gathering into separate functions, to be
+    used at will - now they are called "input providers"
+o Refactoring: Removed external filtering, to be replaced with internal
+    filtering capability in the making
+o Refactoring: Removed logging exclusion via prefix, was created for
+    exclusion of logging of external filter commands
+o Refactoring: switched to autotools completely
+o Refactoring: all builds now use -Wall and -Werror
+o Refactoring: removed --enable-cwd-logging (superseded by message formatting
+    options and input provider)
+o Refactoring: Snoopy library is now called libsnoopy.so instead of snoopy.so,
+    to conform to autotools syntax
+o Refactoring: ./configure: removed many bugs, added proper syntax and error
+    messages to help user decide what she wants
+o Refactoring: added 'proper' (unified) error handling
+o Refactoring: moved input testing to separate executable, which does not get
+    installed, but is only intended for development/debugging
+o Refactoring: created proper initialization/shutdown methods
+
+o Documentation: added into about writing new input providers
+o Bugfix: fixed compilation failure on debian in inputs/cwd.c (thanks Sébastien Gross)
+o Bugfix: missing snoopy.ini in distribution tarball (thanks Jeremy Brown)
+o Bugfix: When uninstalling, also disable Snoopy (remove from /etc/ld.so.preload).
+
+
+2013-04-06 - Version  1.9.0
+---------------------------
+o Bugfix: fixed bug with unclosed /dev/log descriptor which caused hangs
+o Feature: System-dependent exec() argument length support added (thanks Jeff Schroeder)
+o Refactoring: README updated with Markdown format, for nicer display at github
+
+
+2013-02-03 - Version  1.8.1
+---------------------------
+o Bugfix: enable.sh was not /bin/sh compliant, fixed (thanks "phe")
+
+
+2011-03-06 - Version  1.8.0
+---------------------------
+o Feature: syslog facility is now configurable
+o Feature: syslog level is now configurable
+o Feature: external filter support available
+o Feature: single path prefix filtering available
+
+
+2010-10-10 - Version  1.7.10
+---------------------------
+o Fixed bug with long command lines (thanks Luis Fernando Muñoz Mejías)
+
+
+2010-10-10 - Version  1.7.6
+---------------------------
+o Quick fix of buggy patch applied in previous release
+
+
+2010-10-10 - Version  1.7.5
+---------------------------
+o Build for 64bit machines and destdir support for RPMs (Aldemira)
+o Fixed 1-byte memory leak introduced in previous release
+
+
+2010-09-24 - Version  1.7.2
+---------------------------
+o Logs current tty (initial patch provided by Aldemira user on SourceForge)
+
+
+2010-02-11 - Version  1.6.1
+---------------------------
+o Logs current working directory
+
+
+2010-02-09 - Version  1.6.0
+---------------------------
+o Uses autotools now
+o Changed installation procedure
+o Rewritten logging function to avoid memory leaks
+o No more segfaults on 64bit platforms
+o Program name and argument lengths limited to 4096 bytes
+o Many thanks to otheus for supplying a patch on SourceForge one and a half
+    years ago, it helped tremendously.
+
+
+2010-02-09 - Version  1.5.0
+---------------------------
+o Updated to compile and work without segfaults on 32bit and 64bit platforms
+o Project maintenance taken over by Bostjan Skufca
+
+
+Sun December 10 - Version  1.3
+------------------------------
+o Altered logging mechanism for performance
+o Added new way of logging (can choose)
+o Added an integrity check (optional)
+
+
+Wed October 25 - Version  1.2a
+-----------------------------
+o ROOT_ONLY behavior now works again, thanks to adrian.head@bytecomm.com.au for
+  notifying us!
+
+
+Thu October 10 - Version  1.2
+-----------------------------
+o Fixed small bug with rather adverse side effects.
+
+
+Thu August 17 - Version  1.1
+----------------------------
+o Added support for execv().  Although execv() calls execve()
+  [as described in the man page], execv() calls don't seem to log.
+  They now do.  Will investigate this issue a bit further.
+o Made logging code modular, as to accomodate for the extra
+  overload that execv() brought.
+
+
+Thu August 3  - Version 1.00
+----------------------------
+o Cleaned up the codebase a bit
+o Added the output of username and sid (PID of the login shell)
+  to the logged output
+o Fixed install.sh to be compatible with older (v1.0) bash shells
