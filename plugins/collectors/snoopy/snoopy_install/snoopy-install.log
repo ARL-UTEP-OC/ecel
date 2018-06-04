@@ -1,4 +1,4 @@
-SNOOPY INSTALL: Starting installation, log file: /root/Desktop/merge_ecel/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-install.log
+SNOOPY INSTALL: Starting installation, log file: /root/Desktop/merge2/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-install.log
 SNOOPY INSTALL: Installation mode: local-package-file
 SNOOPY INSTALL: Snoopy version to be installed... 2.4.6_mod
 SNOOPY INSTALL: Will install the following local package: snoopy-2.4.6_mod.tar.gz
@@ -286,39 +286,39 @@ config.status: executing depfiles commands
 config.status: executing libtool commands
 done.
 SNOOPY INSTALL: Building... make  all-recursive
-make[1]: Entering directory '/root/Desktop/merge_ecel/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod'
+make[1]: Entering directory '/root/Desktop/merge2/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod'
 Making all in etc
-make[2]: Entering directory '/root/Desktop/merge_ecel/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/etc'
+make[2]: Entering directory '/root/Desktop/merge2/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/etc'
 make[2]: Nothing to be done for 'all'.
-make[2]: Leaving directory '/root/Desktop/merge_ecel/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/etc'
+make[2]: Leaving directory '/root/Desktop/merge2/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/etc'
 Making all in lib
-make[2]: Entering directory '/root/Desktop/merge_ecel/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/lib'
+make[2]: Entering directory '/root/Desktop/merge2/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/lib'
 Making all in inih
-make[3]: Entering directory '/root/Desktop/merge_ecel/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/lib/inih'
+make[3]: Entering directory '/root/Desktop/merge2/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/lib/inih'
 Making all in src
-make[4]: Entering directory '/root/Desktop/merge_ecel/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/lib/inih/src'
+make[4]: Entering directory '/root/Desktop/merge2/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/lib/inih/src'
   CC       ini.lo
   CCLD     libinih.la
 ar: `u' modifier ignored since `D' is the default (see `U')
-make[4]: Leaving directory '/root/Desktop/merge_ecel/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/lib/inih/src'
-make[4]: Entering directory '/root/Desktop/merge_ecel/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/lib/inih'
+make[4]: Leaving directory '/root/Desktop/merge2/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/lib/inih/src'
+make[4]: Entering directory '/root/Desktop/merge2/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/lib/inih'
 make[4]: Nothing to be done for 'all-am'.
-make[4]: Leaving directory '/root/Desktop/merge_ecel/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/lib/inih'
-make[3]: Leaving directory '/root/Desktop/merge_ecel/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/lib/inih'
-make[3]: Entering directory '/root/Desktop/merge_ecel/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/lib'
+make[4]: Leaving directory '/root/Desktop/merge2/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/lib/inih'
+make[3]: Leaving directory '/root/Desktop/merge2/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/lib/inih'
+make[3]: Entering directory '/root/Desktop/merge2/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/lib'
 make[3]: Nothing to be done for 'all-am'.
-make[3]: Leaving directory '/root/Desktop/merge_ecel/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/lib'
-make[2]: Leaving directory '/root/Desktop/merge_ecel/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/lib'
+make[3]: Leaving directory '/root/Desktop/merge2/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/lib'
+make[2]: Leaving directory '/root/Desktop/merge2/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/lib'
 Making all in src
-make[2]: Entering directory '/root/Desktop/merge_ecel/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/src'
+make[2]: Entering directory '/root/Desktop/merge2/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/src'
 Making all in eventsource
-make[3]: Entering directory '/root/Desktop/merge_ecel/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/src/eventsource'
+make[3]: Entering directory '/root/Desktop/merge2/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/src/eventsource'
   CC       libsnoopy_eventsource_execve_wrapper_la-execve_wrapper.lo
   CCLD     libsnoopy_eventsource_execve_wrapper.la
 ar: `u' modifier ignored since `D' is the default (see `U')
-make[3]: Leaving directory '/root/Desktop/merge_ecel/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/src/eventsource'
+make[3]: Leaving directory '/root/Desktop/merge2/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/src/eventsource'
 Making all in datasource
-make[3]: Entering directory '/root/Desktop/merge_ecel/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/src/datasource'
+make[3]: Entering directory '/root/Desktop/merge2/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/src/datasource'
   CC       noop.lo
   CC       cmdline.lo
   CC       cwd.lo
@@ -353,9 +353,9 @@ make[3]: Entering directory '/root/Desktop/merge_ecel/ecel-master/plugins/collec
   CC       username.lo
   CCLD     libsnoopy_datasources_all.la
 ar: `u' modifier ignored since `D' is the default (see `U')
-make[3]: Leaving directory '/root/Desktop/merge_ecel/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/src/datasource'
+make[3]: Leaving directory '/root/Desktop/merge2/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/src/datasource'
 Making all in filter
-make[3]: Entering directory '/root/Desktop/merge_ecel/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/src/filter'
+make[3]: Entering directory '/root/Desktop/merge2/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/src/filter'
   CC       noop.lo
   CC       exclude_spawns_of.lo
   CC       exclude_uid.lo
@@ -364,9 +364,9 @@ make[3]: Entering directory '/root/Desktop/merge_ecel/ecel-master/plugins/collec
   CC       only_uid.lo
   CCLD     libsnoopy_filters_all.la
 ar: `u' modifier ignored since `D' is the default (see `U')
-make[3]: Leaving directory '/root/Desktop/merge_ecel/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/src/filter'
+make[3]: Leaving directory '/root/Desktop/merge2/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/src/filter'
 Making all in output
-make[3]: Entering directory '/root/Desktop/merge_ecel/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/src/output'
+make[3]: Entering directory '/root/Desktop/merge2/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/src/output'
   CC       noopoutput.lo
   CC       devlogoutput.lo
   CC       devnulloutput.lo
@@ -377,9 +377,9 @@ make[3]: Entering directory '/root/Desktop/merge_ecel/ecel-master/plugins/collec
   CC       stdoutoutput.lo
   CCLD     libsnoopy_outputs_all.la
 ar: `u' modifier ignored since `D' is the default (see `U')
-make[3]: Leaving directory '/root/Desktop/merge_ecel/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/src/output'
+make[3]: Leaving directory '/root/Desktop/merge2/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/src/output'
 Making all in .
-make[3]: Entering directory '/root/Desktop/merge_ecel/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/src'
+make[3]: Entering directory '/root/Desktop/merge2/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/src'
   CC       libsnoopy_no_execve_la-configuration.lo
   CC       libsnoopy_no_execve_la-error.lo
   CC       libsnoopy_no_execve_la-genericregistry.lo
@@ -400,26 +400,26 @@ ar: `u' modifier ignored since `D' is the default (see `U')
   CC       libsnoopy-debug-addons.lo
   CCLD     libsnoopy-debug-addons.la
 ar: `u' modifier ignored since `D' is the default (see `U')
-make[3]: Leaving directory '/root/Desktop/merge_ecel/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/src'
-make[2]: Leaving directory '/root/Desktop/merge_ecel/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/src'
+make[3]: Leaving directory '/root/Desktop/merge2/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/src'
+make[2]: Leaving directory '/root/Desktop/merge2/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/src'
 Making all in util
-make[2]: Entering directory '/root/Desktop/merge_ecel/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/util'
+make[2]: Entering directory '/root/Desktop/merge2/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/util'
 make[2]: Nothing to be done for 'all'.
-make[2]: Leaving directory '/root/Desktop/merge_ecel/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/util'
+make[2]: Leaving directory '/root/Desktop/merge2/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/util'
 Making all in doc
-make[2]: Entering directory '/root/Desktop/merge_ecel/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/doc'
+make[2]: Entering directory '/root/Desktop/merge2/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/doc'
 Making all in internals
-make[3]: Entering directory '/root/Desktop/merge_ecel/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/doc/internals'
+make[3]: Entering directory '/root/Desktop/merge2/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/doc/internals'
 make[3]: Nothing to be done for 'all'.
-make[3]: Leaving directory '/root/Desktop/merge_ecel/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/doc/internals'
-make[3]: Entering directory '/root/Desktop/merge_ecel/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/doc'
+make[3]: Leaving directory '/root/Desktop/merge2/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/doc/internals'
+make[3]: Entering directory '/root/Desktop/merge2/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/doc'
 make[3]: Nothing to be done for 'all-am'.
-make[3]: Leaving directory '/root/Desktop/merge_ecel/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/doc'
-make[2]: Leaving directory '/root/Desktop/merge_ecel/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/doc'
+make[3]: Leaving directory '/root/Desktop/merge2/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/doc'
+make[2]: Leaving directory '/root/Desktop/merge2/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/doc'
 Making all in tests
-make[2]: Entering directory '/root/Desktop/merge_ecel/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/tests'
+make[2]: Entering directory '/root/Desktop/merge2/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/tests'
 Making all in bin
-make[3]: Entering directory '/root/Desktop/merge_ecel/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/tests/bin'
+make[3]: Entering directory '/root/Desktop/merge2/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/tests/bin'
   CC       libsnoopy_test_la-libsnoopy-test.lo
   CCLD     libsnoopy-test.la
   CC       snoopy-test-configfile.o
@@ -432,42 +432,42 @@ make[3]: Entering directory '/root/Desktop/merge_ecel/ecel-master/plugins/collec
   CCLD     snoopy-test-message-format
   CC       snoopy-test-output.o
   CCLD     snoopy-test-output
-make[3]: Leaving directory '/root/Desktop/merge_ecel/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/tests/bin'
+make[3]: Leaving directory '/root/Desktop/merge2/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/tests/bin'
 Making all in configfile
-make[3]: Entering directory '/root/Desktop/merge_ecel/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/tests/configfile'
+make[3]: Entering directory '/root/Desktop/merge2/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/tests/configfile'
 make[3]: Nothing to be done for 'all'.
-make[3]: Leaving directory '/root/Desktop/merge_ecel/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/tests/configfile'
+make[3]: Leaving directory '/root/Desktop/merge2/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/tests/configfile'
 Making all in datasource
-make[3]: Entering directory '/root/Desktop/merge_ecel/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/tests/datasource'
+make[3]: Entering directory '/root/Desktop/merge2/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/tests/datasource'
 make[3]: Nothing to be done for 'all'.
-make[3]: Leaving directory '/root/Desktop/merge_ecel/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/tests/datasource'
+make[3]: Leaving directory '/root/Desktop/merge2/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/tests/datasource'
 Making all in filter
-make[3]: Entering directory '/root/Desktop/merge_ecel/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/tests/filter'
+make[3]: Entering directory '/root/Desktop/merge2/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/tests/filter'
 make[3]: Nothing to be done for 'all'.
-make[3]: Leaving directory '/root/Desktop/merge_ecel/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/tests/filter'
+make[3]: Leaving directory '/root/Desktop/merge2/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/tests/filter'
 Making all in message
-make[3]: Entering directory '/root/Desktop/merge_ecel/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/tests/message'
+make[3]: Entering directory '/root/Desktop/merge2/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/tests/message'
 make[3]: Nothing to be done for 'all'.
-make[3]: Leaving directory '/root/Desktop/merge_ecel/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/tests/message'
+make[3]: Leaving directory '/root/Desktop/merge2/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/tests/message'
 Making all in output
-make[3]: Entering directory '/root/Desktop/merge_ecel/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/tests/output'
+make[3]: Entering directory '/root/Desktop/merge2/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/tests/output'
 make[3]: Nothing to be done for 'all'.
-make[3]: Leaving directory '/root/Desktop/merge_ecel/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/tests/output'
+make[3]: Leaving directory '/root/Desktop/merge2/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/tests/output'
 Making all in combined
-make[3]: Entering directory '/root/Desktop/merge_ecel/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/tests/combined'
+make[3]: Entering directory '/root/Desktop/merge2/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/tests/combined'
 make[3]: Nothing to be done for 'all'.
-make[3]: Leaving directory '/root/Desktop/merge_ecel/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/tests/combined'
-make[3]: Entering directory '/root/Desktop/merge_ecel/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/tests'
+make[3]: Leaving directory '/root/Desktop/merge2/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/tests/combined'
+make[3]: Entering directory '/root/Desktop/merge2/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/tests'
 make[3]: Nothing to be done for 'all-am'.
-make[3]: Leaving directory '/root/Desktop/merge_ecel/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/tests'
-make[2]: Leaving directory '/root/Desktop/merge_ecel/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/tests'
-make[2]: Entering directory '/root/Desktop/merge_ecel/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod'
-make[2]: Leaving directory '/root/Desktop/merge_ecel/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod'
-make[1]: Leaving directory '/root/Desktop/merge_ecel/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod'
+make[3]: Leaving directory '/root/Desktop/merge2/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/tests'
+make[2]: Leaving directory '/root/Desktop/merge2/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/tests'
+make[2]: Entering directory '/root/Desktop/merge2/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod'
+make[2]: Leaving directory '/root/Desktop/merge2/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod'
+make[1]: Leaving directory '/root/Desktop/merge2/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod'
 done.
 SNOOPY INSTALL: Installing... Making install in etc
-make[1]: Entering directory '/root/Desktop/merge_ecel/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/etc'
-make[2]: Entering directory '/root/Desktop/merge_ecel/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/etc'
+make[1]: Entering directory '/root/Desktop/merge2/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/etc'
+make[2]: Entering directory '/root/Desktop/merge2/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/etc'
 if [ ! -f /etc/snoopy.ini ]; then \
     echo ; \
     echo "Installing configuration file: /etc/snoopy.ini" ; \
@@ -501,8 +501,8 @@ if [ -f /etc/snoopy.ini.NEW ]; then \
         chmod 644 /etc/snoopy.ini.NEW ; \
     fi ; \
 fi ;
---- snoopy.ini	2018-05-23 12:41:53.477724607 -0400
-+++ /etc/snoopy.ini	2018-05-23 10:32:46.288387174 -0400
+--- snoopy.ini	2018-05-30 18:10:29.420591706 -0400
++++ /etc/snoopy.ini	2018-05-30 17:08:22.972732613 -0400
 @@ -59,7 +59,7 @@
  ;message_format = "useless static log entry that gets logged on every program execution"
  ;message_format = "uid=%{uid}"   ; <--- this would only log uids who execute programs, nothing else;
@@ -528,66 +528,66 @@ Existing config file: /etc/snoopy.ini
 WARNING: CONFIGURATION FILE CHANGES NEED MANUAL REVIEW
 
 make[2]: Nothing to be done for 'install-data-am'.
-make[2]: Leaving directory '/root/Desktop/merge_ecel/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/etc'
-make[1]: Leaving directory '/root/Desktop/merge_ecel/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/etc'
+make[2]: Leaving directory '/root/Desktop/merge2/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/etc'
+make[1]: Leaving directory '/root/Desktop/merge2/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/etc'
 Making install in lib
-make[1]: Entering directory '/root/Desktop/merge_ecel/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/lib'
+make[1]: Entering directory '/root/Desktop/merge2/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/lib'
 Making install in inih
-make[2]: Entering directory '/root/Desktop/merge_ecel/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/lib/inih'
+make[2]: Entering directory '/root/Desktop/merge2/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/lib/inih'
 Making install in src
-make[3]: Entering directory '/root/Desktop/merge_ecel/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/lib/inih/src'
-make[4]: Entering directory '/root/Desktop/merge_ecel/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/lib/inih/src'
+make[3]: Entering directory '/root/Desktop/merge2/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/lib/inih/src'
+make[4]: Entering directory '/root/Desktop/merge2/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/lib/inih/src'
 make[4]: Nothing to be done for 'install-exec-am'.
 make[4]: Nothing to be done for 'install-data-am'.
-make[4]: Leaving directory '/root/Desktop/merge_ecel/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/lib/inih/src'
-make[3]: Leaving directory '/root/Desktop/merge_ecel/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/lib/inih/src'
-make[3]: Entering directory '/root/Desktop/merge_ecel/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/lib/inih'
-make[4]: Entering directory '/root/Desktop/merge_ecel/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/lib/inih'
+make[4]: Leaving directory '/root/Desktop/merge2/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/lib/inih/src'
+make[3]: Leaving directory '/root/Desktop/merge2/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/lib/inih/src'
+make[3]: Entering directory '/root/Desktop/merge2/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/lib/inih'
+make[4]: Entering directory '/root/Desktop/merge2/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/lib/inih'
 make[4]: Nothing to be done for 'install-exec-am'.
 make[4]: Nothing to be done for 'install-data-am'.
-make[4]: Leaving directory '/root/Desktop/merge_ecel/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/lib/inih'
-make[3]: Leaving directory '/root/Desktop/merge_ecel/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/lib/inih'
-make[2]: Leaving directory '/root/Desktop/merge_ecel/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/lib/inih'
-make[2]: Entering directory '/root/Desktop/merge_ecel/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/lib'
-make[3]: Entering directory '/root/Desktop/merge_ecel/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/lib'
+make[4]: Leaving directory '/root/Desktop/merge2/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/lib/inih'
+make[3]: Leaving directory '/root/Desktop/merge2/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/lib/inih'
+make[2]: Leaving directory '/root/Desktop/merge2/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/lib/inih'
+make[2]: Entering directory '/root/Desktop/merge2/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/lib'
+make[3]: Entering directory '/root/Desktop/merge2/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/lib'
 make[3]: Nothing to be done for 'install-exec-am'.
 make[3]: Nothing to be done for 'install-data-am'.
-make[3]: Leaving directory '/root/Desktop/merge_ecel/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/lib'
-make[2]: Leaving directory '/root/Desktop/merge_ecel/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/lib'
-make[1]: Leaving directory '/root/Desktop/merge_ecel/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/lib'
+make[3]: Leaving directory '/root/Desktop/merge2/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/lib'
+make[2]: Leaving directory '/root/Desktop/merge2/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/lib'
+make[1]: Leaving directory '/root/Desktop/merge2/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/lib'
 Making install in src
-make[1]: Entering directory '/root/Desktop/merge_ecel/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/src'
+make[1]: Entering directory '/root/Desktop/merge2/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/src'
 Making install in eventsource
-make[2]: Entering directory '/root/Desktop/merge_ecel/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/src/eventsource'
-make[3]: Entering directory '/root/Desktop/merge_ecel/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/src/eventsource'
+make[2]: Entering directory '/root/Desktop/merge2/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/src/eventsource'
+make[3]: Entering directory '/root/Desktop/merge2/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/src/eventsource'
 make[3]: Nothing to be done for 'install-exec-am'.
 make[3]: Nothing to be done for 'install-data-am'.
-make[3]: Leaving directory '/root/Desktop/merge_ecel/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/src/eventsource'
-make[2]: Leaving directory '/root/Desktop/merge_ecel/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/src/eventsource'
+make[3]: Leaving directory '/root/Desktop/merge2/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/src/eventsource'
+make[2]: Leaving directory '/root/Desktop/merge2/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/src/eventsource'
 Making install in datasource
-make[2]: Entering directory '/root/Desktop/merge_ecel/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/src/datasource'
-make[3]: Entering directory '/root/Desktop/merge_ecel/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/src/datasource'
+make[2]: Entering directory '/root/Desktop/merge2/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/src/datasource'
+make[3]: Entering directory '/root/Desktop/merge2/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/src/datasource'
 make[3]: Nothing to be done for 'install-exec-am'.
 make[3]: Nothing to be done for 'install-data-am'.
-make[3]: Leaving directory '/root/Desktop/merge_ecel/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/src/datasource'
-make[2]: Leaving directory '/root/Desktop/merge_ecel/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/src/datasource'
+make[3]: Leaving directory '/root/Desktop/merge2/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/src/datasource'
+make[2]: Leaving directory '/root/Desktop/merge2/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/src/datasource'
 Making install in filter
-make[2]: Entering directory '/root/Desktop/merge_ecel/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/src/filter'
-make[3]: Entering directory '/root/Desktop/merge_ecel/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/src/filter'
+make[2]: Entering directory '/root/Desktop/merge2/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/src/filter'
+make[3]: Entering directory '/root/Desktop/merge2/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/src/filter'
 make[3]: Nothing to be done for 'install-exec-am'.
 make[3]: Nothing to be done for 'install-data-am'.
-make[3]: Leaving directory '/root/Desktop/merge_ecel/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/src/filter'
-make[2]: Leaving directory '/root/Desktop/merge_ecel/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/src/filter'
+make[3]: Leaving directory '/root/Desktop/merge2/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/src/filter'
+make[2]: Leaving directory '/root/Desktop/merge2/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/src/filter'
 Making install in output
-make[2]: Entering directory '/root/Desktop/merge_ecel/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/src/output'
-make[3]: Entering directory '/root/Desktop/merge_ecel/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/src/output'
+make[2]: Entering directory '/root/Desktop/merge2/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/src/output'
+make[3]: Entering directory '/root/Desktop/merge2/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/src/output'
 make[3]: Nothing to be done for 'install-exec-am'.
 make[3]: Nothing to be done for 'install-data-am'.
-make[3]: Leaving directory '/root/Desktop/merge_ecel/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/src/output'
-make[2]: Leaving directory '/root/Desktop/merge_ecel/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/src/output'
+make[3]: Leaving directory '/root/Desktop/merge2/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/src/output'
+make[2]: Leaving directory '/root/Desktop/merge2/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/src/output'
 Making install in .
-make[2]: Entering directory '/root/Desktop/merge_ecel/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/src'
-make[3]: Entering directory '/root/Desktop/merge_ecel/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/src'
+make[2]: Entering directory '/root/Desktop/merge2/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/src'
+make[3]: Entering directory '/root/Desktop/merge2/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/src'
  /bin/mkdir -p '/usr/local/lib'
  /bin/bash ../libtool   --mode=install /usr/bin/install -c   libsnoopy.la '/usr/local/lib'
 libtool: install: /usr/bin/install -c .libs/libsnoopy.so.0.0.0 /usr/local/lib/libsnoopy.so.0.0.0
@@ -614,101 +614,101 @@ See any operating system documentation about shared libraries for
 more information, such as the ld(1) and ld.so(8) manual pages.
 ----------------------------------------------------------------------
 make[3]: Nothing to be done for 'install-data-am'.
-make[3]: Leaving directory '/root/Desktop/merge_ecel/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/src'
-make[2]: Leaving directory '/root/Desktop/merge_ecel/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/src'
-make[1]: Leaving directory '/root/Desktop/merge_ecel/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/src'
+make[3]: Leaving directory '/root/Desktop/merge2/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/src'
+make[2]: Leaving directory '/root/Desktop/merge2/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/src'
+make[1]: Leaving directory '/root/Desktop/merge2/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/src'
 Making install in util
-make[1]: Entering directory '/root/Desktop/merge_ecel/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/util'
-make[2]: Entering directory '/root/Desktop/merge_ecel/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/util'
+make[1]: Entering directory '/root/Desktop/merge2/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/util'
+make[2]: Entering directory '/root/Desktop/merge2/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/util'
  /bin/mkdir -p '/usr/local/sbin'
  /usr/bin/install -c snoopy-enable snoopy-disable '/usr/local/sbin'
 make[2]: Nothing to be done for 'install-data-am'.
-make[2]: Leaving directory '/root/Desktop/merge_ecel/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/util'
-make[1]: Leaving directory '/root/Desktop/merge_ecel/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/util'
+make[2]: Leaving directory '/root/Desktop/merge2/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/util'
+make[1]: Leaving directory '/root/Desktop/merge2/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/util'
 Making install in doc
-make[1]: Entering directory '/root/Desktop/merge_ecel/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/doc'
+make[1]: Entering directory '/root/Desktop/merge2/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/doc'
 Making install in internals
-make[2]: Entering directory '/root/Desktop/merge_ecel/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/doc/internals'
-make[3]: Entering directory '/root/Desktop/merge_ecel/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/doc/internals'
+make[2]: Entering directory '/root/Desktop/merge2/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/doc/internals'
+make[3]: Entering directory '/root/Desktop/merge2/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/doc/internals'
 make[3]: Nothing to be done for 'install-exec-am'.
 make[3]: Nothing to be done for 'install-data-am'.
-make[3]: Leaving directory '/root/Desktop/merge_ecel/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/doc/internals'
-make[2]: Leaving directory '/root/Desktop/merge_ecel/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/doc/internals'
-make[2]: Entering directory '/root/Desktop/merge_ecel/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/doc'
-make[3]: Entering directory '/root/Desktop/merge_ecel/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/doc'
+make[3]: Leaving directory '/root/Desktop/merge2/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/doc/internals'
+make[2]: Leaving directory '/root/Desktop/merge2/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/doc/internals'
+make[2]: Entering directory '/root/Desktop/merge2/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/doc'
+make[3]: Entering directory '/root/Desktop/merge2/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/doc'
 make[3]: Nothing to be done for 'install-exec-am'.
 make[3]: Nothing to be done for 'install-data-am'.
-make[3]: Leaving directory '/root/Desktop/merge_ecel/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/doc'
-make[2]: Leaving directory '/root/Desktop/merge_ecel/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/doc'
-make[1]: Leaving directory '/root/Desktop/merge_ecel/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/doc'
+make[3]: Leaving directory '/root/Desktop/merge2/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/doc'
+make[2]: Leaving directory '/root/Desktop/merge2/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/doc'
+make[1]: Leaving directory '/root/Desktop/merge2/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/doc'
 Making install in tests
-make[1]: Entering directory '/root/Desktop/merge_ecel/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/tests'
+make[1]: Entering directory '/root/Desktop/merge2/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/tests'
 Making install in bin
-make[2]: Entering directory '/root/Desktop/merge_ecel/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/tests/bin'
-make[3]: Entering directory '/root/Desktop/merge_ecel/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/tests/bin'
+make[2]: Entering directory '/root/Desktop/merge2/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/tests/bin'
+make[3]: Entering directory '/root/Desktop/merge2/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/tests/bin'
 make[3]: Nothing to be done for 'install-exec-am'.
 make[3]: Nothing to be done for 'install-data-am'.
-make[3]: Leaving directory '/root/Desktop/merge_ecel/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/tests/bin'
-make[2]: Leaving directory '/root/Desktop/merge_ecel/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/tests/bin'
+make[3]: Leaving directory '/root/Desktop/merge2/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/tests/bin'
+make[2]: Leaving directory '/root/Desktop/merge2/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/tests/bin'
 Making install in configfile
-make[2]: Entering directory '/root/Desktop/merge_ecel/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/tests/configfile'
-make[3]: Entering directory '/root/Desktop/merge_ecel/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/tests/configfile'
+make[2]: Entering directory '/root/Desktop/merge2/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/tests/configfile'
+make[3]: Entering directory '/root/Desktop/merge2/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/tests/configfile'
 make[3]: Nothing to be done for 'install-exec-am'.
 make[3]: Nothing to be done for 'install-data-am'.
-make[3]: Leaving directory '/root/Desktop/merge_ecel/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/tests/configfile'
-make[2]: Leaving directory '/root/Desktop/merge_ecel/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/tests/configfile'
+make[3]: Leaving directory '/root/Desktop/merge2/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/tests/configfile'
+make[2]: Leaving directory '/root/Desktop/merge2/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/tests/configfile'
 Making install in datasource
-make[2]: Entering directory '/root/Desktop/merge_ecel/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/tests/datasource'
-make[3]: Entering directory '/root/Desktop/merge_ecel/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/tests/datasource'
+make[2]: Entering directory '/root/Desktop/merge2/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/tests/datasource'
+make[3]: Entering directory '/root/Desktop/merge2/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/tests/datasource'
 make[3]: Nothing to be done for 'install-exec-am'.
 make[3]: Nothing to be done for 'install-data-am'.
-make[3]: Leaving directory '/root/Desktop/merge_ecel/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/tests/datasource'
-make[2]: Leaving directory '/root/Desktop/merge_ecel/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/tests/datasource'
+make[3]: Leaving directory '/root/Desktop/merge2/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/tests/datasource'
+make[2]: Leaving directory '/root/Desktop/merge2/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/tests/datasource'
 Making install in filter
-make[2]: Entering directory '/root/Desktop/merge_ecel/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/tests/filter'
-make[3]: Entering directory '/root/Desktop/merge_ecel/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/tests/filter'
+make[2]: Entering directory '/root/Desktop/merge2/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/tests/filter'
+make[3]: Entering directory '/root/Desktop/merge2/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/tests/filter'
 make[3]: Nothing to be done for 'install-exec-am'.
 make[3]: Nothing to be done for 'install-data-am'.
-make[3]: Leaving directory '/root/Desktop/merge_ecel/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/tests/filter'
-make[2]: Leaving directory '/root/Desktop/merge_ecel/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/tests/filter'
+make[3]: Leaving directory '/root/Desktop/merge2/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/tests/filter'
+make[2]: Leaving directory '/root/Desktop/merge2/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/tests/filter'
 Making install in message
-make[2]: Entering directory '/root/Desktop/merge_ecel/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/tests/message'
-make[3]: Entering directory '/root/Desktop/merge_ecel/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/tests/message'
+make[2]: Entering directory '/root/Desktop/merge2/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/tests/message'
+make[3]: Entering directory '/root/Desktop/merge2/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/tests/message'
 make[3]: Nothing to be done for 'install-exec-am'.
 make[3]: Nothing to be done for 'install-data-am'.
-make[3]: Leaving directory '/root/Desktop/merge_ecel/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/tests/message'
-make[2]: Leaving directory '/root/Desktop/merge_ecel/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/tests/message'
+make[3]: Leaving directory '/root/Desktop/merge2/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/tests/message'
+make[2]: Leaving directory '/root/Desktop/merge2/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/tests/message'
 Making install in output
-make[2]: Entering directory '/root/Desktop/merge_ecel/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/tests/output'
-make[3]: Entering directory '/root/Desktop/merge_ecel/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/tests/output'
+make[2]: Entering directory '/root/Desktop/merge2/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/tests/output'
+make[3]: Entering directory '/root/Desktop/merge2/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/tests/output'
 make[3]: Nothing to be done for 'install-exec-am'.
 make[3]: Nothing to be done for 'install-data-am'.
-make[3]: Leaving directory '/root/Desktop/merge_ecel/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/tests/output'
-make[2]: Leaving directory '/root/Desktop/merge_ecel/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/tests/output'
+make[3]: Leaving directory '/root/Desktop/merge2/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/tests/output'
+make[2]: Leaving directory '/root/Desktop/merge2/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/tests/output'
 Making install in combined
-make[2]: Entering directory '/root/Desktop/merge_ecel/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/tests/combined'
-make[3]: Entering directory '/root/Desktop/merge_ecel/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/tests/combined'
+make[2]: Entering directory '/root/Desktop/merge2/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/tests/combined'
+make[3]: Entering directory '/root/Desktop/merge2/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/tests/combined'
 make[3]: Nothing to be done for 'install-exec-am'.
 make[3]: Nothing to be done for 'install-data-am'.
-make[3]: Leaving directory '/root/Desktop/merge_ecel/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/tests/combined'
-make[2]: Leaving directory '/root/Desktop/merge_ecel/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/tests/combined'
-make[2]: Entering directory '/root/Desktop/merge_ecel/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/tests'
-make[3]: Entering directory '/root/Desktop/merge_ecel/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/tests'
+make[3]: Leaving directory '/root/Desktop/merge2/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/tests/combined'
+make[2]: Leaving directory '/root/Desktop/merge2/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/tests/combined'
+make[2]: Entering directory '/root/Desktop/merge2/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/tests'
+make[3]: Entering directory '/root/Desktop/merge2/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/tests'
 make[3]: Nothing to be done for 'install-exec-am'.
 make[3]: Nothing to be done for 'install-data-am'.
-make[3]: Leaving directory '/root/Desktop/merge_ecel/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/tests'
-make[2]: Leaving directory '/root/Desktop/merge_ecel/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/tests'
-make[1]: Leaving directory '/root/Desktop/merge_ecel/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/tests'
-make[1]: Entering directory '/root/Desktop/merge_ecel/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod'
-make[2]: Entering directory '/root/Desktop/merge_ecel/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod'
+make[3]: Leaving directory '/root/Desktop/merge2/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/tests'
+make[2]: Leaving directory '/root/Desktop/merge2/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/tests'
+make[1]: Leaving directory '/root/Desktop/merge2/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/tests'
+make[1]: Entering directory '/root/Desktop/merge2/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod'
+make[2]: Entering directory '/root/Desktop/merge2/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod'
 make[2]: Nothing to be done for 'install-exec-am'.
 make[2]: Nothing to be done for 'install-data-am'.
-make[2]: Leaving directory '/root/Desktop/merge_ecel/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod'
-make[1]: Leaving directory '/root/Desktop/merge_ecel/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod'
+make[2]: Leaving directory '/root/Desktop/merge2/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod'
+make[1]: Leaving directory '/root/Desktop/merge2/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod'
 done.
 SNOOPY INSTALL: Enabling... Making install in etc
-make[1]: Entering directory '/root/Desktop/merge_ecel/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/etc'
-make[2]: Entering directory '/root/Desktop/merge_ecel/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/etc'
+make[1]: Entering directory '/root/Desktop/merge2/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/etc'
+make[2]: Entering directory '/root/Desktop/merge2/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/etc'
 if [ ! -f /etc/snoopy.ini ]; then \
     echo ; \
     echo "Installing configuration file: /etc/snoopy.ini" ; \
@@ -742,8 +742,8 @@ if [ -f /etc/snoopy.ini.NEW ]; then \
         chmod 644 /etc/snoopy.ini.NEW ; \
     fi ; \
 fi ;
---- snoopy.ini	2018-05-23 12:41:53.477724607 -0400
-+++ /etc/snoopy.ini	2018-05-23 10:32:46.288387174 -0400
+--- snoopy.ini	2018-05-30 18:10:29.420591706 -0400
++++ /etc/snoopy.ini	2018-05-30 17:08:22.972732613 -0400
 @@ -59,7 +59,7 @@
  ;message_format = "useless static log entry that gets logged on every program execution"
  ;message_format = "uid=%{uid}"   ; <--- this would only log uids who execute programs, nothing else;
@@ -769,66 +769,66 @@ Existing config file: /etc/snoopy.ini
 WARNING: CONFIGURATION FILE CHANGES NEED MANUAL REVIEW
 
 make[2]: Nothing to be done for 'install-data-am'.
-make[2]: Leaving directory '/root/Desktop/merge_ecel/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/etc'
-make[1]: Leaving directory '/root/Desktop/merge_ecel/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/etc'
+make[2]: Leaving directory '/root/Desktop/merge2/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/etc'
+make[1]: Leaving directory '/root/Desktop/merge2/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/etc'
 Making install in lib
-make[1]: Entering directory '/root/Desktop/merge_ecel/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/lib'
+make[1]: Entering directory '/root/Desktop/merge2/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/lib'
 Making install in inih
-make[2]: Entering directory '/root/Desktop/merge_ecel/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/lib/inih'
+make[2]: Entering directory '/root/Desktop/merge2/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/lib/inih'
 Making install in src
-make[3]: Entering directory '/root/Desktop/merge_ecel/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/lib/inih/src'
-make[4]: Entering directory '/root/Desktop/merge_ecel/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/lib/inih/src'
+make[3]: Entering directory '/root/Desktop/merge2/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/lib/inih/src'
+make[4]: Entering directory '/root/Desktop/merge2/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/lib/inih/src'
 make[4]: Nothing to be done for 'install-exec-am'.
 make[4]: Nothing to be done for 'install-data-am'.
-make[4]: Leaving directory '/root/Desktop/merge_ecel/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/lib/inih/src'
-make[3]: Leaving directory '/root/Desktop/merge_ecel/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/lib/inih/src'
-make[3]: Entering directory '/root/Desktop/merge_ecel/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/lib/inih'
-make[4]: Entering directory '/root/Desktop/merge_ecel/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/lib/inih'
+make[4]: Leaving directory '/root/Desktop/merge2/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/lib/inih/src'
+make[3]: Leaving directory '/root/Desktop/merge2/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/lib/inih/src'
+make[3]: Entering directory '/root/Desktop/merge2/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/lib/inih'
+make[4]: Entering directory '/root/Desktop/merge2/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/lib/inih'
 make[4]: Nothing to be done for 'install-exec-am'.
 make[4]: Nothing to be done for 'install-data-am'.
-make[4]: Leaving directory '/root/Desktop/merge_ecel/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/lib/inih'
-make[3]: Leaving directory '/root/Desktop/merge_ecel/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/lib/inih'
-make[2]: Leaving directory '/root/Desktop/merge_ecel/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/lib/inih'
-make[2]: Entering directory '/root/Desktop/merge_ecel/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/lib'
-make[3]: Entering directory '/root/Desktop/merge_ecel/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/lib'
+make[4]: Leaving directory '/root/Desktop/merge2/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/lib/inih'
+make[3]: Leaving directory '/root/Desktop/merge2/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/lib/inih'
+make[2]: Leaving directory '/root/Desktop/merge2/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/lib/inih'
+make[2]: Entering directory '/root/Desktop/merge2/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/lib'
+make[3]: Entering directory '/root/Desktop/merge2/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/lib'
 make[3]: Nothing to be done for 'install-exec-am'.
 make[3]: Nothing to be done for 'install-data-am'.
-make[3]: Leaving directory '/root/Desktop/merge_ecel/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/lib'
-make[2]: Leaving directory '/root/Desktop/merge_ecel/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/lib'
-make[1]: Leaving directory '/root/Desktop/merge_ecel/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/lib'
+make[3]: Leaving directory '/root/Desktop/merge2/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/lib'
+make[2]: Leaving directory '/root/Desktop/merge2/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/lib'
+make[1]: Leaving directory '/root/Desktop/merge2/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/lib'
 Making install in src
-make[1]: Entering directory '/root/Desktop/merge_ecel/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/src'
+make[1]: Entering directory '/root/Desktop/merge2/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/src'
 Making install in eventsource
-make[2]: Entering directory '/root/Desktop/merge_ecel/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/src/eventsource'
-make[3]: Entering directory '/root/Desktop/merge_ecel/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/src/eventsource'
+make[2]: Entering directory '/root/Desktop/merge2/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/src/eventsource'
+make[3]: Entering directory '/root/Desktop/merge2/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/src/eventsource'
 make[3]: Nothing to be done for 'install-exec-am'.
 make[3]: Nothing to be done for 'install-data-am'.
-make[3]: Leaving directory '/root/Desktop/merge_ecel/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/src/eventsource'
-make[2]: Leaving directory '/root/Desktop/merge_ecel/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/src/eventsource'
+make[3]: Leaving directory '/root/Desktop/merge2/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/src/eventsource'
+make[2]: Leaving directory '/root/Desktop/merge2/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/src/eventsource'
 Making install in datasource
-make[2]: Entering directory '/root/Desktop/merge_ecel/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/src/datasource'
-make[3]: Entering directory '/root/Desktop/merge_ecel/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/src/datasource'
+make[2]: Entering directory '/root/Desktop/merge2/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/src/datasource'
+make[3]: Entering directory '/root/Desktop/merge2/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/src/datasource'
 make[3]: Nothing to be done for 'install-exec-am'.
 make[3]: Nothing to be done for 'install-data-am'.
-make[3]: Leaving directory '/root/Desktop/merge_ecel/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/src/datasource'
-make[2]: Leaving directory '/root/Desktop/merge_ecel/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/src/datasource'
+make[3]: Leaving directory '/root/Desktop/merge2/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/src/datasource'
+make[2]: Leaving directory '/root/Desktop/merge2/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/src/datasource'
 Making install in filter
-make[2]: Entering directory '/root/Desktop/merge_ecel/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/src/filter'
-make[3]: Entering directory '/root/Desktop/merge_ecel/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/src/filter'
+make[2]: Entering directory '/root/Desktop/merge2/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/src/filter'
+make[3]: Entering directory '/root/Desktop/merge2/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/src/filter'
 make[3]: Nothing to be done for 'install-exec-am'.
 make[3]: Nothing to be done for 'install-data-am'.
-make[3]: Leaving directory '/root/Desktop/merge_ecel/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/src/filter'
-make[2]: Leaving directory '/root/Desktop/merge_ecel/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/src/filter'
+make[3]: Leaving directory '/root/Desktop/merge2/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/src/filter'
+make[2]: Leaving directory '/root/Desktop/merge2/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/src/filter'
 Making install in output
-make[2]: Entering directory '/root/Desktop/merge_ecel/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/src/output'
-make[3]: Entering directory '/root/Desktop/merge_ecel/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/src/output'
+make[2]: Entering directory '/root/Desktop/merge2/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/src/output'
+make[3]: Entering directory '/root/Desktop/merge2/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/src/output'
 make[3]: Nothing to be done for 'install-exec-am'.
 make[3]: Nothing to be done for 'install-data-am'.
-make[3]: Leaving directory '/root/Desktop/merge_ecel/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/src/output'
-make[2]: Leaving directory '/root/Desktop/merge_ecel/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/src/output'
+make[3]: Leaving directory '/root/Desktop/merge2/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/src/output'
+make[2]: Leaving directory '/root/Desktop/merge2/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/src/output'
 Making install in .
-make[2]: Entering directory '/root/Desktop/merge_ecel/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/src'
-make[3]: Entering directory '/root/Desktop/merge_ecel/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/src'
+make[2]: Entering directory '/root/Desktop/merge2/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/src'
+make[3]: Entering directory '/root/Desktop/merge2/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/src'
  /bin/mkdir -p '/usr/local/lib'
  /bin/bash ../libtool   --mode=install /usr/bin/install -c   libsnoopy.la '/usr/local/lib'
 libtool: install: /usr/bin/install -c .libs/libsnoopy.so.0.0.0 /usr/local/lib/libsnoopy.so.0.0.0
@@ -855,97 +855,97 @@ See any operating system documentation about shared libraries for
 more information, such as the ld(1) and ld.so(8) manual pages.
 ----------------------------------------------------------------------
 make[3]: Nothing to be done for 'install-data-am'.
-make[3]: Leaving directory '/root/Desktop/merge_ecel/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/src'
-make[2]: Leaving directory '/root/Desktop/merge_ecel/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/src'
-make[1]: Leaving directory '/root/Desktop/merge_ecel/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/src'
+make[3]: Leaving directory '/root/Desktop/merge2/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/src'
+make[2]: Leaving directory '/root/Desktop/merge2/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/src'
+make[1]: Leaving directory '/root/Desktop/merge2/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/src'
 Making install in util
-make[1]: Entering directory '/root/Desktop/merge_ecel/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/util'
-make[2]: Entering directory '/root/Desktop/merge_ecel/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/util'
+make[1]: Entering directory '/root/Desktop/merge2/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/util'
+make[2]: Entering directory '/root/Desktop/merge2/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/util'
  /bin/mkdir -p '/usr/local/sbin'
  /usr/bin/install -c snoopy-enable snoopy-disable '/usr/local/sbin'
 make[2]: Nothing to be done for 'install-data-am'.
-make[2]: Leaving directory '/root/Desktop/merge_ecel/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/util'
-make[1]: Leaving directory '/root/Desktop/merge_ecel/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/util'
+make[2]: Leaving directory '/root/Desktop/merge2/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/util'
+make[1]: Leaving directory '/root/Desktop/merge2/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/util'
 Making install in doc
-make[1]: Entering directory '/root/Desktop/merge_ecel/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/doc'
+make[1]: Entering directory '/root/Desktop/merge2/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/doc'
 Making install in internals
-make[2]: Entering directory '/root/Desktop/merge_ecel/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/doc/internals'
-make[3]: Entering directory '/root/Desktop/merge_ecel/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/doc/internals'
+make[2]: Entering directory '/root/Desktop/merge2/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/doc/internals'
+make[3]: Entering directory '/root/Desktop/merge2/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/doc/internals'
 make[3]: Nothing to be done for 'install-exec-am'.
 make[3]: Nothing to be done for 'install-data-am'.
-make[3]: Leaving directory '/root/Desktop/merge_ecel/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/doc/internals'
-make[2]: Leaving directory '/root/Desktop/merge_ecel/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/doc/internals'
-make[2]: Entering directory '/root/Desktop/merge_ecel/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/doc'
-make[3]: Entering directory '/root/Desktop/merge_ecel/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/doc'
+make[3]: Leaving directory '/root/Desktop/merge2/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/doc/internals'
+make[2]: Leaving directory '/root/Desktop/merge2/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/doc/internals'
+make[2]: Entering directory '/root/Desktop/merge2/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/doc'
+make[3]: Entering directory '/root/Desktop/merge2/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/doc'
 make[3]: Nothing to be done for 'install-exec-am'.
 make[3]: Nothing to be done for 'install-data-am'.
-make[3]: Leaving directory '/root/Desktop/merge_ecel/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/doc'
-make[2]: Leaving directory '/root/Desktop/merge_ecel/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/doc'
-make[1]: Leaving directory '/root/Desktop/merge_ecel/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/doc'
+make[3]: Leaving directory '/root/Desktop/merge2/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/doc'
+make[2]: Leaving directory '/root/Desktop/merge2/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/doc'
+make[1]: Leaving directory '/root/Desktop/merge2/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/doc'
 Making install in tests
-make[1]: Entering directory '/root/Desktop/merge_ecel/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/tests'
+make[1]: Entering directory '/root/Desktop/merge2/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/tests'
 Making install in bin
-make[2]: Entering directory '/root/Desktop/merge_ecel/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/tests/bin'
-make[3]: Entering directory '/root/Desktop/merge_ecel/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/tests/bin'
+make[2]: Entering directory '/root/Desktop/merge2/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/tests/bin'
+make[3]: Entering directory '/root/Desktop/merge2/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/tests/bin'
 make[3]: Nothing to be done for 'install-exec-am'.
 make[3]: Nothing to be done for 'install-data-am'.
-make[3]: Leaving directory '/root/Desktop/merge_ecel/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/tests/bin'
-make[2]: Leaving directory '/root/Desktop/merge_ecel/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/tests/bin'
+make[3]: Leaving directory '/root/Desktop/merge2/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/tests/bin'
+make[2]: Leaving directory '/root/Desktop/merge2/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/tests/bin'
 Making install in configfile
-make[2]: Entering directory '/root/Desktop/merge_ecel/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/tests/configfile'
-make[3]: Entering directory '/root/Desktop/merge_ecel/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/tests/configfile'
+make[2]: Entering directory '/root/Desktop/merge2/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/tests/configfile'
+make[3]: Entering directory '/root/Desktop/merge2/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/tests/configfile'
 make[3]: Nothing to be done for 'install-exec-am'.
 make[3]: Nothing to be done for 'install-data-am'.
-make[3]: Leaving directory '/root/Desktop/merge_ecel/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/tests/configfile'
-make[2]: Leaving directory '/root/Desktop/merge_ecel/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/tests/configfile'
+make[3]: Leaving directory '/root/Desktop/merge2/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/tests/configfile'
+make[2]: Leaving directory '/root/Desktop/merge2/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/tests/configfile'
 Making install in datasource
-make[2]: Entering directory '/root/Desktop/merge_ecel/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/tests/datasource'
-make[3]: Entering directory '/root/Desktop/merge_ecel/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/tests/datasource'
+make[2]: Entering directory '/root/Desktop/merge2/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/tests/datasource'
+make[3]: Entering directory '/root/Desktop/merge2/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/tests/datasource'
 make[3]: Nothing to be done for 'install-exec-am'.
 make[3]: Nothing to be done for 'install-data-am'.
-make[3]: Leaving directory '/root/Desktop/merge_ecel/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/tests/datasource'
-make[2]: Leaving directory '/root/Desktop/merge_ecel/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/tests/datasource'
+make[3]: Leaving directory '/root/Desktop/merge2/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/tests/datasource'
+make[2]: Leaving directory '/root/Desktop/merge2/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/tests/datasource'
 Making install in filter
-make[2]: Entering directory '/root/Desktop/merge_ecel/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/tests/filter'
-make[3]: Entering directory '/root/Desktop/merge_ecel/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/tests/filter'
+make[2]: Entering directory '/root/Desktop/merge2/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/tests/filter'
+make[3]: Entering directory '/root/Desktop/merge2/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/tests/filter'
 make[3]: Nothing to be done for 'install-exec-am'.
 make[3]: Nothing to be done for 'install-data-am'.
-make[3]: Leaving directory '/root/Desktop/merge_ecel/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/tests/filter'
-make[2]: Leaving directory '/root/Desktop/merge_ecel/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/tests/filter'
+make[3]: Leaving directory '/root/Desktop/merge2/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/tests/filter'
+make[2]: Leaving directory '/root/Desktop/merge2/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/tests/filter'
 Making install in message
-make[2]: Entering directory '/root/Desktop/merge_ecel/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/tests/message'
-make[3]: Entering directory '/root/Desktop/merge_ecel/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/tests/message'
+make[2]: Entering directory '/root/Desktop/merge2/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/tests/message'
+make[3]: Entering directory '/root/Desktop/merge2/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/tests/message'
 make[3]: Nothing to be done for 'install-exec-am'.
 make[3]: Nothing to be done for 'install-data-am'.
-make[3]: Leaving directory '/root/Desktop/merge_ecel/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/tests/message'
-make[2]: Leaving directory '/root/Desktop/merge_ecel/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/tests/message'
+make[3]: Leaving directory '/root/Desktop/merge2/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/tests/message'
+make[2]: Leaving directory '/root/Desktop/merge2/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/tests/message'
 Making install in output
-make[2]: Entering directory '/root/Desktop/merge_ecel/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/tests/output'
-make[3]: Entering directory '/root/Desktop/merge_ecel/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/tests/output'
+make[2]: Entering directory '/root/Desktop/merge2/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/tests/output'
+make[3]: Entering directory '/root/Desktop/merge2/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/tests/output'
 make[3]: Nothing to be done for 'install-exec-am'.
 make[3]: Nothing to be done for 'install-data-am'.
-make[3]: Leaving directory '/root/Desktop/merge_ecel/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/tests/output'
-make[2]: Leaving directory '/root/Desktop/merge_ecel/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/tests/output'
+make[3]: Leaving directory '/root/Desktop/merge2/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/tests/output'
+make[2]: Leaving directory '/root/Desktop/merge2/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/tests/output'
 Making install in combined
-make[2]: Entering directory '/root/Desktop/merge_ecel/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/tests/combined'
-make[3]: Entering directory '/root/Desktop/merge_ecel/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/tests/combined'
+make[2]: Entering directory '/root/Desktop/merge2/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/tests/combined'
+make[3]: Entering directory '/root/Desktop/merge2/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/tests/combined'
 make[3]: Nothing to be done for 'install-exec-am'.
 make[3]: Nothing to be done for 'install-data-am'.
-make[3]: Leaving directory '/root/Desktop/merge_ecel/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/tests/combined'
-make[2]: Leaving directory '/root/Desktop/merge_ecel/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/tests/combined'
-make[2]: Entering directory '/root/Desktop/merge_ecel/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/tests'
-make[3]: Entering directory '/root/Desktop/merge_ecel/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/tests'
+make[3]: Leaving directory '/root/Desktop/merge2/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/tests/combined'
+make[2]: Leaving directory '/root/Desktop/merge2/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/tests/combined'
+make[2]: Entering directory '/root/Desktop/merge2/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/tests'
+make[3]: Entering directory '/root/Desktop/merge2/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/tests'
 make[3]: Nothing to be done for 'install-exec-am'.
 make[3]: Nothing to be done for 'install-data-am'.
-make[3]: Leaving directory '/root/Desktop/merge_ecel/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/tests'
-make[2]: Leaving directory '/root/Desktop/merge_ecel/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/tests'
-make[1]: Leaving directory '/root/Desktop/merge_ecel/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/tests'
-make[1]: Entering directory '/root/Desktop/merge_ecel/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod'
-make[2]: Entering directory '/root/Desktop/merge_ecel/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod'
+make[3]: Leaving directory '/root/Desktop/merge2/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/tests'
+make[2]: Leaving directory '/root/Desktop/merge2/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/tests'
+make[1]: Leaving directory '/root/Desktop/merge2/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod/tests'
+make[1]: Entering directory '/root/Desktop/merge2/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod'
+make[2]: Entering directory '/root/Desktop/merge2/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod'
 make[2]: Nothing to be done for 'install-exec-am'.
 make[2]: Nothing to be done for 'install-data-am'.
-make[2]: Leaving directory '/root/Desktop/merge_ecel/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod'
-make[1]: Leaving directory '/root/Desktop/merge_ecel/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod'
+make[2]: Leaving directory '/root/Desktop/merge2/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod'
+make[1]: Leaving directory '/root/Desktop/merge2/ecel-master/plugins/collectors/snoopy/snoopy_install/snoopy-2.4.6_mod'
 echo ; \
 ./util/snoopy-enable ; \
 echo ;

@@ -110,6 +110,8 @@ class MainGUI(gtk.Window):
         #self.show_all()
 
         self.status_context_menu = status_icon.CustomSystemTrayIcon(app_engine, self)
+        
+        self.show_gui() # this line added to show GUI @ start DEBUG ONLY -- AF
 
     def configure_collectors(self, event):
         PluginConfigGUI(self, self.engine.collectors)

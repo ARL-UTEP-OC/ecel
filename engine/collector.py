@@ -213,7 +213,7 @@ class AutomaticCollector(Collector):
 
     def run_command(self, command):
         runcmds = shlex.split(command.replace(definitions.TIMESTAMP_PLACEHOLDER, self.start_time))
-
+        
         try:
             process = subprocess.Popen(runcmds,
                                        shell=False,

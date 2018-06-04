@@ -34,6 +34,6 @@ PLUGIN_COLLECTORS_METADATA_FILE_COMMAND_PREFIX = "# "
 PLUGIN_COLLECTORS_CONFIG_MULTI_OPTION_DELIMITER = ","
 PLUGIN_COLLECTORS_CONFIG_MULTI_OPTION_DELIMITER_REGEX = PLUGIN_COLLECTORS_CONFIG_MULTI_OPTION_DELIMITER + "\s*"
 
-ECEL_PARSER_ROOT="/root/Desktop/ecel-model/ecel_parser/"
+ECEL_PARSER_ROOT="/root/Desktop/ecel-model-master/ecel_parser/"
 
-ECEL_DSS_ROOT="/root/Desktop/ecel-model/dss/"
+ECEL_DSS_ROOT="/root/Desktop/ecel-model-master/dss/"

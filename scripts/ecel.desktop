@@ -2,7 +2,7 @@
 Name=ECEL
 GenericName=
 Comment=Evaluator Centric and Extensible Logger
-Exec=/root/Desktop/merge_ecel/ecel-master/ecel-gui
+Exec=/root/Desktop/merge2/ecel-master/ecel-gui
 Terminal=false
 Type=Application
 X-GNOME-Autostart-enabled=true
