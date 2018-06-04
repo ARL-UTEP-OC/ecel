@@ -1,4 +1,0 @@
-pykeylogger
-===============================
-Commands:# python keylogger.pyw
-===============================
