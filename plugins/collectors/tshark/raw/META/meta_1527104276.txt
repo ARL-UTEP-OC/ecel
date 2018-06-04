@@ -1,4 +1,0 @@
-tshark
-===============================
-Commands:# dumpcap -i eth0 -w /root/Desktop/merge_ecel/ecel-master/plugins/collectors/tshark/raw/%TIME%_eth0.pcap
-===============================

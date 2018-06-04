@@ -1,4 +1,0 @@
-snoopy
-===============================
-Commands:# ./watchSnoopyFile.sh /tmp/snoopy.log /root/Desktop/merge_ecel/ecel-master/plugins/collectors/snoopy/raw/%TIME%_snoopy.txt
-===============================
