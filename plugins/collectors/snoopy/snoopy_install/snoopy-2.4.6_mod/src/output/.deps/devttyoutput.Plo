@@ -1,0 +1,8 @@
+devttyoutput.lo: devttyoutput.c /usr/include/stdc-predef.h devttyoutput.h \
+ ../../src/output/fileoutput.h
+
+/usr/include/stdc-predef.h:
+
+devttyoutput.h:
+
+../../src/output/fileoutput.h:

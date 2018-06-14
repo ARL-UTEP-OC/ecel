@@ -1,0 +1,147 @@
+libsnoopy_no_execve_la-datasourceregistry.lo: datasourceregistry.c \
+ /usr/include/stdc-predef.h datasourceregistry.h snoopy.h \
+ /usr/include/features.h /usr/include/x86_64-linux-gnu/sys/cdefs.h \
+ /usr/include/x86_64-linux-gnu/bits/wordsize.h \
+ /usr/include/x86_64-linux-gnu/bits/long-double.h \
+ /usr/include/x86_64-linux-gnu/gnu/stubs.h \
+ /usr/include/x86_64-linux-gnu/gnu/stubs-64.h /usr/include/syslog.h \
+ /usr/include/x86_64-linux-gnu/sys/syslog.h \
+ /usr/lib/gcc/x86_64-linux-gnu/7/include/stdarg.h \
+ /usr/include/x86_64-linux-gnu/bits/syslog-path.h /usr/include/unistd.h \
+ /usr/include/x86_64-linux-gnu/bits/posix_opt.h \
+ /usr/include/x86_64-linux-gnu/bits/environments.h \
+ /usr/include/x86_64-linux-gnu/bits/types.h \
+ /usr/include/x86_64-linux-gnu/bits/typesizes.h \
+ /usr/lib/gcc/x86_64-linux-gnu/7/include/stddef.h \
+ /usr/include/x86_64-linux-gnu/bits/confname.h \
+ /usr/include/x86_64-linux-gnu/bits/getopt_posix.h \
+ /usr/include/x86_64-linux-gnu/bits/getopt_core.h ../config.h \
+ genericregistry.h /usr/include/string.h \
+ /usr/include/x86_64-linux-gnu/bits/libc-header-start.h \
+ datasource/cmdline.h datasource/cwd.h datasource/datetime.h \
+ datasource/domain.h datasource/egid.h datasource/egroup.h \
+ datasource/env.h datasource/env_all.h datasource/euid.h \
+ datasource/eusername.h datasource/filename.h datasource/gid.h \
+ datasource/group.h datasource/hostname.h datasource/login.h \
+ datasource/pid.h datasource/ppid.h datasource/rpname.h datasource/sid.h \
+ datasource/snoopy_literal.h datasource/snoopy_version.h datasource/tid.h \
+ datasource/tid_kernel.h datasource/timestamp.h datasource/timestamp_ms.h \
+ datasource/timestamp_us.h datasource/tty.h datasource/tty_uid.h \
+ datasource/tty_username.h datasource/uid.h datasource/username.h \
+ datasource/noop.h
+
+/usr/include/stdc-predef.h:
+
+datasourceregistry.h:
+
+snoopy.h:
+
+/usr/include/features.h:
+
+/usr/include/x86_64-linux-gnu/sys/cdefs.h:
+
+/usr/include/x86_64-linux-gnu/bits/wordsize.h:
+
+/usr/include/x86_64-linux-gnu/bits/long-double.h:
+
+/usr/include/x86_64-linux-gnu/gnu/stubs.h:
+
+/usr/include/x86_64-linux-gnu/gnu/stubs-64.h:
+
+/usr/include/syslog.h:
+
+/usr/include/x86_64-linux-gnu/sys/syslog.h:
+
+/usr/lib/gcc/x86_64-linux-gnu/7/include/stdarg.h:
+
+/usr/include/x86_64-linux-gnu/bits/syslog-path.h:
+
+/usr/include/unistd.h:
+
+/usr/include/x86_64-linux-gnu/bits/posix_opt.h:
+
+/usr/include/x86_64-linux-gnu/bits/environments.h:
+
+/usr/include/x86_64-linux-gnu/bits/types.h:
+
+/usr/include/x86_64-linux-gnu/bits/typesizes.h:
+
+/usr/lib/gcc/x86_64-linux-gnu/7/include/stddef.h:
+
+/usr/include/x86_64-linux-gnu/bits/confname.h:
+
+/usr/include/x86_64-linux-gnu/bits/getopt_posix.h:
+
+/usr/include/x86_64-linux-gnu/bits/getopt_core.h:
+
+../config.h:
+
+genericregistry.h:
+
+/usr/include/string.h:
+
+/usr/include/x86_64-linux-gnu/bits/libc-header-start.h:
+
+datasource/cmdline.h:
+
+datasource/cwd.h:
+
+datasource/datetime.h:
+
+datasource/domain.h:
+
+datasource/egid.h:
+
+datasource/egroup.h:
+
+datasource/env.h:
+
+datasource/env_all.h:
+
+datasource/euid.h:
+
+datasource/eusername.h:
+
+datasource/filename.h:
+
+datasource/gid.h:
+
+datasource/group.h:
+
+datasource/hostname.h:
+
+datasource/login.h:
+
+datasource/pid.h:
+
+datasource/ppid.h:
+
+datasource/rpname.h:
+
+datasource/sid.h:
+
+datasource/snoopy_literal.h:
+
+datasource/snoopy_version.h:
+
+datasource/tid.h:
+
+datasource/tid_kernel.h:
+
+datasource/timestamp.h:
+
+datasource/timestamp_ms.h:
+
+datasource/timestamp_us.h:
+
+datasource/tty.h:
+
+datasource/tty_uid.h:
+
+datasource/tty_username.h:
+
+datasource/uid.h:
+
+datasource/username.h:
+
+datasource/noop.h:
