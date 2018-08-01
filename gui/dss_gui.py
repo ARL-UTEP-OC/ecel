@@ -126,7 +126,7 @@ class DssGUI(gtk.Window):
             self.errormsg.set_text("Invalid timeframe option")
             return
         
-        timeFilter = datetime.utcnow() + timeDelta # timestamp in the form : 2018-02-14 17:13:48.342691
+        timeFilter = datetime.now() + timeDelta # timestamp in the form : 2018-02-14 17:13:48.342691
         
         if not os.path.isfile(pcap_dir+"/dss_merged_output.pcap"):
             self.errormsg.set_text("Error: merged output file not found")
